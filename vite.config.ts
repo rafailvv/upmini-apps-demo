@@ -47,6 +47,7 @@ export default defineConfig({
     allowedHosts: [
       'localhost',
       '127.0.0.1',
+      'test.upmini.app',
       'muskrat-harmless-ideally.ngrok-free.app',
       '.ngrok-free.app', // Разрешаем все поддомены ngrok
       '.ngrok.io' // Альтернативный домен ngrok

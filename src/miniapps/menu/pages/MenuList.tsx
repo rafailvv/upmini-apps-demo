@@ -301,6 +301,8 @@ export const MenuList: React.FC = () => {
 
   // Функция для скролла к секции
   const scrollToSection = (categoryId: string) => {
+    console.log('Клик по категории:', categoryId);
+    setSelectedCategory(categoryId);
     const section = sectionRefs.current[categoryId];
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
@@ -381,6 +383,8 @@ export const MenuList: React.FC = () => {
     return groups;
   }, {} as { [key: string]: MenuItem[] });
 
+  console.log('Текущая активная категория:', selectedCategory);
+  
   return (
     <div className="menu-app" ref={containerRef}>
       {/* Header */}

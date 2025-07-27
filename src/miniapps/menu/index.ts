@@ -1,5 +1,6 @@
 import { MenuList } from './pages/MenuList';
 import { Cart } from './pages/Cart';
+import { ItemDetailWrapper } from './pages/ItemDetailWrapper';
 import type { MiniappConfig } from '../../types/miniapp';
 
 export const menuAppConfig: MiniappConfig = {
@@ -18,6 +19,11 @@ export const menuAppConfig: MiniappConfig = {
       path: 'cart',
       title: 'Корзина',
       component: Cart,
+    },
+    {
+      path: 'item/:itemId',
+      title: 'Детали блюда',
+      component: ItemDetailWrapper,
     },
   ],
 }; 

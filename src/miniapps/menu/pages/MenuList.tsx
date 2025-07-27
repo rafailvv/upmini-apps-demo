@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles.css';
 
 interface MenuItem {
@@ -19,6 +20,7 @@ interface Category {
 }
 
 export const MenuList: React.FC = () => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('hits');
   const [cart, setCart] = useState<{ [key: number]: number }>({
     1: 2, // 2 карбонары = 1000 ₽
@@ -275,6 +277,10 @@ export const MenuList: React.FC = () => {
     }));
   };
 
+  const handleItemClick = (itemId: number) => {
+    navigate(`/miniapp/menu/item/${itemId}`);
+  };
+
   // Функция для удаления товара из корзины (пока не используется)
   // const removeFromCart = (itemId: number) => {
   //   setCart(prev => {
@@ -450,13 +456,16 @@ export const MenuList: React.FC = () => {
               <h2 className="section-title">{categoryName}</h2>
               <div className="menu-grid">
                 {items.map((item) => (
-                  <div key={item.id} className="menu-item-card">
+                  <div key={item.id} className="menu-item-card" onClick={() => handleItemClick(item.id)}>
                     <div className="item-image">
                       <div className="image-placeholder"></div>
-                      <button className="favorite-btn">❤️</button>
+                      <button className="favorite-btn" onClick={(e) => e.stopPropagation()}>❤️</button>
                       <button 
                         className="add-to-cart-btn"
-                        onClick={() => addToCart(item.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart(item.id);
+                        }}
                       >
                         +
                       </button>

@@ -26,6 +26,8 @@ export const MenuList: React.FC = () => {
     1: 2, // 2 карбонары = 1000 ₽
     3: 1, // 1 карбонара = 500 ₽
   });
+  const [favorites, setFavorites] = useState<{ [key: number]: boolean }>({});
+  const [cartItems, setCartItems] = useState<{ [key: number]: boolean }>({});
   const [searchQuery, setSearchQuery] = useState('');
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const containerRef = useRef<HTMLDivElement>(null);
@@ -271,14 +273,38 @@ export const MenuList: React.FC = () => {
   ];
 
   const addToCart = (itemId: number) => {
-    setCart(prev => ({
+    setCartItems(prev => ({
       ...prev,
-      [itemId]: (prev[itemId] || 0) + 1
+      [itemId]: !prev[itemId]
     }));
+    
+    if (!cartItems[itemId]) {
+      setCart(prev => ({
+        ...prev,
+        [itemId]: (prev[itemId] || 0) + 1
+      }));
+    } else {
+      setCart(prev => {
+        const newCart = { ...prev };
+        if (newCart[itemId] > 1) {
+          newCart[itemId] -= 1;
+        } else {
+          delete newCart[itemId];
+        }
+        return newCart;
+      });
+    }
   };
 
   const handleItemClick = (itemId: number) => {
     navigate(`/miniapp/menu/item/${itemId}`);
+  };
+
+  const toggleFavorite = (itemId: number) => {
+    setFavorites(prev => ({
+      ...prev,
+      [itemId]: !prev[itemId]
+    }));
   };
 
   // Функция для удаления товара из корзины (пока не используется)
@@ -459,15 +485,23 @@ export const MenuList: React.FC = () => {
                   <div key={item.id} className="menu-item-card" onClick={() => handleItemClick(item.id)}>
                     <div className="item-image">
                       <div className="image-placeholder"></div>
-                      <button className="favorite-btn" onClick={(e) => e.stopPropagation()}>❤️</button>
                       <button 
-                        className="add-to-cart-btn"
+                        className={`favorite-btn ${favorites[item.id] ? 'active' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleFavorite(item.id);
+                        }}
+                      >
+                        {favorites[item.id] ? '❤️' : '🤍'}
+                      </button>
+                      <button 
+                        className={`add-to-cart-btn ${cartItems[item.id] ? 'active' : ''}`}
                         onClick={(e) => {
                           e.stopPropagation();
                           addToCart(item.id);
                         }}
                       >
-                        +
+                        {cartItems[item.id] ? '✓' : '+'}
                       </button>
                     </div>
                     

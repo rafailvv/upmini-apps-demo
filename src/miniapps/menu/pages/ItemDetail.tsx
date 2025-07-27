@@ -32,6 +32,8 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   const navigate = useNavigate();
   const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
   const [comment, setComment] = useState('');
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isInCart, setIsInCart] = useState(false);
 
   const addons: Addon[] = [
     { id: 1, name: 'Поджаренный хлеб', price: 50 },
@@ -72,13 +74,22 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   };
 
   const handleAddToCart = () => {
-    console.log('Добавлено в корзину:', {
-      item,
-      selectedAddons,
-      comment,
-      totalPrice: getTotalPrice()
-    });
-    navigate('/miniapp/menu');
+    if (!isInCart) {
+      setIsInCart(true);
+      console.log('Добавлено в корзину:', {
+        item,
+        selectedAddons,
+        comment,
+        totalPrice: getTotalPrice()
+      });
+    } else {
+      setIsInCart(false);
+      console.log('Удалено из корзины:', item.id);
+    }
+  };
+
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
   };
 
   return (
@@ -89,13 +100,23 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
           ←
         </button>
         <h1 className="detail-title">{item.name}</h1>
-        <button className="favorite-btn-detail">❤️</button>
+        <button 
+          className={`favorite-btn-detail ${isFavorite ? 'active' : ''}`}
+          onClick={toggleFavorite}
+        >
+          {isFavorite ? '❤️' : '🤍'}
+        </button>
       </div>
 
       {/* Main Image */}
       <div className="item-image-large">
         <div className="image-placeholder-large"></div>
-        <button className="add-to-cart-btn-large">+</button>
+        <button 
+          className={`add-to-cart-btn-large ${isInCart ? 'active' : ''}`}
+          onClick={handleAddToCart}
+        >
+          {isInCart ? '✓' : '+'}
+        </button>
       </div>
 
       {/* Item Info */}
@@ -159,10 +180,13 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
 
       {/* Bottom Action Bar */}
       <div className="bottom-action-bar">
-        <span className="total-price">{getTotalPrice()} ₽</span>
+        <span className="total-price">{isInCart ? getTotalPrice() : 0} ₽</span>
         <span className="price-dot">•</span>
-        <button className="add-to-cart-btn-detail" onClick={handleAddToCart}>
-          +
+        <button 
+          className={`add-to-cart-btn-detail ${isInCart ? 'active' : ''}`} 
+          onClick={handleAddToCart}
+        >
+          {isInCart ? '✓' : '+'}
         </button>
       </div>
     </div>

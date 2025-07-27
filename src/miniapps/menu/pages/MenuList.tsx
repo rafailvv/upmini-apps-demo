@@ -406,9 +406,21 @@ export const MenuList: React.FC = () => {
     }
   }, [categories, selectedCategory]);
 
+  // Фильтруем товары по поисковому запросу
+  const filteredItems = menuItems.filter(item => {
+    if (!searchQuery.trim()) return true;
+    
+    const query = searchQuery.toLowerCase();
+    return (
+      item.name.toLowerCase().includes(query) ||
+      item.description.toLowerCase().includes(query) ||
+      item.tags.some(tag => tag.toLowerCase().includes(query))
+    );
+  });
+
   // Группируем элементы по категориям
   const groupedItems = categories.reduce((groups, category) => {
-    const items = menuItems.filter(item => item.category === category.id);
+    const items = filteredItems.filter(item => item.category === category.id);
     if (items.length > 0) {
       groups[category.label] = items;
     }
@@ -431,7 +443,6 @@ export const MenuList: React.FC = () => {
         
         <div className="search-container">
           <div className="search-bar">
-            <span className="search-icon">🔍</span>
             <input
               type="text"
               placeholder="Поиск блюд..."
@@ -469,64 +480,78 @@ export const MenuList: React.FC = () => {
 
       {/* Menu Content */}
       <div className="menu-content">
-        {Object.entries(groupedItems).map(([categoryName, items]) => {
-          const categoryId = categories.find(cat => cat.label === categoryName)?.id || '';
-          return (
-            <div 
-              key={categoryName} 
-              className="menu-section"
-              ref={(el) => {
-                sectionRefs.current[categoryId] = el;
-              }}
-            >
-              <h2 className="section-title">{categoryName}</h2>
-              <div className="menu-grid">
-                {items.map((item) => (
-                  <div key={item.id} className="menu-item-card" onClick={() => handleItemClick(item.id)}>
-                    <div className="item-image">
-                      <div className="image-placeholder"></div>
-                      <button 
-                        className={`favorite-btn ${favorites[item.id] ? 'active' : ''}`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleFavorite(item.id);
-                        }}
-                      >
-                        {favorites[item.id] ? '❤️' : '🤍'}
-                      </button>
-                      <button 
-                        className={`add-to-cart-btn ${cartItems[item.id] ? 'active' : ''}`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          addToCart(item.id);
-                        }}
-                      >
-                        {cartItems[item.id] ? '✓' : '+'}
-                      </button>
-                    </div>
-                    
-                    <div className="item-info">
-                      <h3 className="item-name">{item.name}</h3>
-                      <p className="item-weight">{item.weight}</p>
-                      <p className="item-description">{item.description}</p>
-                      <div className="item-price">{item.price} ₽</div>
+        {Object.entries(groupedItems).length > 0 ? (
+          Object.entries(groupedItems).map(([categoryName, items]) => {
+            const categoryId = categories.find(cat => cat.label === categoryName)?.id || '';
+            return (
+              <div 
+                key={categoryName} 
+                className="menu-section"
+                ref={(el) => {
+                  sectionRefs.current[categoryId] = el;
+                }}
+              >
+                <h2 className="section-title">{categoryName}</h2>
+                <div className="menu-grid">
+                  {items.map((item) => (
+                    <div key={item.id} className="menu-item-card" onClick={() => handleItemClick(item.id)}>
+                      <div className="item-image">
+                        <div className="image-placeholder"></div>
+                        <button 
+                          className={`favorite-btn ${favorites[item.id] ? 'active' : ''}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFavorite(item.id);
+                          }}
+                        >
+                          {favorites[item.id] ? '❤️' : '🤍'}
+                        </button>
+                        <button 
+                          className={`add-to-cart-btn ${cartItems[item.id] ? 'active' : ''}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addToCart(item.id);
+                          }}
+                        >
+                          {cartItems[item.id] ? '✓' : '+'}
+                        </button>
+                      </div>
                       
-                      {item.tags.length > 0 && (
-                        <div className="item-tags">
-                          {item.tags.map((tag, index) => (
-                            <span key={index} className={`tag tag-${tag.toLowerCase()}`}>
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
+                      <div className="item-info">
+                        <h3 className="item-name">{item.name}</h3>
+                        <p className="item-weight">{item.weight}</p>
+                        <p className="item-description">{item.description}</p>
+                        <div className="item-price">{item.price} ₽</div>
+                        
+                        {item.tags.length > 0 && (
+                          <div className="item-tags">
+                            {item.tags.map((tag, index) => (
+                              <span key={index} className={`tag tag-${tag.toLowerCase()}`}>
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : searchQuery ? (
+          <div className="no-results">
+            <div className="no-results-icon">🔍</div>
+            <h3>Ничего не найдено</h3>
+            <p>Попробуйте изменить поисковый запрос</p>
+            <button 
+              className="clear-search-btn"
+              onClick={() => setSearchQuery('')}
+            >
+              Очистить поиск
+            </button>
+          </div>
+        ) : null}
       </div>
 
       {/* Floating Order Button */}

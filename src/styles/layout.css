@@ -1,0 +1,119 @@
+/* Layout стили */
+.miniapp-layout {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.miniapp-header {
+  background: white;
+  border-bottom: 1px solid #e9ecef;
+  padding: 15px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.back-button {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 20px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background: #5a6268;
+}
+
+.miniapp-info h1 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+
+.miniapp-info p {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.miniapp-nav {
+  background: white;
+  border-bottom: 1px solid #e9ecef;
+  padding: 0 20px;
+  overflow-x: auto;
+}
+
+.miniapp-nav {
+  display: flex;
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 0.9rem;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.nav-button:hover {
+  color: #495057;
+  background: #f8f9fa;
+}
+
+.nav-button.active {
+  color: #007bff;
+  border-bottom-color: #007bff;
+}
+
+.miniapp-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .miniapp-header {
+    padding: 10px 15px;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .back-button {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  .miniapp-nav {
+    padding: 0 15px;
+  }
+  
+  .miniapp-content {
+    padding: 15px;
+  }
+  
+  .nav-button {
+    padding: 10px 15px;
+    font-size: 0.85rem;
+  }
+} 

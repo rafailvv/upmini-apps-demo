@@ -809,6 +809,7 @@
   min-height: 100vh;
   padding-bottom: 80px;
   width: 100vw;
+  padding-top: 15px;
 }
 
 .detail-header {
@@ -1440,7 +1441,7 @@
 
 /* Telegram MiniApp specific styles */
 .telegram-miniapp {
-  padding-top: 90px !important;
+  padding-top: 0 !important;
 }
 
 .telegram-miniapp .menu-header,
@@ -1458,11 +1459,11 @@
 }
 
 .telegram-miniapp .menu-content {
-  margin-top: 210px;
+  margin-top: 120px; /* Возвращаем к исходному значению */
 }
 
 .telegram-miniapp .cart-page-new {
-  padding-top: 110px;
+  padding-top: 20px; /* Возвращаем к исходному значению */
 }
 
 /* Добавляем белый блок сверху для Telegram */

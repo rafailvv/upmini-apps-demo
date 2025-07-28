@@ -27,8 +27,25 @@ export function isTelegramMiniApp(): boolean {
 // Управление кнопкой "Назад" в Telegram MiniApp
 export function setupTelegramBackButton(): void {
   if (isTelegramMiniApp() && window.Telegram?.WebApp) {
-    // Показываем кнопку "Назад"
-    window.Telegram.WebApp.BackButton.show();
+    // Проверяем состояние кнопки при изменении истории
+    const checkBackButtonState = () => {
+      const currentPath = window.location.pathname;
+      console.log('Checking back button state for path:', currentPath);
+      
+      if (currentPath === '/' || currentPath === '/miniapp/menu') {
+        // Если мы на главной странице или в меню, скрываем кнопку "Назад"
+        console.log('On main page - hiding back button, showing close button');
+        if (window.Telegram?.WebApp) {
+          window.Telegram.WebApp.BackButton.hide();
+        }
+      } else {
+        // Иначе показываем кнопку "Назад"
+        console.log('On sub-page - showing back button');
+        if (window.Telegram?.WebApp) {
+          window.Telegram.WebApp.BackButton.show();
+        }
+      }
+    };
     
     // Обработчик кнопки "Назад"
     window.Telegram.WebApp.BackButton.onClick(() => {
@@ -51,18 +68,6 @@ export function setupTelegramBackButton(): void {
         window.history.back();
       }
     });
-    
-    // Проверяем состояние кнопки при изменении истории
-    const checkBackButtonState = () => {
-      const currentPath = window.location.pathname;
-      console.log('Checking back button state for path:', currentPath);
-      
-      if (currentPath === '/' || currentPath === '/miniapp/menu') {
-        console.log('On main page - back button will close MiniApp');
-      } else {
-        console.log('On sub-page - back button will go back');
-      }
-    };
     
     // Проверяем состояние при загрузке
     checkBackButtonState();

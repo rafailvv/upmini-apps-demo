@@ -262,7 +262,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
   font-weight: bold;
   transition: all 0.2s;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -1290,13 +1289,9 @@
 
 .tips-buttons {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   margin-bottom: 16px;
-}
-
-.tips-buttons .tip-btn:last-child {
-  grid-column: span 3;
 }
 
 .tip-btn {
@@ -1393,10 +1388,6 @@
     grid-template-columns: repeat(2, 1fr);
   }
   
-  .tips-buttons .tip-btn:last-child {
-    grid-column: span 2;
-  }
-  
   .pay-button {
     width: 100%;
     max-width: 300px;
@@ -1421,7 +1412,7 @@
 }
 
 .quantity-control-btn {
-  width: 28px;
+  width: 34px;
   height: auto;
   background: #f0f0f0;
   border: none;

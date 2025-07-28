@@ -94,13 +94,24 @@ export const MenuList: React.FC = () => {
       // Обновляем состояние кнопок добавления в корзину
       const newCartItems: { [key: number]: boolean } = {};
       globalCart.forEach(item => {
-        newCartItems[item.id] = true;
+        if (item.quantity > 0) {
+          newCartItems[item.id] = true;
+        }
       });
       setCartItems(newCartItems);
     });
     
     // Инициализируем корзину
     setCart(getGlobalCart());
+    
+    // Инициализируем состояние кнопок
+    const newCartItems: { [key: number]: boolean } = {};
+    globalCart.forEach(item => {
+      if (item.quantity > 0) {
+        newCartItems[item.id] = true;
+      }
+    });
+    setCartItems(newCartItems);
     
     return unsubscribe;
   }, []);
@@ -346,7 +357,16 @@ export const MenuList: React.FC = () => {
   ];
 
   const addToCart = (item: MenuItem) => {
-    addToGlobalCart(item);
+    // Проверяем, есть ли уже товар в корзине
+    const existingItem = globalCart.find(cartItem => cartItem.id === item.id);
+    
+    if (existingItem) {
+      // Если товар уже в корзине, убираем его
+      updateGlobalCartItem(item.id, 0);
+    } else {
+      // Если товара нет в корзине, добавляем его
+      addToGlobalCart(item);
+    }
   };
 
   const handleItemClick = (itemId: number) => {

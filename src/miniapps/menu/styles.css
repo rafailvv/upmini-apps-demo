@@ -1471,7 +1471,7 @@
 }
 
 .telegram-miniapp .cart-page-new {
-  padding-top: 20px; /* Возвращаем к исходному значению */
+  padding-top: 40px;
 }
 
 /* Добавляем белый блок сверху для Telegram */

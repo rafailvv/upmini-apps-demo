@@ -1437,3 +1437,17 @@
   background: #FF6B35;
   color: white;
 }
+
+/* Telegram MiniApp specific styles */
+.telegram-miniapp .menu-header,
+.telegram-miniapp .detail-header {
+  margin-top: 90px !important;
+}
+
+.telegram-miniapp .menu-content {
+  margin-top: 150px;
+}
+
+.telegram-miniapp .cart-page-new {
+  padding-top: 110px;
+}

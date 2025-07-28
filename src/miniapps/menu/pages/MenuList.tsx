@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { initTelegramMiniApp } from '../../../utils/telegramUtils';
 import '../styles.css';
 
 interface MenuItem {
@@ -114,6 +115,11 @@ export const MenuList: React.FC = () => {
     setCartItems(newCartItems);
     
     return unsubscribe;
+  }, []);
+
+  // Инициализация Telegram MiniApp
+  useEffect(() => {
+    initTelegramMiniApp();
   }, []);
 
   const categories: Category[] = [

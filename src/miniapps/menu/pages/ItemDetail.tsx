@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates } from './MenuList';
-import { initTelegramMiniApp } from '../../../utils/telegramUtils';
+import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 
 interface Addon {
   id: number;
@@ -77,6 +77,7 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   // Инициализация Telegram MiniApp
   useEffect(() => {
     initTelegramMiniApp();
+    setupTelegramBackButton();
   }, []);
 
   const handleAddonToggle = (addonId: number) => {

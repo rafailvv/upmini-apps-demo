@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getGlobalCart, updateGlobalCartItem, subscribeToCartUpdates } from './MenuList';
-import { initTelegramMiniApp } from '../../../utils/telegramUtils';
+import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 import '../styles.css';
 
 interface CartItem {
@@ -33,6 +33,7 @@ export const Cart: React.FC = () => {
   // Инициализация Telegram MiniApp
   useEffect(() => {
     initTelegramMiniApp();
+    setupTelegramBackButton();
   }, []);
 
   const updateQuantity = (itemId: number, newQuantity: number) => {

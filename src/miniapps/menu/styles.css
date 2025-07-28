@@ -1439,9 +1439,14 @@
 }
 
 /* Telegram MiniApp specific styles */
+.telegram-miniapp {
+  padding-top: 90px !important;
+}
+
 .telegram-miniapp .menu-header,
 .telegram-miniapp .detail-header {
-  margin-top: 90px !important;
+  margin-top: 0 !important;
+  top: 90px !important;
 }
 
 .telegram-miniapp .menu-content {

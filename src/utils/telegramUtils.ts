@@ -24,6 +24,47 @@ export function isTelegramMiniApp(): boolean {
   return isTelegram && isMobile;
 }
 
+// Управление кнопкой "Назад" в Telegram MiniApp
+export function setupTelegramBackButton(): void {
+  if (isTelegramMiniApp() && window.Telegram?.WebApp) {
+    // Показываем кнопку "Назад"
+    window.Telegram.WebApp.BackButton.show();
+    
+    // Обработчик кнопки "Назад"
+    window.Telegram.WebApp.BackButton.onClick(() => {
+      console.log('Back button clicked');
+      
+      // Проверяем, можем ли мы вернуться назад
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        // Если некуда возвращаться, закрываем MiniApp
+        if (window.Telegram?.WebApp) {
+          window.Telegram.WebApp.close();
+        }
+      }
+    });
+    
+    // Проверяем состояние кнопки при изменении истории
+    const checkBackButtonState = () => {
+      if (window.history.length <= 1) {
+        // Если некуда возвращаться, меняем текст на "Закрыть"
+        console.log('No more history, showing close button');
+        // К сожалению, Telegram WebApp не позволяет изменить текст кнопки
+        // Но мы можем закрыть приложение при нажатии
+      } else {
+        console.log('Can go back, showing back button');
+      }
+    };
+    
+    // Проверяем состояние при загрузке
+    checkBackButtonState();
+    
+    // Слушаем изменения истории
+    window.addEventListener('popstate', checkBackButtonState);
+  }
+}
+
 // Инициализация Telegram MiniApp
 export function initTelegramMiniApp(): void {
   console.log('Initializing Telegram MiniApp...');
@@ -43,15 +84,8 @@ export function initTelegramMiniApp(): void {
       window.Telegram.WebApp.requestFullscreen();
       console.log('Fullscreen requested');
       
-      // Показываем кнопку "Назад"
-      window.Telegram.WebApp.BackButton.show();
-      console.log('Back button shown');
-      
-      // Обработчик кнопки "Назад"
-      window.Telegram.WebApp.BackButton.onClick(() => {
-        console.log('Back button clicked');
-        window.history.back();
-      });
+      // Настраиваем кнопку "Назад"
+      setupTelegramBackButton();
       
       // Добавляем отступ для хедера
       const header = document.querySelector('.header');

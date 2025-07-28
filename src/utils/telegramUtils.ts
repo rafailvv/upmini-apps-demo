@@ -33,27 +33,34 @@ export function setupTelegramBackButton(): void {
     // Обработчик кнопки "Назад"
     window.Telegram.WebApp.BackButton.onClick(() => {
       console.log('Back button clicked');
+      console.log('Current history length:', window.history.length);
+      console.log('Current pathname:', window.location.pathname);
       
-      // Проверяем, можем ли мы вернуться назад
-      if (window.history.length > 1) {
-        window.history.back();
-      } else {
-        // Если некуда возвращаться, закрываем MiniApp
+      // Проверяем текущий путь
+      const currentPath = window.location.pathname;
+      
+      if (currentPath === '/' || currentPath === '/miniapp/menu') {
+        // Если мы на главной странице или в меню, закрываем MiniApp
+        console.log('Closing MiniApp - on main page');
         if (window.Telegram?.WebApp) {
           window.Telegram.WebApp.close();
         }
+      } else {
+        // Иначе возвращаемся назад
+        console.log('Going back in history');
+        window.history.back();
       }
     });
     
     // Проверяем состояние кнопки при изменении истории
     const checkBackButtonState = () => {
-      if (window.history.length <= 1) {
-        // Если некуда возвращаться, меняем текст на "Закрыть"
-        console.log('No more history, showing close button');
-        // К сожалению, Telegram WebApp не позволяет изменить текст кнопки
-        // Но мы можем закрыть приложение при нажатии
+      const currentPath = window.location.pathname;
+      console.log('Checking back button state for path:', currentPath);
+      
+      if (currentPath === '/' || currentPath === '/miniapp/menu') {
+        console.log('On main page - back button will close MiniApp');
       } else {
-        console.log('Can go back, showing back button');
+        console.log('On sub-page - back button will go back');
       }
     };
     
@@ -62,6 +69,13 @@ export function setupTelegramBackButton(): void {
     
     // Слушаем изменения истории
     window.addEventListener('popstate', checkBackButtonState);
+    
+    // Слушаем изменения пути
+    const originalPushState = history.pushState;
+    history.pushState = function(...args) {
+      originalPushState.apply(history, args);
+      setTimeout(checkBackButtonState, 100);
+    };
   }
 }
 

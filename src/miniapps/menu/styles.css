@@ -1447,12 +1447,44 @@
 .telegram-miniapp .detail-header {
   margin-top: 0 !important;
   top: 90px !important;
+  background: white !important;
+  z-index: 1001;
+}
+
+.telegram-miniapp .categories-nav {
+  top: 150px !important;
+  background: white !important;
+  z-index: 1000;
 }
 
 .telegram-miniapp .menu-content {
-  margin-top: 150px;
+  margin-top: 210px;
 }
 
 .telegram-miniapp .cart-page-new {
   padding-top: 110px;
+}
+
+/* Добавляем белый блок сверху для Telegram */
+.telegram-miniapp::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: white;
+  z-index: 1002;
+}
+
+/* Стили для обычного браузера (не Telegram) */
+.menu-header,
+.detail-header {
+  background: white;
+  z-index: 1001;
+}
+
+.categories-nav {
+  background: white;
+  z-index: 1000;
 }

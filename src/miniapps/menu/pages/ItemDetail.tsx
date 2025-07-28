@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates } from './MenuList';
 
 interface Addon {
   id: number;
@@ -58,6 +59,20 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     },
   ];
 
+  // Подписываемся на обновления корзины
+  useEffect(() => {
+    const unsubscribe = subscribeToCartUpdates(() => {
+      const cart = getGlobalCart();
+      setIsInCart(cart.some(cartItem => cartItem.id === item.id));
+    });
+    
+    // Инициализируем состояние корзины
+    const cart = getGlobalCart();
+    setIsInCart(cart.some(cartItem => cartItem.id === item.id));
+    
+    return unsubscribe;
+  }, [item.id]);
+
   const handleAddonToggle = (addonId: number) => {
     setSelectedAddons(prev => 
       prev.includes(addonId) 
@@ -74,18 +89,16 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   };
 
   const handleAddToCart = () => {
-    if (!isInCart) {
-      setIsInCart(true);
-      console.log('Добавлено в корзину:', {
-        item,
-        selectedAddons,
-        comment,
-        totalPrice: getTotalPrice()
-      });
-    } else {
-      setIsInCart(false);
-      console.log('Удалено из корзины:', item.id);
-    }
+    const selectedAddonNames = addons
+      .filter(addon => selectedAddons.includes(addon.id))
+      .map(addon => addon.name);
+
+    const itemWithAddons = {
+      ...item,
+      addons: selectedAddonNames
+    };
+
+    addToGlobalCart(itemWithAddons);
   };
 
   const toggleFavorite = () => {

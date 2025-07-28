@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getGlobalCart, updateGlobalCartItem, subscribeToCartUpdates } from './MenuList';
 import '../styles.css';
 
 interface CartItem {
@@ -6,186 +8,191 @@ interface CartItem {
   name: string;
   price: number;
   quantity: number;
-  image: string;
+  addons?: string[];
 }
 
 export const Cart: React.FC = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: 1,
-      name: 'Карбонара с грибами и сыром',
-      price: 500,
-      quantity: 2,
-      image: '/api/placeholder/100/100'
-    },
-    {
-      id: 2,
-      name: 'Стейк из говядины',
-      price: 800,
-      quantity: 1,
-      image: '/api/placeholder/100/100'
-    },
-    {
-      id: 3,
-      name: 'Цезарь с курицей',
-      price: 350,
-      quantity: 1,
-      image: '/api/placeholder/100/100'
-    }
-  ]);
+  const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [selectedTip, setSelectedTip] = useState<string>('');
+  const [customTip, setCustomTip] = useState<string>('');
 
-  const [deliveryInfo, setDeliveryInfo] = useState({
-    address: '',
-    phone: '',
-    name: '',
-    comment: ''
-  });
+  // Подписываемся на обновления корзины
+  useEffect(() => {
+    const unsubscribe = subscribeToCartUpdates(() => {
+      setCartItems(getGlobalCart());
+    });
+    
+    // Инициализируем корзину
+    setCartItems(getGlobalCart());
+    
+    return unsubscribe;
+  }, []);
 
   const updateQuantity = (itemId: number, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      setCartItems(prev => prev.filter(item => item.id !== itemId));
-    } else {
-      setCartItems(prev => prev.map(item => 
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
-      ));
-    }
+    updateGlobalCartItem(itemId, newQuantity);
   };
 
   const getTotalPrice = () => {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
-  const getDeliveryFee = () => {
-    return getTotalPrice() > 1000 ? 0 : 200;
+  const getTipAmount = () => {
+    if (selectedTip === 'custom' && customTip) {
+      return parseFloat(customTip) || 0;
+    }
+    if (selectedTip && selectedTip !== 'custom') {
+      const tipPercent = parseFloat(selectedTip);
+      return (getTotalPrice() * tipPercent) / 100;
+    }
+    return 0;
   };
 
   const getFinalTotal = () => {
-    return getTotalPrice() + getDeliveryFee();
+    return getTotalPrice() + getTipAmount();
+  };
+
+  const handlePayment = (type: 'full' | 'split') => {
+    // Здесь будет логика оплаты
+    console.log(`Оплата: ${type}, Сумма: ${getFinalTotal()} ₽`);
   };
 
   const handleOrder = () => {
     // Здесь будет логика оформления заказа
-    alert('Заказ оформлен!');
+    console.log('Заказ оформлен!');
   };
 
   return (
-    <div className="cart-page">
-      <div className="cart-header">
-        <h2>Корзина</h2>
-        <span className="items-count">{cartItems.length} товаров</span>
-      </div>
-
-      {cartItems.length === 0 ? (
-        <div className="empty-cart">
-          <div className="empty-cart-icon">🛒</div>
-          <h3>Корзина пуста</h3>
-          <p>Добавьте блюда из меню, чтобы сделать заказ</p>
+    <div className="cart-page-new">
+      {/* Bill Summary Section */}
+      <div className="bill-summary">
+        <div className="total-header">
+          <h2 className="total-title">Итого</h2>
+          <span className="total-amount">{getTotalPrice()} ₽</span>
         </div>
-      ) : (
-        <>
-          {/* Cart Items */}
-          <div className="cart-items">
+
+        {cartItems.length === 0 ? (
+          <div className="empty-cart-new">
+            <div className="empty-cart-icon">🛒</div>
+            <h3>Корзина пуста</h3>
+            <p>Добавьте блюда из меню, чтобы сделать заказ</p>
+            <button 
+              className="back-to-menu-btn"
+              onClick={() => navigate('/miniapp/menu')}
+            >
+              Перейти в меню
+            </button>
+          </div>
+        ) : (
+          <div className="cart-items-list">
             {cartItems.map((item) => (
-              <div key={item.id} className="cart-item">
-                <div className="item-image">
-                  <div className="image-placeholder-small"></div>
+              <div key={item.id} className="cart-item-new">
+                <div className="item-quantity-badge">
+                  <span>{item.quantity}</span>
                 </div>
-                
-                <div className="item-details">
-                  <h3 className="item-name">{item.name}</h3>
-                  <div className="item-price">{item.price} ₽</div>
-                  
-                  <div className="quantity-controls">
-                    <button 
-                      className="quantity-btn"
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                    >
-                      -
-                    </button>
-                    <span className="quantity">{item.quantity}</span>
-                    <button 
-                      className="quantity-btn"
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    >
-                      +
-                    </button>
-                  </div>
+                <div className="item-details-new">
+                  <div className="item-name-new">{item.name}</div>
+                  <div className="item-price-new">{item.price} ₽</div>
+                  {item.addons && item.addons.length > 0 && (
+                    <div className="item-addons">
+                      {item.addons.map((addon, index) => (
+                        <div key={index} className="addon-item-new">
+                          + {addon}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-                
-                <div className="item-total">
-                  {item.price * item.quantity} ₽
+                <div className="item-controls">
+                  <button 
+                    className="quantity-control-btn"
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                  >
+                    -
+                  </button>
+                  <button 
+                    className="quantity-control-btn"
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
             ))}
           </div>
+        )}
+      </div>
 
-          {/* Delivery Info */}
-          <div className="delivery-section">
-            <h3>Информация о доставке</h3>
-            
-            <div className="form-group">
-              <label>Имя</label>
-              <input
-                type="text"
-                value={deliveryInfo.name}
-                onChange={(e) => setDeliveryInfo(prev => ({ ...prev, name: e.target.value }))}
-                placeholder="Ваше имя"
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Телефон</label>
-              <input
-                type="tel"
-                value={deliveryInfo.phone}
-                onChange={(e) => setDeliveryInfo(prev => ({ ...prev, phone: e.target.value }))}
-                placeholder="+7 (999) 123-45-67"
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Адрес доставки</label>
-              <input
-                type="text"
-                value={deliveryInfo.address}
-                onChange={(e) => setDeliveryInfo(prev => ({ ...prev, address: e.target.value }))}
-                placeholder="Улица, дом, квартира"
-              />
-            </div>
-            
-            <div className="form-group">
-              <label>Комментарий к заказу</label>
-              <textarea
-                value={deliveryInfo.comment}
-                onChange={(e) => setDeliveryInfo(prev => ({ ...prev, comment: e.target.value }))}
-                placeholder="Дополнительные пожелания"
-                rows={3}
-              />
-            </div>
+      {/* Payment Options */}
+      {cartItems.length > 0 && (
+        <>
+          <div className="payment-options">
+            <button 
+              className="payment-btn payment-full"
+              onClick={() => handlePayment('full')}
+            >
+              Оплатить целиком
+            </button>
+            <button 
+              className="payment-btn payment-split"
+              onClick={() => handlePayment('split')}
+            >
+              Разделить на компанию
+            </button>
           </div>
 
-          {/* Order Summary */}
-          <div className="order-summary">
-            <div className="summary-row">
-              <span>Товары ({cartItems.length})</span>
-              <span>{getTotalPrice()} ₽</span>
+          {/* Tips Section */}
+          <div className="tips-section">
+            <h3 className="tips-title">Чаевые</h3>
+            <div className="tips-buttons">
+              <button 
+                className={`tip-btn ${selectedTip === '5' ? 'active' : ''}`}
+                onClick={() => setSelectedTip('5')}
+              >
+                5%
+              </button>
+              <button 
+                className={`tip-btn ${selectedTip === '10' ? 'active' : ''}`}
+                onClick={() => setSelectedTip('10')}
+              >
+                10%
+              </button>
+              <button 
+                className={`tip-btn ${selectedTip === '15' ? 'active' : ''}`}
+                onClick={() => setSelectedTip('15')}
+              >
+                15%
+              </button>
+              <button 
+                className={`tip-btn ${selectedTip === 'custom' ? 'active' : ''}`}
+                onClick={() => setSelectedTip('custom')}
+              >
+                Своя сумма
+              </button>
             </div>
-            
-            <div className="summary-row">
-              <span>Доставка</span>
-              <span>{getDeliveryFee() === 0 ? 'Бесплатно' : `${getDeliveryFee()} ₽`}</span>
-            </div>
-            
-            <div className="summary-row total">
-              <span>Итого</span>
-              <span>{getFinalTotal()} ₽</span>
-            </div>
+            {selectedTip === 'custom' && (
+              <div className="custom-tip-input">
+                <input
+                  type="number"
+                  placeholder="Введите сумму"
+                  value={customTip}
+                  onChange={(e) => setCustomTip(e.target.value)}
+                  className="tip-input"
+                />
+                <span className="tip-currency">₽</span>
+              </div>
+            )}
           </div>
 
-          {/* Order Button */}
-          <button className="order-btn" onClick={handleOrder}>
-            ОФОРМИТЬ ЗАКАЗ - {getFinalTotal()} ₽
-          </button>
+          {/* Final Payment Button */}
+          <div className="final-payment">
+            <button 
+              className="pay-button"
+              onClick={handleOrder}
+            >
+              К оплате
+            </button>
+          </div>
         </>
       )}
     </div>

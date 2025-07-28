@@ -13,24 +13,97 @@ interface MenuItem {
   category: string;
 }
 
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  addons?: string[];
+}
+
 interface Category {
   id: string;
   name: string;
   label: string;
 }
 
+// Глобальное состояние корзины
+let globalCart: CartItem[] = [];
+let cartUpdateCallbacks: (() => void)[] = [];
+
+export const addToGlobalCart = (item: MenuItem) => {
+  const existingItem = globalCart.find(cartItem => cartItem.id === item.id);
+  
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    globalCart.push({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: 1
+    });
+  }
+  
+  // Уведомляем все компоненты об обновлении корзины
+  cartUpdateCallbacks.forEach(callback => callback());
+};
+
+export const getGlobalCart = (): CartItem[] => {
+  return [...globalCart];
+};
+
+export const clearGlobalCart = () => {
+  globalCart = [];
+  cartUpdateCallbacks.forEach(callback => callback());
+};
+
+export const updateGlobalCartItem = (itemId: number, newQuantity: number) => {
+  if (newQuantity <= 0) {
+    globalCart = globalCart.filter(item => item.id !== itemId);
+  } else {
+    globalCart = globalCart.map(item => 
+      item.id === itemId ? { ...item, quantity: newQuantity } : item
+    );
+  }
+  cartUpdateCallbacks.forEach(callback => callback());
+};
+
+export const subscribeToCartUpdates = (callback: () => void) => {
+  cartUpdateCallbacks.push(callback);
+  return () => {
+    cartUpdateCallbacks = cartUpdateCallbacks.filter(cb => cb !== callback);
+  };
+};
+
 export const MenuList: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('hits');
-  const [cart, setCart] = useState<{ [key: number]: number }>({
-    1: 2, // 2 карбонары = 1000 ₽
-    3: 1, // 1 карбонара = 500 ₽
-  });
   const [favorites, setFavorites] = useState<{ [key: number]: boolean }>({});
   const [cartItems, setCartItems] = useState<{ [key: number]: boolean }>({});
   const [searchQuery, setSearchQuery] = useState('');
+  const [cart, setCart] = useState<CartItem[]>([]);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Подписываемся на обновления корзины
+  useEffect(() => {
+    const unsubscribe = subscribeToCartUpdates(() => {
+      setCart(getGlobalCart());
+      
+      // Обновляем состояние кнопок добавления в корзину
+      const newCartItems: { [key: number]: boolean } = {};
+      globalCart.forEach(item => {
+        newCartItems[item.id] = true;
+      });
+      setCartItems(newCartItems);
+    });
+    
+    // Инициализируем корзину
+    setCart(getGlobalCart());
+    
+    return unsubscribe;
+  }, []);
 
   const categories: Category[] = [
     { id: 'hits', name: 'hits', label: 'НАШИ ХИТЫ' },
@@ -272,28 +345,8 @@ export const MenuList: React.FC = () => {
     }
   ];
 
-  const addToCart = (itemId: number) => {
-    setCartItems(prev => ({
-      ...prev,
-      [itemId]: !prev[itemId]
-    }));
-    
-    if (!cartItems[itemId]) {
-      setCart(prev => ({
-        ...prev,
-        [itemId]: (prev[itemId] || 0) + 1
-      }));
-    } else {
-      setCart(prev => {
-        const newCart = { ...prev };
-        if (newCart[itemId] > 1) {
-          newCart[itemId] -= 1;
-        } else {
-          delete newCart[itemId];
-        }
-        return newCart;
-      });
-    }
+  const addToCart = (item: MenuItem) => {
+    addToGlobalCart(item);
   };
 
   const handleItemClick = (itemId: number) => {
@@ -321,14 +374,11 @@ export const MenuList: React.FC = () => {
   // };
 
   const getTotalPrice = () => {
-    return Object.entries(cart).reduce((total, [itemId, quantity]) => {
-      const item = menuItems.find(item => item.id === parseInt(itemId));
-      return total + (item?.price || 0) * quantity;
-    }, 0);
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
   const getTotalItems = () => {
-    return Object.values(cart).reduce((total, quantity) => total + quantity, 0);
+    return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
   // Функция для скролла к секции
@@ -454,7 +504,10 @@ export const MenuList: React.FC = () => {
         </div>
         
         <div className="header-right">
-          <button className="cart-icon">
+          <button 
+            className="cart-icon"
+            onClick={() => navigate('/miniapp/menu/cart')}
+          >
             🛒
             {getTotalItems() > 0 && (
               <span className="cart-badge">{getTotalItems()}</span>
@@ -510,7 +563,7 @@ export const MenuList: React.FC = () => {
                           className={`add-to-cart-btn ${cartItems[item.id] ? 'active' : ''}`}
                           onClick={(e) => {
                             e.stopPropagation();
-                            addToCart(item.id);
+                            addToCart(item);
                           }}
                         >
                           {cartItems[item.id] ? '✓' : '+'}
@@ -556,7 +609,7 @@ export const MenuList: React.FC = () => {
 
       {/* Floating Order Button */}
       {getTotalItems() > 0 && (
-        <div className="floating-order-btn">
+        <div className="floating-order-btn" onClick={() => navigate('/miniapp/menu/cart')}>
           <div className="order-info">
             <span className="order-total">{getTotalPrice()} ₽</span>
             <span className="order-text">- ЗАКАЗАТЬ</span>

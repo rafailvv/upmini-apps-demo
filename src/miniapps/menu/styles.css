@@ -1459,7 +1459,15 @@
 }
 
 .telegram-miniapp .menu-content {
-  margin-top: 180px; /* Увеличиваем отступ для основного контента */
+  margin-top: 200px; /* Увеличиваем отступ еще больше */
+}
+
+.telegram-miniapp .menu-section {
+  margin-top: 0; /* Убираем дополнительный отступ у секций */
+}
+
+.telegram-miniapp .section-title {
+  margin-top: 0; /* Убираем отступ у заголовков секций */
 }
 
 .telegram-miniapp .cart-page-new {

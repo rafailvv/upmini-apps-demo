@@ -11,11 +11,24 @@ import './miniapps';
 
 function App() {
   useEffect(() => {
-    // Инициализируем Telegram MiniApp
-    initTelegramMiniApp();
+    // Инициализируем Telegram MiniApp с задержкой для надежности
+    const initTelegram = () => {
+      try {
+        console.log('App: Initializing Telegram MiniApp...');
+        initTelegramMiniApp();
+        addTelegramHeaderOffset();
+      } catch (error) {
+        console.error('App: Error initializing Telegram:', error);
+      }
+    };
+
+    // Запускаем инициализацию сразу и с небольшой задержкой
+    initTelegram();
     
-    // Добавляем отступы для хедеров
-    addTelegramHeaderOffset();
+    // Дополнительная инициализация через 100ms для надежности
+    const timeoutId = setTimeout(initTelegram, 100);
+    
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (

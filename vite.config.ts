@@ -31,7 +31,9 @@ export default defineConfig({
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+      'X-Frame-Options': 'SAMEORIGIN',
+      'Content-Security-Policy': "frame-ancestors 'self' https://web.telegram.org"
     }
   },
   preview: {
@@ -42,7 +44,9 @@ export default defineConfig({
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+      'X-Frame-Options': 'SAMEORIGIN',
+      'Content-Security-Policy': "frame-ancestors 'self' https://web.telegram.org"
     },
     allowedHosts: [
       'localhost',
@@ -50,7 +54,9 @@ export default defineConfig({
       'test.upmini.app',
       'muskrat-harmless-ideally.ngrok-free.app',
       '.ngrok-free.app', // Разрешаем все поддомены ngrok
-      '.ngrok.io' // Альтернативный домен ngrok
+      '.ngrok.io', // Альтернативный домен ngrok
+      'web.telegram.org', // Telegram WebApp
+      't.me' // Telegram
     ]
   },
   build: {
@@ -62,6 +68,8 @@ export default defineConfig({
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js'
       }
-    }
+    },
+    // Оптимизации для мобильных устройств
+    target: 'es2015'
   }
 })

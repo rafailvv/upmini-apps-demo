@@ -144,9 +144,7 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     return item.price + addonsPrice;
   };
 
-  const handleAddToCart = () => {
-    addToGlobalCart(item, comment, selectedAddons);
-  };
+
 
   const handleDecreaseQuantity = () => {
     if (cartQuantity === 1) {

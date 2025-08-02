@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getGlobalCart, updateGlobalCartItem, subscribeToCartUpdates } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
-import { getAddon, calculateAddonsPrice, getAddonNames } from '../utils/addonsManager';
+import { getAddon, calculateAddonsPrice } from '../utils/addonsManager';
 import '../styles.css';
 
 interface CartItem {

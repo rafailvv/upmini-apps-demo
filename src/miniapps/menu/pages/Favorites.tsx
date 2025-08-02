@@ -187,26 +187,7 @@ export const Favorites: React.FC = () => {
   // Фильтруем только избранные элементы из глобального состояния
   const favoriteItems = allMenuItems.filter(item => getFavorites()[item.id]);
 
-  // Функция для расчета цены товара с добавками
-  const getItemPriceWithAddons = (itemId: number) => {
-    const cartItem = cart.find(item => item.id === itemId);
-    if (!cartItem || !cartItem.selectedAddons || cartItem.selectedAddons.length === 0) {
-      return allMenuItems.find(item => item.id === itemId)?.price || 0;
-    }
-    
-    const basePrice = allMenuItems.find(item => item.id === itemId)?.price || 0;
-    const addonsData = [
-      { id: 1, name: 'Поджаренный хлеб', price: 50 },
-      { id: 2, name: 'Аддон 2', price: 100 },
-      { id: 3, name: 'Аддон 3', price: 60 },
-    ];
-    
-    const addonsPrice = addonsData
-      .filter(addon => cartItem.selectedAddons!.includes(addon.id))
-      .reduce((sum, addon) => sum + addon.price, 0);
-    
-    return basePrice + addonsPrice;
-  };
+
 
   const getTotalItems = () => {
     return cart.reduce((total, item) => total + item.quantity, 0);

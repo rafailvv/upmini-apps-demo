@@ -727,6 +727,12 @@
     top: 150px !important;
   }
 
+  /* Отступ для sidebar в Telegram MiniApp */
+  .telegram-miniapp .sidebar {
+    top: 90px !important;
+    height: calc(100vh - 90px);
+  }
+
   .menu-content {
     margin-top: 110px;
   }

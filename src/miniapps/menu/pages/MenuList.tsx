@@ -22,6 +22,7 @@ interface CartItem {
   price: number;
   quantity: number;
   addons?: string[];
+  image?: string;
 }
 
 interface Category {
@@ -44,7 +45,8 @@ export const addToGlobalCart = (item: MenuItem) => {
       id: item.id,
       name: item.name,
       price: item.price,
-      quantity: 1
+      quantity: 1,
+      image: item.image
     });
   }
 
@@ -149,7 +151,7 @@ export const MenuList: React.FC = () => {
       weight: '300 г',
       description: 'Паста, бекон, куриные яйца, пармезан, специи',
       price: 500,
-      image: '/api/placeholder/300/200',
+      image: '/images/carbonara.jpg',
       tags: ['НОВИНКА', 'ОСТРОЕ'],
       category: 'hits'
     },
@@ -159,7 +161,7 @@ export const MenuList: React.FC = () => {
       weight: '300 г',
       description: 'Паста, бекон, куриные яйца, пармезан, специи',
       price: 500,
-      image: '/api/placeholder/300/200',
+      image: '/images/carbonara.jpg',
       tags: ['НОВИНКА', 'ОСТРОЕ'],
       category: 'hits'
     },
@@ -169,7 +171,7 @@ export const MenuList: React.FC = () => {
       weight: '250 г',
       description: 'Говядина, овощи гриль, соус',
       price: 800,
-      image: '/api/placeholder/300/200',
+      image: '/images/carbonara.jpg',
       tags: ['ПОПУЛЯРНОЕ'],
       category: 'hits'
     },
@@ -179,7 +181,7 @@ export const MenuList: React.FC = () => {
       weight: '280 г',
       description: 'Салат, курица, сухарики, соус цезарь',
       price: 350,
-      image: '/api/placeholder/300/200',
+      image: '/images/carbonara.jpg',
       tags: ['ЛЕГКОЕ'],
       category: 'hits'
     },
@@ -588,7 +590,23 @@ export const MenuList: React.FC = () => {
                   {items.map((item) => (
                     <div key={item.id} className="menu-item-card" onClick={() => handleItemClick(item.id)}>
                       <div className="item-image">
-                        <div className="image-placeholder"></div>
+                        <img 
+                          src={item.image} 
+                          alt={item.name}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            const placeholder = e.currentTarget.nextElementSibling as HTMLElement;
+                            if (placeholder) {
+                              placeholder.style.display = 'flex';
+                            }
+                          }}
+                        />
+                        <div 
+                          className="image-placeholder"
+                          style={{ display: 'none' }}
+                        >
+                        </div>
                         <button
                           className={`favorite-btn ${favorites[item.id] ? 'active' : ''}`}
                           onClick={(e) => {

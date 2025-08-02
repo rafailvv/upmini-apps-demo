@@ -205,7 +205,7 @@
 
 .item-image {
   position: relative;
-  height: 120px;
+  height: 160px;
   background: #e0e0e0;
 }
 
@@ -356,6 +356,37 @@
 .tag-горячий {
   background: #ffebee;
   color: #d32f2f;
+}
+
+/* Стили для тегов в верхнем регистре */
+.tag-НОВИНКА {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.tag-ОСТРОЕ {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.tag-ПОПУЛЯРНОЕ {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.tag-ЛЕГКОЕ {
+  background: #e8f5e8;
+  color: #388e3c;
+}
+
+.tag-СЛАДКОЕ {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.tag-КЛАССИКА {
+  background: #f0f4c3;
+  color: #827717;
 }
 
 /* Floating Order Button */
@@ -676,7 +707,7 @@
   }
 
   .item-image {
-    height: 140px;
+    height: 180px;
   }
 }
 
@@ -692,6 +723,11 @@
 
   .categories-nav {
     top: 56px;
+  }
+
+  /* Дополнительные отступы для Telegram MiniApp в мобильной версии */
+  .telegram-miniapp .categories-nav {
+    top: 150px !important;
   }
 
   .menu-content {
@@ -801,7 +837,7 @@
   }
 
   .item-image {
-    height: 160px;
+    height: 200px;
   }
 
   .floating-order-btn {
@@ -1293,7 +1329,7 @@
 
 .cart-item-new {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 15px;
   padding: 10px 0;
 }
@@ -1314,6 +1350,11 @@
   font-size: 12px;
   font-weight: 600;
   color: #666;
+}
+
+.cart-item-image {
+  margin-right: 12px;
+  flex-shrink: 0;
 }
 
 .item-details-new {

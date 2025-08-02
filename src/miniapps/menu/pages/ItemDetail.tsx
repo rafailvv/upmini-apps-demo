@@ -184,7 +184,23 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
         >
           {isFavorite ? '❤️' : '🤍'}
         </button>
-        <div className="image-placeholder-large"></div>
+        <img 
+          src={item.image} 
+          alt={item.name}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+            const placeholder = e.currentTarget.nextElementSibling as HTMLElement;
+            if (placeholder) {
+              placeholder.style.display = 'flex';
+            }
+          }}
+        />
+        <div 
+          className="image-placeholder-large"
+          style={{ display: 'none' }}
+        >
+        </div>
       </div>
 
       {/* Item Info */}

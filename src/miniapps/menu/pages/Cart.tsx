@@ -10,6 +10,7 @@ interface CartItem {
   price: number;
   quantity: number;
   addons?: string[];
+  image?: string;
 }
 
 export const Cart: React.FC = () => {
@@ -97,6 +98,27 @@ export const Cart: React.FC = () => {
                 <div className="item-quantity-badge">
                   <span>{item.quantity}</span>
                 </div>
+                {item.image && (
+                  <div className="cart-item-image">
+                    <img 
+                      src={item.image} 
+                      alt={item.name}
+                      style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '8px' }}
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        const placeholder = e.currentTarget.nextElementSibling as HTMLElement;
+                        if (placeholder) {
+                          placeholder.style.display = 'flex';
+                        }
+                      }}
+                    />
+                    <div 
+                      className="image-placeholder-small"
+                      style={{ display: 'none', width: '50px', height: '50px', borderRadius: '8px' }}
+                    >
+                    </div>
+                  </div>
+                )}
                 <div className="item-details-new">
                   <div className="item-name-new">{item.name}</div>
                   <div className="item-price-new">{item.price} ₽</div>

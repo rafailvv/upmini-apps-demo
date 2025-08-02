@@ -1,3 +1,13 @@
+/* Глобальные стили для скрытия скроллбаров */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* WebKit браузеры (Chrome, Safari, etc.) */
+}
+
 /* Menu App стили */
 .menu-app {
   background: white;
@@ -1633,13 +1643,11 @@
 .favorites-page .menu-content {
   margin-top: 80px;
   padding-top: 0;
-  min-height: calc(100vh - 80px);
 }
 
 /* Стили для страницы избранного в Telegram WebApp */
 .telegram-miniapp .favorites-page {
   margin-top: 100px;
-  min-height: calc(100vh - 100px);
 }
 
 /* Добавляем белый блок сверху для Telegram */

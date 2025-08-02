@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
+import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
+import { Sidebar } from '../components/Sidebar';
 import '../styles.css';
 
 interface MenuItem {
@@ -86,42 +88,43 @@ export const MenuList: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('hits');
   const [favorites, setFavorites] = useState<{ [key: number]: boolean }>({});
-  const [cartItems, setCartItems] = useState<{ [key: number]: boolean }>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [cart, setCart] = useState<CartItem[]>([]);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const containerRef = useRef<HTMLDivElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  // Создаем объект для быстрой проверки товаров в корзине
+  const cartItemsMap = cart.reduce((acc, item) => {
+    acc[item.id] = item.quantity;
+    return acc;
+  }, {} as { [key: number]: number });
 
-    // Подписываемся на обновления корзины
+  // Подписываемся на обновления корзины
   useEffect(() => {
-    const unsubscribe = subscribeToCartUpdates(() => {
+    const unsubscribeCart = subscribeToCartUpdates(() => {
       setCart(getGlobalCart());
 
-      // Обновляем состояние кнопок добавления в корзину
-      const newCartItems: { [key: number]: boolean } = {};
-      globalCart.forEach(item => {
-        if (item.quantity > 0) {
-          newCartItems[item.id] = true;
-        }
-      });
-      setCartItems(newCartItems);
+
+    });
+
+    // Подписываемся на обновления избранного
+    const unsubscribeFavorites = subscribeToFavoritesUpdates(() => {
+      setFavorites(getFavorites());
     });
 
     // Инициализируем корзину
     setCart(getGlobalCart());
 
-    // Инициализируем состояние кнопок
-    const newCartItems: { [key: number]: boolean } = {};
-    globalCart.forEach(item => {
-      if (item.quantity > 0) {
-        newCartItems[item.id] = true;
-      }
-    });
-    setCartItems(newCartItems);
+    // Инициализируем избранное
+    setFavorites(getFavorites());
 
-    return unsubscribe;
+
+
+    return () => {
+      unsubscribeCart();
+      unsubscribeFavorites();
+    };
   }, []);
 
   // Инициализация Telegram MiniApp
@@ -371,12 +374,10 @@ export const MenuList: React.FC = () => {
   ];
 
   const addToCart = (item: MenuItem) => {
-    // Проверяем, есть ли уже товар в корзине
-    const existingItem = globalCart.find(cartItem => cartItem.id === item.id);
-
+    const existingItem = cart.find(cartItem => cartItem.id === item.id);
     if (existingItem) {
-      // Если товар уже в корзине, убираем его
-      updateGlobalCartItem(item.id, 0);
+      // Если товар уже в корзине, удаляем его
+      removeFromGlobalCart(item.id);
     } else {
       // Если товара нет в корзине, добавляем его
       addToGlobalCart(item);
@@ -388,10 +389,7 @@ export const MenuList: React.FC = () => {
   };
 
   const toggleFavorite = (itemId: number) => {
-    setFavorites(prev => ({
-      ...prev,
-      [itemId]: !prev[itemId]
-    }));
+    toggleGlobalFavorite(itemId);
   };
 
   // Функция для удаления товара из корзины (пока не используется)
@@ -515,57 +513,10 @@ export const MenuList: React.FC = () => {
 
   return (
     <div className="menu-app" ref={containerRef}>
-      <>
-        <div
-            className={`overlay ${isSidebarOpen ? '' : 'hidden'}`}
-            onClick={() => setIsSidebarOpen(false)}
-        />
-
-        <div className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`} id="sidebar">
-          <div className="user-block">
-            {(() => {
-              const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
-              // Telegram MiniApp API иногда возвращает поле photo_url
-              const photoUrl = user?.photo_url;
-              if (photoUrl) {
-                return (
-                    <img
-                        src={photoUrl}
-                        alt="Аватар пользователя"
-                        className="sidebar-logo-large"
-                    />
-                );
-              } else {
-                return (
-                    <div className="sidebar-logo-emoji">
-                      😊
-                    </div>
-                );
-              }
-            })()}
-            <span className="sidebar-username-large">
-      {(() => {
-        const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
-        if (!user || (!user.first_name && !user.last_name)) {
-          return 'Пользователь';
-        }
-        const { first_name, last_name } = user;
-        return last_name
-            ? `${first_name} ${last_name}`
-            : first_name;
-      })()}
-    </span>
-          </div>
-
-          <nav className="sidebar-nav">
-            <ul>
-              <li className="nav-item active">Меню</li>
-              <li className="nav-item">Избранное</li>
-              <li className="nav-item">Прошлые заказы</li>
-            </ul>
-          </nav>
-        </div>
-      </>
+      <Sidebar 
+        isOpen={isSidebarOpen} 
+        onClose={() => setIsSidebarOpen(false)} 
+      />
       {/* Header */}
       <div className="menu-header">
         <div className="header-left">
@@ -648,13 +599,13 @@ export const MenuList: React.FC = () => {
                           {favorites[item.id] ? '❤️' : '🤍'}
                         </button>
                         <button
-                          className={`add-to-cart-btn ${cartItems[item.id] ? 'active' : ''}`}
+                          className={`add-to-cart-btn ${cartItemsMap[item.id] ? 'active' : ''}`}
                           onClick={(e) => {
                             e.stopPropagation();
                             addToCart(item);
                           }}
                         >
-                          {cartItems[item.id] ? '✓' : '+'}
+                          {cartItemsMap[item.id] ? '✓' : '+'}
                         </button>
                       </div>
 

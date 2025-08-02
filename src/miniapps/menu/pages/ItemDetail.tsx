@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates, removeFromGlobalCart, updateGlobalCartItem } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
+import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
 
 interface Addon {
   id: number;
@@ -80,22 +81,33 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     },
   ];
 
-  // Подписываемся на обновления корзины
+  // Подписываемся на обновления корзины и избранного
   useEffect(() => {
-    const unsubscribe = subscribeToCartUpdates(() => {
+    const unsubscribeCart = subscribeToCartUpdates(() => {
       const cart = getGlobalCart();
       const cartItem = cart.find(cartItem => cartItem.id === item.id);
       setIsInCart(!!cartItem);
       setCartQuantity(cartItem ? cartItem.quantity : 0);
     });
+
+    const unsubscribeFavorites = subscribeToFavoritesUpdates(() => {
+      const favorites = getFavorites();
+      setIsFavorite(!!favorites[item.id]);
+    });
     
-    // Инициализируем состояние корзины
+    // Инициализируем состояние корзины и избранного
     const cart = getGlobalCart();
     const cartItem = cart.find(cartItem => cartItem.id === item.id);
     setIsInCart(!!cartItem);
     setCartQuantity(cartItem ? cartItem.quantity : 0);
+
+    const favorites = getFavorites();
+    setIsFavorite(!!favorites[item.id]);
     
-    return unsubscribe;
+    return () => {
+      unsubscribeCart();
+      unsubscribeFavorites();
+    };
   }, [item.id]);
 
   // Инициализация Telegram MiniApp
@@ -154,7 +166,7 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   };
 
   const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+    toggleGlobalFavorite(item.id);
   };
 
   return (

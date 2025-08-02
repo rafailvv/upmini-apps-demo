@@ -443,6 +443,7 @@
 
 .empty-cart p {
   color: #6c757d;
+  margin-bottom: 10px;
 }
 
 .no-results {
@@ -1586,6 +1587,17 @@
   padding-top: 100px;
 }
 
+/* Стили для страницы избранного */
+.favorites-page .menu-content {
+  margin-top: 80px;
+  padding-top: 0;
+}
+
+/* Стили для страницы избранного в Telegram WebApp */
+.telegram-miniapp .favorites-page {
+  margin-top: 120px;
+}
+
 /* Добавляем белый блок сверху для Telegram */
 .telegram-miniapp::before {
   content: '';
@@ -1750,6 +1762,7 @@
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 24px;
+    padding-left: 12px;
 }
 
 .sidebar-logo-large {

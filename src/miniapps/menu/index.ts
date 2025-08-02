@@ -1,6 +1,7 @@
 import { MenuList } from './pages/MenuList';
 import { Cart } from './pages/Cart';
 import { ItemDetailWrapper } from './pages/ItemDetailWrapper';
+import { Favorites } from './pages/Favorites';
 import type { MiniappConfig } from '../../types/miniapp';
 
 export const menuAppConfig: MiniappConfig = {
@@ -14,6 +15,11 @@ export const menuAppConfig: MiniappConfig = {
       path: '',
       title: 'Меню',
       component: MenuList,
+    },
+    {
+      path: 'favorites',
+      title: 'Избранное',
+      component: Favorites,
     },
     {
       path: 'cart',

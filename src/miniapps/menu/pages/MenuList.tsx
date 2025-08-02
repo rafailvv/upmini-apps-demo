@@ -193,7 +193,7 @@ export const MenuList: React.FC = () => {
       weight: '300 г',
       description: 'Паста, бекон, куриные яйца, пармезан, специи',
       price: 500,
-      image: '/api/placeholder/300/200',
+      image: '/images/carbonara.jpg',
       tags: ['НОВИНКА', 'ОСТРОЕ'],
       category: 'main'
     },
@@ -203,7 +203,7 @@ export const MenuList: React.FC = () => {
       weight: '300 г',
       description: 'Паста, бекон, куриные яйца, пармезан, специи',
       price: 500,
-      image: '/api/placeholder/300/200',
+      image: '/images/carbonara.jpg',
       tags: ['НОВИНКА', 'ОСТРОЕ'],
       category: 'main'
     },

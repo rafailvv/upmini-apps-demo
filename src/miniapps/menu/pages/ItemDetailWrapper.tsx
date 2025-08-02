@@ -20,7 +20,7 @@ const menuItems = [
     weight: '300 г',
     description: 'Паста, бекон, куриные яйца, пармезан, специи',
     price: 500,
-    image: '/api/placeholder/300/200',
+    image: '/images/carbonara.jpg',
     tags: ['НОВИНКА', 'ОСТРОЕ'],
     category: 'hits'
   },
@@ -30,7 +30,7 @@ const menuItems = [
     weight: '250 г',
     description: 'Говядина, овощи гриль, соус',
     price: 800,
-    image: '/api/placeholder/300/200',
+    image: '/images/carbonara.jpg',
     tags: ['ПОПУЛЯРНОЕ'],
     category: 'hits'
   },
@@ -40,7 +40,7 @@ const menuItems = [
     weight: '280 г',
     description: 'Салат, курица, сухарики, соус цезарь',
     price: 350,
-    image: '/api/placeholder/300/200',
+    image: '/images/carbonara.jpg',
     tags: ['ЛЕГКОЕ'],
     category: 'hits'
   },
@@ -50,7 +50,7 @@ const menuItems = [
     weight: '300 г',
     description: 'Паста, бекон, куриные яйца, пармезан, специи',
     price: 500,
-    image: '/api/placeholder/300/200',
+    image: '/images/carbonara.jpg',
     tags: ['НОВИНКА', 'ОСТРОЕ'],
     category: 'main'
   },
@@ -60,7 +60,7 @@ const menuItems = [
     weight: '300 г',
     description: 'Паста, бекон, куриные яйца, пармезан, специи',
     price: 500,
-    image: '/api/placeholder/300/200',
+    image: '/images/carbonara.jpg',
     tags: ['НОВИНКА', 'ОСТРОЕ'],
     category: 'main'
   },

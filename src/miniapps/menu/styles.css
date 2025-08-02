@@ -1610,6 +1610,7 @@
 
 .telegram-miniapp .menu-content {
   margin-top: 200px; /* Увеличиваем отступ еще больше */
+  min-height: calc(100vh - 200px);
 }
 
 .telegram-miniapp .menu-section {
@@ -1632,11 +1633,13 @@
 .favorites-page .menu-content {
   margin-top: 80px;
   padding-top: 0;
+  min-height: calc(100vh - 80px);
 }
 
 /* Стили для страницы избранного в Telegram WebApp */
 .telegram-miniapp .favorites-page {
-  margin-top: 120px;
+  margin-top: 100px;
+  min-height: calc(100vh - 100px);
 }
 
 /* Добавляем белый блок сверху для Telegram */

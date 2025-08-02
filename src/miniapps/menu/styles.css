@@ -252,8 +252,8 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  background: #4CAF50;
-  color: white;
+  background: white;
+  color: #333;
   border: none;
   border-radius: 50% !important;
   width: 32px !important;
@@ -272,12 +272,13 @@
 }
 
 .add-to-cart-btn:hover {
-  background: #45a049;
+  background: #f5f5f5;
   transform: scale(1.1);
 }
 
 .add-to-cart-btn.active {
   background: #FF6B35;
+  color: white;
   transform: scale(1.1);
 }
 
@@ -363,7 +364,7 @@
   bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(90deg, #28a745 0%, #FF6B35 100%);
+  background: #FF6B35;
   color: white;
   border: none;
   border-radius: 20px;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getGlobalCart, updateGlobalCartItem, subscribeToCartUpdates } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
+import { getAddon, calculateAddonsPrice, getAddonNames } from '../utils/addonsManager';
 import '../styles.css';
 
 interface CartItem {
@@ -11,6 +12,8 @@ interface CartItem {
   quantity: number;
   addons?: string[];
   image?: string;
+  comment?: string;
+  selectedAddons?: number[];
 }
 
 export const Cart: React.FC = () => {
@@ -41,8 +44,25 @@ export const Cart: React.FC = () => {
     updateGlobalCartItem(itemId, newQuantity);
   };
 
+  // Функция для расчета цены товара с добавками
+  const getItemPriceWithAddons = (item: CartItem) => {
+    let totalPrice = item.price;
+    
+    // Если есть selectedAddons, рассчитываем цену добавок
+    if (item.selectedAddons && item.selectedAddons.length > 0) {
+      const addonsPrice = calculateAddonsPrice(item.selectedAddons);
+      
+      totalPrice += addonsPrice;
+    }
+    
+    return totalPrice;
+  };
+
   const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cartItems.reduce((total, item) => {
+      const itemPriceWithAddons = getItemPriceWithAddons(item);
+      return total + (itemPriceWithAddons * item.quantity);
+    }, 0);
   };
 
   const getTipAmount = () => {
@@ -121,14 +141,23 @@ export const Cart: React.FC = () => {
                 )}
                 <div className="item-details-new">
                   <div className="item-name-new">{item.name}</div>
-                  <div className="item-price-new">{item.price} ₽</div>
-                  {item.addons && item.addons.length > 0 && (
+                  <div className="item-price-new">{getItemPriceWithAddons(item)} ₽</div>
+                  {item.selectedAddons && item.selectedAddons.length > 0 && (
                     <div className="item-addons">
-                      {item.addons.map((addon, index) => (
-                        <div key={index} className="addon-item-new">
-                          + {addon}
-                        </div>
-                      ))}
+                      {item.selectedAddons.map((addonId) => {
+                        const addon = getAddon(addonId);
+                        return addon ? (
+                          <div key={addonId} className="addon-item-new">
+                            + {addon.name}
+                          </div>
+                        ) : null;
+                      })}
+                    </div>
+                  )}
+                  {item.comment && item.comment.trim() !== '' && (
+                    <div className="item-comment">
+                      <span className="comment-label">Комментарий:</span>
+                      <span className="comment-text">{item.comment}</span>
                     </div>
                   )}
                 </div>

@@ -165,7 +165,6 @@
   transform: translateX(-50%);
   width: 20px;
   height: 3px;
-  background: #FF6B35;
   border-radius: 2px;
 }
 
@@ -1030,7 +1029,6 @@
 .addons-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
 .addon-item {
@@ -1164,6 +1162,14 @@
   justify-content: space-between;
 }
 
+.bottom-action-bar.pressed {
+  background: #FF6B35;
+  color: white;
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.3);
+  justify-content: space-between;
+  cursor: default;
+}
+
 .bottom-action-bar:active {
   background: #FF6B35;
   color: white;
@@ -1189,6 +1195,11 @@
 
 .bottom-action-bar:active .total-price {
   color: white;
+}
+
+.bottom-action-bar.pressed .total-price {
+  color: white;
+  text-align: center;
 }
 
 .price-dot {
@@ -1238,6 +1249,58 @@
 
 .bottom-action-bar.active .quantity-btn:active {
   background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* Quantity buttons for pressed state */
+.bottom-action-bar.pressed .quantity-btn {
+  background: transparent;
+  border: none;
+  color: white;
+}
+
+.bottom-action-bar.pressed .quantity-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.bottom-action-bar.pressed .quantity-btn:active {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* Action buttons for pressed state */
+.action-btn {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+  transition: all 0.2s;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.action-btn:active {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0.95);
+}
+
+.back-btn {
+  color: white;
+}
+
+.cart-btn {
   color: white;
 }
 
@@ -1394,6 +1457,23 @@
   color: #666;
   margin-left: 16px;
   line-height: 1.4;
+}
+
+.item-comment {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.comment-label {
+  font-weight: 500;
+  color: #888;
+  margin-right: 4px;
+}
+
+.comment-text {
+  color: #666;
 }
 
 .payment-options {

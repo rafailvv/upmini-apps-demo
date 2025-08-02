@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates, removeFromGlobalCart, updateGlobalCartItem } from './MenuList';
+import { useNavigate } from 'react-router-dom';
+import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates, removeFromGlobalCart, updateGlobalCartItemWithData, updateCartItemCommentWithAddons } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
-
-interface Addon {
-  id: number;
-  name: string;
-  price: number;
-}
+import { getAddonsForItem, calculateAddonsPrice, type Addon } from '../utils/addonsManager';
 
 interface RecommendedItem {
   id: number;
@@ -52,17 +48,15 @@ const getQuantityText = (quantity: number): string => {
 };
 
 export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
+  const navigate = useNavigate();
   const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
   const [comment, setComment] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
   const [cartQuantity, setCartQuantity] = useState(0);
+  const [isButtonPressed, setIsButtonPressed] = useState(false);
 
-  const addons: Addon[] = [
-    { id: 1, name: 'Поджаренный хлеб', price: 50 },
-    { id: 2, name: 'Аддон 2', price: 100 },
-    { id: 3, name: 'Аддон 3', price: 60 },
-  ];
+  const addons: Addon[] = getAddonsForItem(item.id);
 
   const recommendedItems: RecommendedItem[] = [
     {
@@ -88,6 +82,14 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
       const cartItem = cart.find(cartItem => cartItem.id === item.id);
       setIsInCart(!!cartItem);
       setCartQuantity(cartItem ? cartItem.quantity : 0);
+      
+      // Загружаем сохраненные данные
+      if (cartItem) {
+        setComment(cartItem.comment || '');
+        setSelectedAddons(cartItem.selectedAddons || []);
+        // Если товар в корзине, показываем состояние pressed
+        setIsButtonPressed(true);
+      }
     });
 
     const unsubscribeFavorites = subscribeToFavoritesUpdates(() => {
@@ -100,6 +102,14 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     const cartItem = cart.find(cartItem => cartItem.id === item.id);
     setIsInCart(!!cartItem);
     setCartQuantity(cartItem ? cartItem.quantity : 0);
+    
+    // Загружаем сохраненные данные при инициализации
+    if (cartItem) {
+      setComment(cartItem.comment || '');
+      setSelectedAddons(cartItem.selectedAddons || []);
+      // Если товар в корзине, показываем состояние pressed
+      setIsButtonPressed(true);
+    }
 
     const favorites = getFavorites();
     setIsFavorite(!!favorites[item.id]);
@@ -117,56 +127,63 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   }, []);
 
   const handleAddonToggle = (addonId: number) => {
-    setSelectedAddons(prev => 
-      prev.includes(addonId) 
-        ? prev.filter(id => id !== addonId)
-        : [...prev, addonId]
-    );
+    const newSelectedAddons = selectedAddons.includes(addonId) 
+      ? selectedAddons.filter(id => id !== addonId)
+      : [...selectedAddons, addonId];
+    
+    setSelectedAddons(newSelectedAddons);
+    
+    // Если товар в корзине, сохраняем изменения
+    if (isInCart) {
+      updateCartItemCommentWithAddons(item.id, comment, newSelectedAddons);
+    }
   };
 
   const getTotalPrice = () => {
-    const addonsPrice = addons
-      .filter(addon => selectedAddons.includes(addon.id))
-      .reduce((sum, addon) => sum + addon.price, 0);
+    const addonsPrice = calculateAddonsPrice(selectedAddons);
     return item.price + addonsPrice;
   };
 
   const handleAddToCart = () => {
-    const selectedAddonNames = addons
-      .filter(addon => selectedAddons.includes(addon.id))
-      .map(addon => addon.name);
-
-    const itemWithAddons = {
-      ...item,
-      addons: selectedAddonNames
-    };
-
-    addToGlobalCart(itemWithAddons);
+    addToGlobalCart(item, comment, selectedAddons);
   };
 
   const handleDecreaseQuantity = () => {
     if (cartQuantity === 1) {
       removeFromGlobalCart(item.id);
+      // Если удалили последний товар, возвращаемся к обычному состоянию
+      setIsButtonPressed(false);
     } else {
-      updateGlobalCartItem(item.id, cartQuantity - 1);
+      updateGlobalCartItemWithData(item.id, cartQuantity - 1, comment, selectedAddons);
     }
   };
 
   const handleIncreaseQuantity = () => {
-    const selectedAddonNames = addons
-      .filter(addon => selectedAddons.includes(addon.id))
-      .map(addon => addon.name);
-
-    const itemWithAddons = {
-      ...item,
-      addons: selectedAddonNames
-    };
-
-    addToGlobalCart(itemWithAddons);
+    addToGlobalCart(item, comment, selectedAddons);
+    // Если товар был добавлен в корзину через состояние pressed, оставляем состояние pressed
+    // Состояние автоматически обновится через useEffect при изменении корзины
   };
 
   const toggleFavorite = () => {
     toggleGlobalFavorite(item.id);
+  };
+
+  const handleButtonPress = () => {
+    if (!isInCart) {
+      // Сразу добавляем товар в корзину
+      addToGlobalCart(item, comment, selectedAddons);
+      // Показываем состояние pressed
+      setIsButtonPressed(true);
+    }
+  };
+
+  const handleBackClick = () => {
+    setIsButtonPressed(false);
+    navigate('/miniapp/menu');
+  };
+
+  const handleGoToCart = () => {
+    navigate('/miniapp/menu/cart');
   };
 
   return (
@@ -238,7 +255,15 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
           className="comment-input"
           placeholder="Сделайте поострее, пожалуйста..."
           value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          onChange={(e) => {
+            const newComment = e.target.value;
+            setComment(newComment);
+            
+            // Сохраняем комментарий в корзине при вводе
+            if (isInCart) {
+              updateCartItemCommentWithAddons(item.id, newComment, selectedAddons);
+            }
+          }}
         />
       </div>
 
@@ -263,9 +288,101 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
       </div>
 
       {/* Bottom Action Bar */}
-      <div className={`bottom-action-bar ${isInCart ? 'active' : ''}`} onClick={!isInCart ? handleAddToCart : undefined}>
-        {!isInCart ? (
+      <div className={`bottom-action-bar ${isInCart ? 'active' : ''} ${isButtonPressed ? 'pressed' : ''}`} onClick={!isInCart ? handleButtonPress : undefined}>
+        {!isInCart && !isButtonPressed ? (
           <span className="total-price">В корзину – {getTotalPrice()} ₽</span>
+        ) : !isInCart && isButtonPressed ? (
+          <>
+            <button 
+              className="action-btn back-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleBackClick();
+              }}
+            >
+              ← Назад
+            </button>
+            <button 
+              className="quantity-btn minus"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (cartQuantity > 0) {
+                  handleDecreaseQuantity();
+                }
+              }}
+            >
+              {cartQuantity === 1 ? (
+                <span className="material-symbols-outlined">delete</span>
+              ) : (
+                '−'
+              )}
+            </button>
+            <span className="total-price">{getTotalPrice()} ₽</span>
+            <button 
+              className="quantity-btn plus"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleIncreaseQuantity();
+              }}
+            >
+              +
+            </button>
+            <button 
+              className="action-btn cart-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleGoToCart();
+              }}
+            >
+              В корзину →
+            </button>
+          </>
+        ) : isInCart && isButtonPressed ? (
+          <>
+            <button 
+              className="action-btn back-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleBackClick();
+              }}
+            >
+              ← Назад
+            </button>
+            <button 
+              className="quantity-btn minus"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (cartQuantity > 0) {
+                  handleDecreaseQuantity();
+                }
+              }}
+            >
+              {cartQuantity === 1 ? (
+                <span className="material-symbols-outlined">delete</span>
+              ) : (
+                '−'
+              )}
+            </button>
+            <span className="total-price">{cartQuantity} {getQuantityText(cartQuantity)} – {getTotalPrice() * cartQuantity} ₽</span>
+            <button 
+              className="quantity-btn plus"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleIncreaseQuantity();
+              }}
+            >
+              +
+            </button>
+            <button 
+              className="action-btn cart-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleGoToCart();
+              }}
+            >
+              В корзину →
+            </button>
+          </>
         ) : (
           <>
             <button 

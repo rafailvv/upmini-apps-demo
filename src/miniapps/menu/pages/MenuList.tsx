@@ -23,6 +23,8 @@ interface CartItem {
   quantity: number;
   addons?: string[];
   image?: string;
+  comment?: string;
+  selectedAddons?: number[];
 }
 
 interface Category {
@@ -35,7 +37,7 @@ interface Category {
 let globalCart: CartItem[] = [];
 let cartUpdateCallbacks: (() => void)[] = [];
 
-export const addToGlobalCart = (item: MenuItem) => {
+export const addToGlobalCart = (item: MenuItem, comment?: string, selectedAddons?: number[]) => {
   const existingItem = globalCart.find(cartItem => cartItem.id === item.id);
 
   if (existingItem) {
@@ -46,7 +48,9 @@ export const addToGlobalCart = (item: MenuItem) => {
       name: item.name,
       price: item.price,
       quantity: 1,
-      image: item.image
+      image: item.image,
+      comment: comment || '',
+      selectedAddons: selectedAddons || []
     });
   }
 
@@ -74,8 +78,42 @@ export const updateGlobalCartItem = (itemId: number, newQuantity: number) => {
   cartUpdateCallbacks.forEach(callback => callback());
 };
 
+export const updateGlobalCartItemWithData = (itemId: number, newQuantity: number, comment?: string, selectedAddons?: number[]) => {
+  if (newQuantity <= 0) {
+    globalCart = globalCart.filter(item => item.id !== itemId);
+  } else {
+    globalCart = globalCart.map(item =>
+      item.id === itemId ? { 
+        ...item, 
+        quantity: newQuantity,
+        comment: comment !== undefined ? comment : item.comment,
+        selectedAddons: selectedAddons !== undefined ? selectedAddons : item.selectedAddons
+      } : item
+    );
+  }
+  cartUpdateCallbacks.forEach(callback => callback());
+};
+
 export const removeFromGlobalCart = (itemId: number) => {
   globalCart = globalCart.filter(item => item.id !== itemId);
+  cartUpdateCallbacks.forEach(callback => callback());
+};
+
+export const updateCartItemComment = (itemId: number, comment: string) => {
+  globalCart = globalCart.map(item =>
+    item.id === itemId ? { ...item, comment } : item
+  );
+  cartUpdateCallbacks.forEach(callback => callback());
+};
+
+export const updateCartItemCommentWithAddons = (itemId: number, comment: string, selectedAddons?: number[]) => {
+  globalCart = globalCart.map(item =>
+    item.id === itemId ? { 
+      ...item, 
+      comment,
+      selectedAddons: selectedAddons !== undefined ? selectedAddons : item.selectedAddons
+    } : item
+  );
   cartUpdateCallbacks.forEach(callback => callback());
 };
 
@@ -408,7 +446,31 @@ export const MenuList: React.FC = () => {
   // };
 
   const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cart.reduce((total, item) => {
+      const itemPriceWithAddons = getItemPriceWithAddons(item.id);
+      return total + (itemPriceWithAddons * item.quantity);
+    }, 0);
+  };
+
+  // Функция для расчета цены товара с добавками
+  const getItemPriceWithAddons = (itemId: number) => {
+    const cartItem = cart.find(item => item.id === itemId);
+    if (!cartItem || !cartItem.selectedAddons || cartItem.selectedAddons.length === 0) {
+      return menuItems.find(item => item.id === itemId)?.price || 0;
+    }
+    
+    const basePrice = menuItems.find(item => item.id === itemId)?.price || 0;
+    const addonsData = [
+      { id: 1, name: 'Поджаренный хлеб', price: 50 },
+      { id: 2, name: 'Аддон 2', price: 100 },
+      { id: 3, name: 'Аддон 3', price: 60 },
+    ];
+    
+    const addonsPrice = addonsData
+      .filter(addon => cartItem.selectedAddons!.includes(addon.id))
+      .reduce((sum, addon) => sum + addon.price, 0);
+    
+    return basePrice + addonsPrice;
   };
 
   const getTotalItems = () => {

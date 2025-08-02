@@ -404,13 +404,15 @@
   color: white;
   border: none;
   border-radius: 20px;
-  padding: 12px 24px;
-  font-size: 0.9rem;
+  padding: 16px 32px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   transition: all 0.2s;
+  min-width: 200px;
+  white-space: nowrap;
 }
 
 .floating-order-btn:hover {
@@ -421,7 +423,8 @@
 .order-info {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  white-space: nowrap;
 }
 
 .order-total {
@@ -789,8 +792,9 @@
 
   .floating-order-btn {
     bottom: 16px;
-    padding: 12px 24px;
-    font-size: 0.9rem;
+    padding: 16px 32px;
+    font-size: 1rem;
+    min-width: 200px;
   }
 
   .cart-page {
@@ -851,8 +855,9 @@
 
   .floating-order-btn {
     bottom: 24px;
-    padding: 16px 32px;
-    font-size: 1rem;
+    padding: 20px 40px;
+    font-size: 1.1rem;
+    min-width: 250px;
   }
 }
 
@@ -1380,20 +1385,56 @@
 }
 
 .back-to-menu-btn {
-  background: #FF6B35;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 14px;
+  background: white;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  flex: 1;
 }
 
 .back-to-menu-btn:hover {
-  background: #e55a2b;
-  transform: translateY(-1px);
+  background: #f8f9fa;
+  border-color: #FF6B35;
+}
+
+.back-to-menu-btn:active {
+  background: #f0f0f0;
+  border-color: #FF6B35;
+}
+
+.pay-button {
+  background: white;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.pay-button:hover {
+  background: #f8f9fa;
+  border-color: #FF6B35;
+}
+
+.pay-button:active {
+  background: #f0f0f0;
+  border-color: #FF6B35;
+}
+
+/* Контейнер для кнопок в корзине */
+.final-payment {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 .cart-items-list {
@@ -1480,6 +1521,7 @@
   display: flex;
   gap: 12px;
   margin-bottom: 30px;
+  flex-direction: row;
 }
 
 .payment-btn {
@@ -1493,6 +1535,7 @@
   color: #333;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 
 .payment-btn:hover {
@@ -1501,6 +1544,12 @@
 }
 
 .payment-btn:active {
+  background: #FF6B35;
+  color: white;
+  border-color: #FF6B35;
+}
+
+.payment-btn.active {
   background: #FF6B35;
   color: white;
   border-color: #FF6B35;
@@ -1573,36 +1622,6 @@
   color: #333;
 }
 
-.final-payment {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
-}
-
-.pay-button {
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 16px 32px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.2s;
-  min-width: 200px;
-}
-
-.pay-button:hover {
-  background: #f8f9fa;
-  border-color: #FF6B35;
-}
-
-.pay-button:active {
-  background: #FF6B35;
-  color: white;
-  border-color: #FF6B35;
-}
-
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
   .cart-page-new {
@@ -1610,7 +1629,7 @@
   }
 
   .payment-options {
-    flex-direction: column;
+    flex-direction: row;
     gap: 8px;
   }
 
@@ -1620,7 +1639,18 @@
 
   .pay-button {
     width: 100%;
-    max-width: 300px;
+    max-width: none;
+    flex: 1;
+  }
+
+  .back-to-menu-btn {
+    flex: 1;
+    max-width: none;
+  }
+
+  .final-payment {
+    gap: 8px;
+    margin-top: 16px;
   }
 
   .item-controls {

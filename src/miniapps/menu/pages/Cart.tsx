@@ -21,6 +21,7 @@ export const Cart: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedTip, setSelectedTip] = useState<string>('');
   const [customTip, setCustomTip] = useState<string>('');
+  const [selectedPaymentType, setSelectedPaymentType] = useState<'full' | 'split' | null>(null);
 
   // Подписываемся на обновления корзины
   useEffect(() => {
@@ -81,6 +82,7 @@ export const Cart: React.FC = () => {
   };
 
   const handlePayment = (type: 'full' | 'split') => {
+    setSelectedPaymentType(type);
     // Здесь будет логика оплаты
     console.log(`Оплата: ${type}, Сумма: ${getFinalTotal()} ₽`);
   };
@@ -88,6 +90,7 @@ export const Cart: React.FC = () => {
   const handleOrder = () => {
     // Здесь будет логика оформления заказа
     console.log('Заказ оформлен!');
+    alert('Ожидайте, с вами свяжется менеджер');
   };
 
   return (
@@ -186,13 +189,13 @@ export const Cart: React.FC = () => {
         <>
           <div className="payment-options">
             <button 
-              className="payment-btn payment-full"
+              className={`payment-btn payment-full ${selectedPaymentType === 'full' ? 'active' : ''}`}
               onClick={() => handlePayment('full')}
             >
               Оплатить целиком
             </button>
             <button 
-              className="payment-btn payment-split"
+              className={`payment-btn payment-split ${selectedPaymentType === 'split' ? 'active' : ''}`}
               onClick={() => handlePayment('split')}
             >
               Разделить на компанию
@@ -245,10 +248,16 @@ export const Cart: React.FC = () => {
           {/* Final Payment Button */}
           <div className="final-payment">
             <button 
+              className="back-to-menu-btn"
+              onClick={() => navigate('/miniapp/menu')}
+            >
+              Вернуться в меню
+            </button>
+            <button 
               className="pay-button"
               onClick={handleOrder}
             >
-              К оплате
+              Отправить заказ
             </button>
           </div>
         </>

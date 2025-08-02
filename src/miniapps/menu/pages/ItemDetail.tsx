@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates } from './MenuList';
+import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates, removeFromGlobalCart, updateGlobalCartItem } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 
 interface Addon {
@@ -30,12 +30,34 @@ interface ItemDetailProps {
   };
 }
 
+// Функция для склонения слова "штук"
+const getQuantityText = (quantity: number): string => {
+  const lastDigit = quantity % 10;
+  const lastTwoDigits = quantity % 100;
+  
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+    return 'штук';
+  }
+  
+  switch (lastDigit) {
+    case 1:
+      return 'штука';
+    case 2:
+    case 3:
+    case 4:
+      return 'штуки';
+    default:
+      return 'штук';
+  }
+};
+
 export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   const navigate = useNavigate();
   const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
   const [comment, setComment] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
+  const [cartQuantity, setCartQuantity] = useState(0);
 
   const addons: Addon[] = [
     { id: 1, name: 'Поджаренный хлеб', price: 50 },
@@ -64,12 +86,16 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   useEffect(() => {
     const unsubscribe = subscribeToCartUpdates(() => {
       const cart = getGlobalCart();
-      setIsInCart(cart.some(cartItem => cartItem.id === item.id));
+      const cartItem = cart.find(cartItem => cartItem.id === item.id);
+      setIsInCart(!!cartItem);
+      setCartQuantity(cartItem ? cartItem.quantity : 0);
     });
     
     // Инициализируем состояние корзины
     const cart = getGlobalCart();
-    setIsInCart(cart.some(cartItem => cartItem.id === item.id));
+    const cartItem = cart.find(cartItem => cartItem.id === item.id);
+    setIsInCart(!!cartItem);
+    setCartQuantity(cartItem ? cartItem.quantity : 0);
     
     return unsubscribe;
   }, [item.id]);
@@ -108,6 +134,31 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     addToGlobalCart(itemWithAddons);
   };
 
+  const handleRemoveFromCart = () => {
+    removeFromGlobalCart(item.id);
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (cartQuantity === 1) {
+      removeFromGlobalCart(item.id);
+    } else {
+      updateGlobalCartItem(item.id, cartQuantity - 1);
+    }
+  };
+
+  const handleIncreaseQuantity = () => {
+    const selectedAddonNames = addons
+      .filter(addon => selectedAddons.includes(addon.id))
+      .map(addon => addon.name);
+
+    const itemWithAddons = {
+      ...item,
+      addons: selectedAddonNames
+    };
+
+    addToGlobalCart(itemWithAddons);
+  };
+
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
@@ -116,27 +167,18 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     <div className="item-detail-page">
       {/* Header */}
       <div className="detail-header">
-        <button className="back-btn" onClick={() => navigate('/miniapp/menu')}>
-          ←
-        </button>
         <h1 className="detail-title">{item.name}</h1>
-        <button 
-          className={`favorite-btn-detail ${isFavorite ? 'active' : ''}`}
-          onClick={toggleFavorite}
-        >
-          {isFavorite ? '❤️' : '🤍'}
-        </button>
       </div>
 
       {/* Main Image */}
       <div className="item-image-large">
-        <div className="image-placeholder-large"></div>
         <button 
-          className={`add-to-cart-btn-large ${isInCart ? 'active' : ''}`}
-          onClick={handleAddToCart}
+          className={`favorite-btn-large ${isFavorite ? 'active' : ''}`}
+          onClick={toggleFavorite}
         >
-          {isInCart ? '✓' : '+'}
+          {isFavorite ? '❤️' : '🤍'}
         </button>
+        <div className="image-placeholder-large"></div>
       </div>
 
       {/* Item Info */}
@@ -199,15 +241,36 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
       </div>
 
       {/* Bottom Action Bar */}
-      <div className="bottom-action-bar">
-        <span className="total-price">{isInCart ? getTotalPrice() : 0} ₽</span>
-        <span className="price-dot">•</span>
-        <button 
-          className={`add-to-cart-btn-detail ${isInCart ? 'active' : ''}`} 
-          onClick={handleAddToCart}
-        >
-          {isInCart ? '✓' : '+'}
-        </button>
+      <div className={`bottom-action-bar ${isInCart ? 'active' : ''}`} onClick={!isInCart ? handleAddToCart : undefined}>
+        {!isInCart ? (
+          <span className="total-price">В корзину – {getTotalPrice()} ₽</span>
+        ) : (
+          <>
+            <button 
+              className="quantity-btn minus"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDecreaseQuantity();
+              }}
+            >
+              {cartQuantity === 1 ? (
+                <span className="material-symbols-outlined">delete</span>
+              ) : (
+                '−'
+              )}
+            </button>
+            <span className="total-price">{cartQuantity} {getQuantityText(cartQuantity)} – {getTotalPrice() * cartQuantity} ₽</span>
+            <button 
+              className="quantity-btn plus"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleIncreaseQuantity();
+              }}
+            >
+              +
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

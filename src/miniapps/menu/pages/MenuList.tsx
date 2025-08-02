@@ -70,6 +70,11 @@ export const updateGlobalCartItem = (itemId: number, newQuantity: number) => {
   cartUpdateCallbacks.forEach(callback => callback());
 };
 
+export const removeFromGlobalCart = (itemId: number) => {
+  globalCart = globalCart.filter(item => item.id !== itemId);
+  cartUpdateCallbacks.forEach(callback => callback());
+};
+
 export const subscribeToCartUpdates = (callback: () => void) => {
   cartUpdateCallbacks.push(callback);
   return () => {

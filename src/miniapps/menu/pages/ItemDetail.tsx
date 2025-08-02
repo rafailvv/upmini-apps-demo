@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates, removeFromGlobalCart, updateGlobalCartItem } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 
@@ -52,7 +51,6 @@ const getQuantityText = (quantity: number): string => {
 };
 
 export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
-  const navigate = useNavigate();
   const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
   const [comment, setComment] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
@@ -132,10 +130,6 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     };
 
     addToGlobalCart(itemWithAddons);
-  };
-
-  const handleRemoveFromCart = () => {
-    removeFromGlobalCart(item.id);
   };
 
   const handleDecreaseQuantity = () => {

@@ -34,7 +34,7 @@ let cartUpdateCallbacks: (() => void)[] = [];
 
 export const addToGlobalCart = (item: MenuItem) => {
   const existingItem = globalCart.find(cartItem => cartItem.id === item.id);
-  
+
   if (existingItem) {
     existingItem.quantity += 1;
   } else {
@@ -45,7 +45,7 @@ export const addToGlobalCart = (item: MenuItem) => {
       quantity: 1
     });
   }
-  
+
   // Уведомляем все компоненты об обновлении корзины
   cartUpdateCallbacks.forEach(callback => callback());
 };
@@ -63,7 +63,7 @@ export const updateGlobalCartItem = (itemId: number, newQuantity: number) => {
   if (newQuantity <= 0) {
     globalCart = globalCart.filter(item => item.id !== itemId);
   } else {
-    globalCart = globalCart.map(item => 
+    globalCart = globalCart.map(item =>
       item.id === itemId ? { ...item, quantity: newQuantity } : item
     );
   }
@@ -91,12 +91,14 @@ export const MenuList: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Подписываемся на обновления корзины
+
+    // Подписываемся на обновления корзины
   useEffect(() => {
     const unsubscribe = subscribeToCartUpdates(() => {
       setCart(getGlobalCart());
-      
+
       // Обновляем состояние кнопок добавления в корзину
       const newCartItems: { [key: number]: boolean } = {};
       globalCart.forEach(item => {
@@ -106,10 +108,10 @@ export const MenuList: React.FC = () => {
       });
       setCartItems(newCartItems);
     });
-    
+
     // Инициализируем корзину
     setCart(getGlobalCart());
-    
+
     // Инициализируем состояние кнопок
     const newCartItems: { [key: number]: boolean } = {};
     globalCart.forEach(item => {
@@ -118,7 +120,7 @@ export const MenuList: React.FC = () => {
       }
     });
     setCartItems(newCartItems);
-    
+
     return unsubscribe;
   }, []);
 
@@ -178,7 +180,7 @@ export const MenuList: React.FC = () => {
       tags: ['ЛЕГКОЕ'],
       category: 'hits'
     },
-    
+
     // ОСНОВНЫЕ БЛЮДА
     {
       id: 5,
@@ -240,7 +242,7 @@ export const MenuList: React.FC = () => {
       tags: ['ПРЕМИУМ'],
       category: 'main'
     },
-    
+
     // ЗАКУСКИ
     {
       id: 11,
@@ -282,7 +284,7 @@ export const MenuList: React.FC = () => {
       tags: ['МОРЕПРОДУКТЫ'],
       category: 'appetizers'
     },
-    
+
     // ДЕСЕРТЫ
     {
       id: 15,
@@ -324,7 +326,7 @@ export const MenuList: React.FC = () => {
       tags: ['ЛЕГКОЕ'],
       category: 'desserts'
     },
-    
+
     // НАПИТКИ
     {
       id: 19,
@@ -371,7 +373,7 @@ export const MenuList: React.FC = () => {
   const addToCart = (item: MenuItem) => {
     // Проверяем, есть ли уже товар в корзине
     const existingItem = globalCart.find(cartItem => cartItem.id === item.id);
-    
+
     if (existingItem) {
       // Если товар уже в корзине, убираем его
       updateGlobalCartItem(item.id, 0);
@@ -447,7 +449,7 @@ export const MenuList: React.FC = () => {
           if (section) {
             const sectionTop = section.offsetTop - totalOffset;
             const sectionBottom = sectionTop + section.offsetHeight;
-            
+
             // Проверяем, находится ли скролл в пределах секции
             if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
               currentSection = category.id;
@@ -463,7 +465,7 @@ export const MenuList: React.FC = () => {
             if (section) {
               const sectionTop = section.offsetTop - totalOffset;
               const distance = Math.abs(scrollTop - sectionTop);
-              
+
               if (distance < minDistance) {
                 minDistance = distance;
                 currentSection = category.id;
@@ -491,7 +493,7 @@ export const MenuList: React.FC = () => {
   // Фильтруем товары по поисковому запросу
   const filteredItems = menuItems.filter(item => {
     if (!searchQuery.trim()) return true;
-    
+
     const query = searchQuery.toLowerCase();
     return (
       item.name.toLowerCase().includes(query) ||
@@ -510,19 +512,73 @@ export const MenuList: React.FC = () => {
   }, {} as { [key: string]: MenuItem[] });
 
   console.log('Текущая активная категория:', selectedCategory);
-  
+
   return (
     <div className="menu-app" ref={containerRef}>
+      <>
+        <div
+            className={`overlay ${isSidebarOpen ? '' : 'hidden'}`}
+            onClick={() => setIsSidebarOpen(false)}
+        />
+
+        <div className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`} id="sidebar">
+          <div className="user-block">
+            {(() => {
+              const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
+              // Telegram MiniApp API иногда возвращает поле photo_url
+              const photoUrl = user?.photo_url;
+              if (photoUrl) {
+                return (
+                    <img
+                        src={photoUrl}
+                        alt="Аватар пользователя"
+                        className="sidebar-logo-large"
+                    />
+                );
+              } else {
+                return (
+                    <div className="sidebar-logo-emoji">
+                      😊
+                    </div>
+                );
+              }
+            })()}
+            <span className="sidebar-username-large">
+      {(() => {
+        const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
+        if (!user || (!user.first_name && !user.last_name)) {
+          return 'Пользователь';
+        }
+        const { first_name, last_name } = user;
+        return last_name
+            ? `${first_name} ${last_name}`
+            : first_name;
+      })()}
+    </span>
+          </div>
+
+          <nav className="sidebar-nav">
+            <ul>
+              <li className="nav-item active">Меню</li>
+              <li className="nav-item">Избранное</li>
+              <li className="nav-item">Прошлые заказы</li>
+            </ul>
+          </nav>
+        </div>
+      </>
       {/* Header */}
       <div className="menu-header">
         <div className="header-left">
-          <button className="menu-toggle">
+          <button
+              className="menu-toggle"
+              onClick={() => setIsSidebarOpen(prev => !prev)}
+          >
             <span></span>
             <span></span>
             <span></span>
           </button>
         </div>
-        
+
         <div className="search-container">
           <div className="search-bar">
             <input
@@ -534,9 +590,9 @@ export const MenuList: React.FC = () => {
             />
           </div>
         </div>
-        
+
         <div className="header-right">
-          <button 
+          <button
             className="cart-icon"
             onClick={() => navigate('/miniapp/menu/cart')}
           >
@@ -569,8 +625,8 @@ export const MenuList: React.FC = () => {
           Object.entries(groupedItems).map(([categoryName, items]) => {
             const categoryId = categories.find(cat => cat.label === categoryName)?.id || '';
             return (
-              <div 
-                key={categoryName} 
+              <div
+                key={categoryName}
                 className="menu-section"
                 ref={(el) => {
                   sectionRefs.current[categoryId] = el;
@@ -582,7 +638,7 @@ export const MenuList: React.FC = () => {
                     <div key={item.id} className="menu-item-card" onClick={() => handleItemClick(item.id)}>
                       <div className="item-image">
                         <div className="image-placeholder"></div>
-                        <button 
+                        <button
                           className={`favorite-btn ${favorites[item.id] ? 'active' : ''}`}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -591,7 +647,7 @@ export const MenuList: React.FC = () => {
                         >
                           {favorites[item.id] ? '❤️' : '🤍'}
                         </button>
-                        <button 
+                        <button
                           className={`add-to-cart-btn ${cartItems[item.id] ? 'active' : ''}`}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -601,13 +657,13 @@ export const MenuList: React.FC = () => {
                           {cartItems[item.id] ? '✓' : '+'}
                         </button>
                       </div>
-                      
+
                       <div className="item-info">
                         <h3 className="item-name">{item.name}</h3>
                         <p className="item-weight">{item.weight}</p>
                         <p className="item-description">{item.description}</p>
                         <div className="item-price">{item.price} ₽</div>
-                        
+
                         {item.tags.length > 0 && (
                           <div className="item-tags">
                             {item.tags.map((tag, index) => (
@@ -629,7 +685,7 @@ export const MenuList: React.FC = () => {
             <div className="no-results-icon">🔍</div>
             <h3>Ничего не найдено</h3>
             <p>Попробуйте изменить поисковый запрос</p>
-            <button 
+            <button
               className="clear-search-btn"
               onClick={() => setSearchQuery('')}
             >

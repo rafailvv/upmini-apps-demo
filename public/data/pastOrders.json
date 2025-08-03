@@ -1,0 +1,172 @@
+[
+  {
+    "id": "1",
+    "date": "6 июня 2025",
+    "status": "completed",
+    "totalPrice": 1250,
+    "items": [
+      {
+        "id": 1,
+        "name": "Карбонара с грибами и сыром",
+        "price": 550,
+        "quantity": 2,
+        "image": "https://image.pollinations.ai/prompt/Карбонара с грибами и сыром",
+        "addons": ["Поджаренный хлеб"],
+        "comment": "Без лука"
+      },
+      {
+        "id": 3,
+        "name": "Цезарь с курицей",
+        "price": 450,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Салат Цезарь с курицей",
+        "addons": ["Дополнительный соус"],
+        "comment": "Соус отдельно"
+      },
+      {
+        "id": 5,
+        "name": "Суп Том Ям",
+        "price": 250,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Суп Том Ям",
+        "addons": ["Рис"],
+        "comment": "Не очень острый"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "date": "5 июня 2025",
+    "status": "completed",
+    "totalPrice": 890,
+    "items": [
+      {
+        "id": 4,
+        "name": "Паста Болоньезе",
+        "price": 480,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Паста Болоньезе",
+        "comment": "Дополнительно сыр"
+      },
+      {
+        "id": 6,
+        "name": "Стейк из говядины",
+        "price": 410,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Стейк из говядины",
+        "addons": ["Овощи гриль"],
+        "comment": "Средняя прожарка"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "date": "4 июня 2025",
+    "status": "completed",
+    "totalPrice": 1680,
+    "items": [
+      {
+        "id": 2,
+        "name": "Стейк из говядины",
+        "price": 800,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Стейк из говядины",
+        "addons": ["Овощи гриль", "Мясная добавка"],
+        "comment": "Редкая прожарка"
+      },
+      {
+        "id": 7,
+        "name": "Паста Карбонара",
+        "price": 450,
+        "quantity": 2,
+        "image": "https://image.pollinations.ai/prompt/Паста Карбонара",
+        "addons": ["Поджаренный хлеб"],
+        "comment": "Без бекона"
+      },
+      {
+        "id": 8,
+        "name": "Салат Греческий",
+        "price": 280,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Салат Греческий",
+        "addons": ["Сыр фета"],
+        "comment": "Без оливок"
+      },
+      {
+        "id": 9,
+        "name": "Суп Минестроне",
+        "price": 150,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Суп Минестроне",
+        "comment": "Дополнительно хлеб"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "date": "3 июня 2025",
+    "status": "completed",
+    "totalPrice": 720,
+    "items": [
+      {
+        "id": 10,
+        "name": "Ризотто с грибами",
+        "price": 420,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Ризотто с грибами",
+        "addons": ["Сыр пармезан"],
+        "comment": "Без грибов"
+      },
+      {
+        "id": 11,
+        "name": "Салат Капрезе",
+        "price": 300,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Салат Капрезе",
+        "comment": "Дополнительно базилик"
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "date": "2 июня 2025",
+    "status": "completed",
+    "totalPrice": 1950,
+    "items": [
+      {
+        "id": 12,
+        "name": "Лазанья Болоньезе",
+        "price": 650,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Лазанья Болоньезе",
+        "addons": ["Сыр моцарелла"],
+        "comment": "Дополнительно соус"
+      },
+      {
+        "id": 13,
+        "name": "Стейк из лосося",
+        "price": 750,
+        "quantity": 2,
+        "image": "https://image.pollinations.ai/prompt/Стейк из лосося",
+        "addons": ["Овощи гриль", "Лимон"],
+        "comment": "Хорошо прожаренный"
+      },
+      {
+        "id": 14,
+        "name": "Суп Гаспачо",
+        "price": 250,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Суп Гаспачо",
+        "comment": "Не очень холодный"
+      },
+      {
+        "id": 15,
+        "name": "Тирамису",
+        "price": 300,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Тирамису",
+        "comment": "Без кофе"
+      }
+    ]
+  }
+] 

@@ -35,6 +35,22 @@ export interface MenuItem {
   recommendedItems: number[]; // массив ID рекомендуемых блюд
 }
 
+export interface PastOrder {
+  id: string;
+  date: string;
+  status: 'completed' | 'cancelled';
+  totalPrice: number;
+  items: {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    image?: string;
+    addons?: string[];
+    comment?: string;
+  }[];
+}
+
 // Загружаем категории
 export const getCategories = (): Category[] => {
   return categoriesData as Category[];
@@ -123,4 +139,19 @@ export const getAddonNames = (selectedAddonIds: number[]): string[] => {
     .map(id => allAddons.find(addon => addon.id === id))
     .filter(addon => addon !== undefined)
     .map(addon => addon!.name);
+}; 
+
+// Функция для загрузки прошлых заказов
+export const getPastOrders = async (): Promise<PastOrder[]> => {
+  try {
+    const response = await fetch('/data/pastOrders.json');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Ошибка загрузки прошлых заказов:', error);
+    return [];
+  }
 }; 

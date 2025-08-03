@@ -2,6 +2,7 @@ import { MenuList } from './pages/MenuList';
 import { Cart } from './pages/Cart';
 import { ItemDetailWrapper } from './pages/ItemDetailWrapper';
 import { Favorites } from './pages/Favorites';
+import { PastOrders } from './pages/PastOrders';
 import type { MiniappConfig } from '../../types/miniapp';
 import { loadThemeSettings, applyThemeSettings } from './utils/themeLoader';
 
@@ -44,6 +45,11 @@ export const menuAppConfig: MiniappConfig = {
       path: 'cart',
       title: 'Корзина',
       component: Cart,
+    },
+    {
+      path: 'past-orders',
+      title: 'Прошлые заказы',
+      component: PastOrders,
     },
     {
       path: 'item/:itemId',

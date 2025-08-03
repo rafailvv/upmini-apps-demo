@@ -18,6 +18,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   // Определяем активный раздел
   const isMenuActive = location.pathname === '/miniapp/menu';
   const isFavoritesActive = location.pathname === '/miniapp/menu/favorites';
+  const isPastOrdersActive = location.pathname === '/miniapp/menu/past-orders';
 
   return (
     <>
@@ -72,7 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             <li className={`nav-item ${isFavoritesActive ? 'active' : ''}`} onClick={() => handleNavigation('/miniapp/menu/favorites')}>
               Избранное
             </li>
-            <li className="nav-item">
+            <li className={`nav-item ${isPastOrdersActive ? 'active' : ''}`} onClick={() => handleNavigation('/miniapp/menu/past-orders')}>
               Прошлые заказы
             </li>
           </ul>

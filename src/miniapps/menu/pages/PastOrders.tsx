@@ -88,7 +88,7 @@ export const PastOrders: React.FC = () => {
 
   // Функция для отображения изображений блюд
   const renderOrderImages = (items: PastOrder['items']) => {
-    const maxImages = 3;
+    const maxImages = items.length > 3 ? 2 : 3;
     const visibleItems = items.slice(0, maxImages);
     const remainingCount = items.length - maxImages;
 

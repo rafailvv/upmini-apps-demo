@@ -2068,28 +2068,30 @@
 }
 
 .sidebar-nav {
-    margin: 0;
-    padding: 0 8px;
+  margin: 0;
+  padding: 0 8px;
 }
 
 .sidebar-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .nav-item {
-    padding: 16px 20px;
-    margin-bottom: 8px;
-    font-size: 16px;
-    color: #666;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 12px;
-    position: relative;
-    overflow: hidden;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 16px 20px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-left: -20px;
+  width: calc(100% + 32px);
 }
 
 .nav-item::before {
@@ -2209,18 +2211,18 @@
 
 /* Стили для страницы "Прошлые заказы" */
 .past-orders-page .menu-content {
-  margin-top: 80px;
+  margin-top: 70px;
   padding-top: 0;
 }
 
 /* Стили для страницы "Прошлые заказы" в Telegram WebApp */
-.telegram-miniapp .past-orders-page {
+/* .telegram-miniapp .past-orders-page {
   margin-top: 100px;
-}
+} */
 
 .telegram-miniapp .past-orders-page .menu-content {
-  margin-top: 200px;
-  min-height: calc(100vh - 200px);
+  margin-top: 180px;
+  min-height: calc(100vh - 180px);
 }
 
 .past-orders-list {
@@ -2239,7 +2241,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: 32px 16px;
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -2247,6 +2249,7 @@
   transition: all 0.2s ease;
   position: relative;
   z-index: 2;
+  min-height: 80px;
 }
 
 .past-order-item:hover {
@@ -2264,7 +2267,8 @@
 .order-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   flex: 1;
   margin: 0 16px;
 }
@@ -2273,8 +2277,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
   justify-content: flex-start;
+  width: 100%;
 }
 
 .order-image-item {
@@ -2481,7 +2485,8 @@
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
   .past-order-item {
-    padding: 12px;
+    padding: 12px 12px;
+    min-height: 70px;
   }
   
   .order-date {
@@ -2507,10 +2512,6 @@
   .order-total-price {
     font-size: 16px;
     min-width: 80px;
-  }
-  
-  .order-details-expanded {
-    padding: 12px;
   }
   
   .order-item-detail {

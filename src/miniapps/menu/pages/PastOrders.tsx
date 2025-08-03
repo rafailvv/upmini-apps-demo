@@ -9,7 +9,6 @@ import '../styles.css';
 export const PastOrders: React.FC = () => {
   const navigate = useNavigate();
   const [pastOrders, setPastOrders] = useState<PastOrder[]>([]);
-  const [selectedOrder, setSelectedOrder] = useState<PastOrder | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [cart, setCart] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -95,7 +94,7 @@ export const PastOrders: React.FC = () => {
 
     return (
       <div className="order-images">
-        {visibleItems.map((item, index) => (
+        {visibleItems.map((item) => (
           <div key={item.id} className="order-image-item">
             <img 
               src={item.image} 
@@ -233,8 +232,8 @@ export const PastOrders: React.FC = () => {
                             
                             {item.addons && item.addons.length > 0 && (
                               <div className="item-addons">
-                                {item.addons.map((addon, index) => (
-                                  <div key={index} className="addon-item-new">+ {addon}</div>
+                                {item.addons.map((addon, addonIndex) => (
+                                  <div key={addonIndex} className="addon-item-new">+ {addon}</div>
                                 ))}
                               </div>
                             )}

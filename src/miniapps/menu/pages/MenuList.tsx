@@ -4,6 +4,7 @@ import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/tel
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
 import { Sidebar } from '../components/Sidebar';
 import { getCategories, getMenuItems, calculateAddonsPrice, getTagsForItem, type Category, type MenuItem } from '../utils/dataLoader';
+import { clearAllTempData } from '../utils/tempDataManager';
 import '../styles.css';
 
 interface CartItem {
@@ -157,8 +158,19 @@ export const MenuList: React.FC = () => {
     setupTelegramBackButton();
   }, []);
 
+  // Очистка временной памяти при загрузке главного меню
+  useEffect(() => {
+    clearAllTempData();
+  }, []);
+
   const categories: Category[] = getCategories();
   const menuItems: MenuItem[] = getMenuItems();
+
+  // Функция для обрезки текста
+  const truncateText = (text: string, maxLength: number): string => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength).trim() + '...';
+  };
 
   const addToCart = (item: MenuItem) => {
     const existingItem = cart.find(cartItem => cartItem.id === item.id);
@@ -433,7 +445,7 @@ export const MenuList: React.FC = () => {
                       <div className="item-info">
                         <h3 className="item-name">{item.name}</h3>
                         <p className="item-weight">{item.weight}</p>
-                        <p className="item-description">{item.description}</p>
+                        <p className="item-description">{truncateText(item.description, 80)}</p>
                         <div className="item-price">{item.price} ₽</div>
 
                         {item.tags.length > 0 && (

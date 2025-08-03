@@ -81,6 +81,12 @@ export const Favorites: React.FC = () => {
     toggleGlobalFavorite(itemId);
   };
 
+  // Функция для обрезки текста
+  const truncateText = (text: string, maxLength: number): string => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength).trim() + '...';
+  };
+
   // Фильтруем только избранные элементы из глобального состояния
   const favoriteItems = allMenuItems.filter(item => getFavorites()[item.id]);
 
@@ -184,7 +190,7 @@ export const Favorites: React.FC = () => {
                   <div className="item-info">
                     <div className="item-name">{item.name}</div>
                     <div className="item-weight">{item.weight}</div>
-                    <div className="item-description">{item.description}</div>
+                    <div className="item-description">{truncateText(item.description, 80)}</div>
                     <div className="item-price">{item.price} ₽</div>
                     <div className="item-tags">
                       {item.tags.map((tag: number, index: number) => (

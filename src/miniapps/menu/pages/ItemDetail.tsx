@@ -4,6 +4,7 @@ import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates, removeFromGloba
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
 import { getAddonsForItem, calculateAddonsPrice, getRecommendedItemsForItem, getTagsForItem, type Addon, type MenuItem, type Tag } from '../utils/dataLoader';
+import { saveTempItemData, getTempItemData, clearTempItemData } from '../utils/tempDataManager';
 
 interface ItemDetailProps {
   item: MenuItem;
@@ -39,15 +40,41 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   const [cartQuantity, setCartQuantity] = useState(0);
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
 
   const addons: Addon[] = getAddonsForItem(item.id);
   const recommendedItems: MenuItem[] = getRecommendedItemsForItem(item.id);
   const tags: Tag[] = getTagsForItem(item.id);
 
+  // Функция для обрезки текста
+  const truncateText = (text: string, maxLength: number): string => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength).trim() + '...';
+  };
+
   // Сброс состояния изображения при изменении товара
   useEffect(() => {
     setImageError(false);
+    setImageLoading(true);
   }, [item.id]);
+
+  // Предзагрузка изображения
+  useEffect(() => {
+    if (item.image && item.image.trim() !== '') {
+      const img = new Image();
+      img.src = `${item.image}?v=${item.id}`;
+      img.onload = () => {
+        setImageError(false);
+        setImageLoading(false);
+      };
+      img.onerror = () => {
+        setImageError(true);
+        setImageLoading(false);
+      };
+    } else {
+      setImageLoading(false);
+    }
+  }, [item.id, item.image]);
 
   // Подписываемся на обновления корзины и избранного
   useEffect(() => {
@@ -60,11 +87,10 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
       setIsInCart(!!cartItem);
       setCartQuantity(cartItem ? cartItem.quantity : 0);
       
-      // Загружаем сохраненные данные
+      // Загружаем сохраненные данные из корзины
       if (cartItem) {
         setComment(cartItem.comment || '');
         setSelectedAddons(cartItem.selectedAddons || []);
-        // Если товар в корзине, показываем состояние pressed
         setIsButtonPressed(true);
       }
     });
@@ -80,10 +106,23 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     setIsInCart(!!cartItem);
     setCartQuantity(cartItem ? cartItem.quantity : 0);
     
+    // Загружаем данные: сначала из корзины, потом из временного хранилища
     if (cartItem) {
       setComment(cartItem.comment || '');
       setSelectedAddons(cartItem.selectedAddons || []);
       setIsButtonPressed(true);
+    } else {
+      // Если товара нет в корзине, загружаем временные данные
+      const tempData = getTempItemData(item.id);
+      if (tempData) {
+        setComment(tempData.comment);
+        setSelectedAddons(tempData.selectedAddons);
+      } else {
+        // Если нет временных данных, сбрасываем состояние
+        setComment('');
+        setSelectedAddons([]);
+      }
+      setIsButtonPressed(false);
     }
 
     const favorites = getFavorites();
@@ -111,6 +150,9 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     // Если товар в корзине, сохраняем изменения
     if (isInCart) {
       updateCartItemCommentWithAddons(item.id, comment, newSelectedAddons);
+    } else {
+      // Если товара нет в корзине, сохраняем во временное хранилище
+      saveTempItemData(item.id, newSelectedAddons, comment);
     }
   };
 
@@ -126,6 +168,8 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
       removeFromGlobalCart(item.id);
       // Если удалили последний товар, возвращаемся к обычному состоянию
       setIsButtonPressed(false);
+      // Сохраняем текущие данные во временное хранилище
+      saveTempItemData(item.id, selectedAddons, comment);
     } else {
       updateGlobalCartItemWithData(item.id, cartQuantity - 1, comment, selectedAddons);
     }
@@ -145,6 +189,8 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     if (!isInCart) {
       // Сразу добавляем товар в корзину
       addToGlobalCart(item, comment, selectedAddons);
+      // Очищаем временные данные, так как товар теперь в корзине
+      clearTempItemData(item.id);
       // Показываем состояние pressed
       setIsButtonPressed(true);
     }
@@ -185,23 +231,32 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
               objectFit: 'cover',
               display: imageError ? 'none' : 'block'
             }}
-                      onLoad={() => {
-            setImageError(false);
-          }}
-          onError={(e) => {
-            setImageError(true);
-            e.currentTarget.style.display = 'none';
-            const placeholder = e.currentTarget.nextElementSibling as HTMLElement;
-            if (placeholder) {
-              placeholder.style.display = 'flex';
-            }
-          }}
+            onLoad={() => {
+              setImageError(false);
+              setImageLoading(false);
+            }}
+            onError={(e) => {
+              setImageError(true);
+              setImageLoading(false);
+              e.currentTarget.style.display = 'none';
+              const placeholder = e.currentTarget.nextElementSibling as HTMLElement;
+              if (placeholder) {
+                placeholder.style.display = 'flex';
+              }
+            }}
           />
         ) : null}
         <div 
           className="image-placeholder-large"
-          style={{ display: (item.image && item.image.trim() !== '' && !imageError) ? 'none' : 'flex' }}
+          style={{ 
+            display: (item.image && item.image.trim() !== '' && !imageError) ? 'none' : 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#999',
+            fontSize: '14px'
+          }}
         >
+          {imageLoading ? 'Загрузка...' : 'Изображение недоступно'}
         </div>
       </div>
 
@@ -210,7 +265,7 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
         <h2 className="item-name-detail">{item.name}</h2>
         <p className="item-weight-detail">{item.weight}</p>
         <p className="item-description-detail">
-          Нежная паста. Очень вкусная. Фаворит среди наших гостей. Текст. Можем приготовить с собой.
+          {item.description}
         </p>
         {/* Tags */}
         {tags.length > 0 && (
@@ -265,6 +320,9 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
             // Сохраняем комментарий в корзине при вводе
             if (isInCart) {
               updateCartItemCommentWithAddons(item.id, newComment, selectedAddons);
+            } else {
+              // Если товара нет в корзине, сохраняем во временное хранилище
+              saveTempItemData(item.id, selectedAddons, newComment);
             }
           }}
         />
@@ -317,7 +375,7 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
               <div className="rec-item-info">
                 <h4 className="rec-item-name">{recItem.name}</h4>
                 <p className="rec-item-volume">{recItem.weight}</p>
-                <p className="rec-item-description">{recItem.description}</p>
+                <p className="rec-item-description">{truncateText(recItem.description, 60)}</p>
               </div>
               <button className="rec-item-arrow">→</button>
             </div>

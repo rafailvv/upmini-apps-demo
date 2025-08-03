@@ -4,6 +4,7 @@ import { addTelegramHeaderOffset } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
 import { Sidebar } from '../components/Sidebar';
 import { getMenuItems, getTagsForItem, type MenuItem } from '../utils/dataLoader';
+import { loadThemeSettings, applyThemeSettings } from '../utils/themeLoader';
 
 interface CartItem {
   id: number;
@@ -34,6 +35,18 @@ export const Favorites: React.FC = () => {
 
   useEffect(() => {
     addTelegramHeaderOffset();
+    
+    // Загружаем и применяем тему
+    const loadTheme = async () => {
+      try {
+        const themeSettings = await loadThemeSettings();
+        applyThemeSettings(themeSettings);
+      } catch (error) {
+        console.error('Ошибка загрузки темы:', error);
+      }
+    };
+    
+    loadTheme();
     
     // Подписываемся на изменения корзины
     const unsubscribeCart = subscribeToCartUpdates(() => {

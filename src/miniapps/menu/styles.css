@@ -11,7 +11,7 @@
 /* CSS переменные для темы */
 :root {
   --menu-font: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --menu-accent-color: #FF6B35;
+  --menu-accent-color: #FF5722; /* Значение по умолчанию, будет переопределено из JSON */
 }
 
 /* Menu App стили */
@@ -1429,6 +1429,11 @@
   outline: none;
 }
 
+.separate-cart-btn:hover {
+  border-color: var(--menu-accent-color);
+  transform: scale(1.05);
+}
+
 /* Separate Back Button */
 .separate-back-btn {
   position: fixed;
@@ -1453,6 +1458,11 @@
 
 .separate-back-btn:focus {
   outline: none;
+}
+
+.separate-back-btn:hover {
+  border-color: var(--menu-accent-color);
+  transform: scale(1.05);
 }
 
 

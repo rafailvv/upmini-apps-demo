@@ -5,6 +5,7 @@ import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlob
 import { Sidebar } from '../components/Sidebar';
 import { getCategories, getMenuItems, calculateAddonsPrice, getTagsForItem, type Category, type MenuItem } from '../utils/dataLoader';
 import { clearAllTempData } from '../utils/tempDataManager';
+import { loadThemeSettings, applyThemeSettings } from '../utils/themeLoader';
 import '../styles.css';
 
 interface CartItem {
@@ -161,6 +162,20 @@ export const MenuList: React.FC = () => {
   useEffect(() => {
     initTelegramMiniApp();
     setupTelegramBackButton();
+  }, []);
+
+  // Загрузка и применение темы
+  useEffect(() => {
+    const loadTheme = async () => {
+      try {
+        const themeSettings = await loadThemeSettings();
+        applyThemeSettings(themeSettings);
+      } catch (error) {
+        console.error('Ошибка загрузки темы:', error);
+      }
+    };
+    
+    loadTheme();
   }, []);
 
   // Очистка временной памяти при загрузке главного меню

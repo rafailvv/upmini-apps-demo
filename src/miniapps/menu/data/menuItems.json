@@ -1,0 +1,778 @@
+[
+  {
+    "id": 1,
+    "name": "Карбонара с грибами и сыром",
+    "weight": "300 г",
+    "description": "Паста, бекон, куриные яйца, пармезан, специи",
+    "price": 500,
+    "image": "https://image.pollinations.ai/prompt/Карбонара с грибами и сыром",
+    "tags": ["НОВИНКА", "ОСТРОЕ"],
+    "category": "hits",
+    "addons": [
+      {
+        "id": 1,
+        "name": "Поджаренный хлеб",
+        "price": 50
+      },
+      {
+        "id": 2,
+        "name": "Дополнительный соус",
+        "price": 100
+      },
+      {
+        "id": 3,
+        "name": "Сырная добавка",
+        "price": 60
+      }
+    ],
+    "recommendedItems": [2, 3, 4]
+  },
+  {
+    "id": 2,
+    "name": "Стейк из говядины",
+    "weight": "250 г",
+    "description": "Говядина, овощи гриль, соус",
+    "price": 800,
+    "image": "https://image.pollinations.ai/prompt/Стейк из говядины",
+    "tags": ["ПОПУЛЯРНОЕ"],
+    "category": "hits",
+    "addons": [
+      {
+        "id": 4,
+        "name": "Овощи гриль",
+        "price": 80
+      },
+      {
+        "id": 5,
+        "name": "Мясная добавка",
+        "price": 150
+      },
+      {
+        "id": 6,
+        "name": "Специи",
+        "price": 30
+      }
+    ],
+    "recommendedItems": [1, 3, 4]
+  },
+  {
+    "id": 3,
+    "name": "Цезарь с курицей",
+    "weight": "280 г",
+    "description": "Салат, курица, сухарики, соус цезарь",
+    "price": 350,
+    "image": "https://image.pollinations.ai/prompt/Салат Цезарь с курицей",
+    "tags": ["ЛЕГКОЕ"],
+    "category": "hits",
+    "addons": [
+      {
+        "id": 7,
+        "name": "Дополнительные овощи",
+        "price": 40
+      },
+      {
+        "id": 8,
+        "name": "Сыр пармезан",
+        "price": 90
+      },
+      {
+        "id": 9,
+        "name": "Сухарики",
+        "price": 20
+      }
+    ],
+    "recommendedItems": [1, 2, 4]
+  },
+  {
+    "id": 4,
+    "name": "Паста Болоньезе",
+    "weight": "320 г",
+    "description": "Паста, фарш, томатный соус, пармезан",
+    "price": 450,
+    "image": "https://image.pollinations.ai/prompt/Паста Болоньезе",
+    "tags": ["КЛАССИКА"],
+    "category": "hits",
+    "addons": [
+      {
+        "id": 1,
+        "name": "Поджаренный хлеб",
+        "price": 50
+      },
+      {
+        "id": 2,
+        "name": "Дополнительный соус",
+        "price": 100
+      },
+      {
+        "id": 3,
+        "name": "Сырная добавка",
+        "price": 60
+      }
+    ],
+    "recommendedItems": [1, 2, 3]
+  },
+  {
+    "id": 5,
+    "name": "Ризотто с морепродуктами",
+    "weight": "280 г",
+    "description": "Рис, креветки, мидии, пармезан, белое вино",
+    "price": 650,
+    "image": "https://image.pollinations.ai/prompt/Ризотто с морепродуктами",
+    "tags": ["ПРЕМИУМ"],
+    "category": "main",
+    "addons": [
+      {
+        "id": 1,
+        "name": "Поджаренный хлеб",
+        "price": 50
+      },
+      {
+        "id": 2,
+        "name": "Дополнительный соус",
+        "price": 100
+      },
+      {
+        "id": 3,
+        "name": "Сырная добавка",
+        "price": 60
+      }
+    ],
+    "recommendedItems": [6, 7, 8]
+  },
+  {
+    "id": 6,
+    "name": "Лазанья с мясом",
+    "weight": "350 г",
+    "description": "Листы лазаньи, мясной фарш, соус бешамель, пармезан",
+    "price": 580,
+    "image": "https://image.pollinations.ai/prompt/Лазанья с мясом",
+    "tags": ["КЛАССИКА"],
+    "category": "main",
+    "addons": [
+      {
+        "id": 1,
+        "name": "Поджаренный хлеб",
+        "price": 50
+      },
+      {
+        "id": 2,
+        "name": "Дополнительный соус",
+        "price": 100
+      },
+      {
+        "id": 3,
+        "name": "Сырная добавка",
+        "price": 60
+      }
+    ],
+    "recommendedItems": [5, 7, 8]
+  },
+  {
+    "id": 7,
+    "name": "Спагетти Карбонара",
+    "weight": "300 г",
+    "description": "Спагетти, бекон, яйца, пармезан, черный перец",
+    "price": 520,
+    "image": "https://image.pollinations.ai/prompt/Спагетти Карбонара",
+    "tags": ["ПОПУЛЯРНОЕ"],
+    "category": "main",
+    "addons": [
+      {
+        "id": 1,
+        "name": "Поджаренный хлеб",
+        "price": 50
+      },
+      {
+        "id": 2,
+        "name": "Дополнительный соус",
+        "price": 100
+      },
+      {
+        "id": 3,
+        "name": "Сырная добавка",
+        "price": 60
+      }
+    ],
+    "recommendedItems": [5, 6, 8]
+  },
+  {
+    "id": 8,
+    "name": "Паста с лососем",
+    "weight": "320 г",
+    "description": "Паста, лосось, сливочный соус, каперсы, лимон",
+    "price": 720,
+    "image": "https://image.pollinations.ai/prompt/Паста с лососем",
+    "tags": ["ПРЕМИУМ"],
+    "category": "main",
+    "addons": [
+      {
+        "id": 1,
+        "name": "Поджаренный хлеб",
+        "price": 50
+      },
+      {
+        "id": 2,
+        "name": "Дополнительный соус",
+        "price": 100
+      },
+      {
+        "id": 3,
+        "name": "Сырная добавка",
+        "price": 60
+      }
+    ],
+    "recommendedItems": [5, 6, 7]
+  },
+  {
+    "id": 9,
+    "name": "Брускетта с томатами",
+    "weight": "120 г",
+    "description": "Хлеб, помидоры, базилик, оливковое масло",
+    "price": 180,
+    "image": "https://image.pollinations.ai/prompt/Брускетта с томатами",
+    "tags": ["ВЕГЕТАРИАНСКОЕ"],
+    "category": "appetizers",
+    "addons": [
+      {
+        "id": 10,
+        "name": "Соус для закусок",
+        "price": 50
+      },
+      {
+        "id": 11,
+        "name": "Специи для закусок",
+        "price": 25
+      }
+    ],
+    "recommendedItems": [10, 11, 12]
+  },
+  {
+    "id": 10,
+    "name": "Карпаччо из говядины",
+    "weight": "150 г",
+    "description": "Тонко нарезанная говядина, руккола, пармезан",
+    "price": 420,
+    "image": "https://image.pollinations.ai/prompt/Карпаччо из говядины",
+    "tags": ["ПРЕМИУМ"],
+    "category": "appetizers",
+    "addons": [
+      {
+        "id": 10,
+        "name": "Соус для закусок",
+        "price": 50
+      },
+      {
+        "id": 11,
+        "name": "Специи для закусок",
+        "price": 25
+      }
+    ],
+    "recommendedItems": [9, 11, 12]
+  },
+  {
+    "id": 11,
+    "name": "Сырная тарелка",
+    "weight": "200 г",
+    "description": "Ассорти сыров, орехи, мед, крекеры",
+    "price": 380,
+    "image": "https://image.pollinations.ai/prompt/Сырная тарелка",
+    "tags": ["ВЕГЕТАРИАНСКОЕ"],
+    "category": "appetizers",
+    "addons": [
+      {
+        "id": 10,
+        "name": "Соус для закусок",
+        "price": 50
+      },
+      {
+        "id": 11,
+        "name": "Специи для закусок",
+        "price": 25
+      }
+    ],
+    "recommendedItems": [9, 10, 12]
+  },
+  {
+    "id": 12,
+    "name": "Кальмары в кляре",
+    "weight": "180 г",
+    "description": "Кальмары, кляр, соус тартар",
+    "price": 320,
+    "image": "https://image.pollinations.ai/prompt/Кальмары в кляре",
+    "tags": ["МОРЕПРОДУКТЫ"],
+    "category": "appetizers",
+    "addons": [
+      {
+        "id": 10,
+        "name": "Соус для закусок",
+        "price": 50
+      },
+      {
+        "id": 11,
+        "name": "Специи для закусок",
+        "price": 25
+      }
+    ],
+    "recommendedItems": [9, 10, 11]
+  },
+  {
+    "id": 13,
+    "name": "Тирамису",
+    "weight": "150 г",
+    "description": "Печенье савоярди, кофе, маскарпоне, какао",
+    "price": 280,
+    "image": "https://image.pollinations.ai/prompt/Тирамису",
+    "tags": ["КЛАССИКА"],
+    "category": "desserts",
+    "addons": [
+      {
+        "id": 12,
+        "name": "Сливки",
+        "price": 40
+      },
+      {
+        "id": 13,
+        "name": "Сахарная пудра",
+        "price": 15
+      }
+    ],
+    "recommendedItems": [14, 15, 16]
+  },
+  {
+    "id": 14,
+    "name": "Чизкейк Нью-Йорк",
+    "weight": "180 г",
+    "description": "Творожный сыр, песочная основа, ягодный соус",
+    "price": 320,
+    "image": "https://image.pollinations.ai/prompt/Чизкейк Нью-Йорк",
+    "tags": ["ПОПУЛЯРНОЕ"],
+    "category": "desserts",
+    "addons": [
+      {
+        "id": 12,
+        "name": "Сливки",
+        "price": 40
+      },
+      {
+        "id": 13,
+        "name": "Сахарная пудра",
+        "price": 15
+      }
+    ],
+    "recommendedItems": [13, 15, 16]
+  },
+  {
+    "id": 15,
+    "name": "Шоколадный фондан",
+    "weight": "120 г",
+    "description": "Темный шоколад, ванильное мороженое",
+    "price": 250,
+    "image": "https://image.pollinations.ai/prompt/Шоколадный фондан",
+    "tags": ["НОВИНКА"],
+    "category": "desserts",
+    "addons": [
+      {
+        "id": 12,
+        "name": "Сливки",
+        "price": 40
+      },
+      {
+        "id": 13,
+        "name": "Сахарная пудра",
+        "price": 15
+      }
+    ],
+    "recommendedItems": [13, 14, 16]
+  },
+  {
+    "id": 16,
+    "name": "Панакота с ягодами",
+    "weight": "140 г",
+    "description": "Сливки, ваниль, свежие ягоды",
+    "price": 220,
+    "image": "https://image.pollinations.ai/prompt/Панакота с ягодами",
+    "tags": ["ЛЕГКОЕ"],
+    "category": "desserts",
+    "addons": [
+      {
+        "id": 12,
+        "name": "Сливки",
+        "price": 40
+      },
+      {
+        "id": 13,
+        "name": "Сахарная пудра",
+        "price": 15
+      }
+    ],
+    "recommendedItems": [13, 14, 15]
+  },
+  {
+    "id": 17,
+    "name": "Лимончелло",
+    "weight": "50 мл",
+    "description": "Итальянский ликер из лимонов",
+    "price": 180,
+    "image": "https://image.pollinations.ai/prompt/Лимончелло",
+    "tags": ["АЛКОГОЛЬ"],
+    "category": "drinks",
+    "addons": [
+      {
+        "id": 14,
+        "name": "Лед",
+        "price": 10
+      },
+      {
+        "id": 15,
+        "name": "Лимон",
+        "price": 20
+      }
+    ],
+    "recommendedItems": [18, 19, 20]
+  },
+  {
+    "id": 18,
+    "name": "Апероль Шприц",
+    "weight": "200 мл",
+    "description": "Апероль, просекко, содовая, апельсин",
+    "price": 420,
+    "image": "https://image.pollinations.ai/prompt/Апероль Шприц",
+    "tags": ["АЛКОГОЛЬ", "ПОПУЛЯРНОЕ"],
+    "category": "drinks",
+    "addons": [
+      {
+        "id": 14,
+        "name": "Лед",
+        "price": 10
+      },
+      {
+        "id": 15,
+        "name": "Лимон",
+        "price": 20
+      }
+    ],
+    "recommendedItems": [17, 19, 20]
+  },
+  {
+    "id": 19,
+    "name": "Фреш из апельсинов",
+    "weight": "300 мл",
+    "description": "Свежевыжатый апельсиновый сок",
+    "price": 150,
+    "image": "https://image.pollinations.ai/prompt/Фреш из апельсинов",
+    "tags": ["БЕЗ АЛКОГОЛЯ"],
+    "category": "drinks",
+    "addons": [
+      {
+        "id": 14,
+        "name": "Лед",
+        "price": 10
+      },
+      {
+        "id": 15,
+        "name": "Лимон",
+        "price": 20
+      }
+    ],
+    "recommendedItems": [17, 18, 20]
+  },
+  {
+    "id": 20,
+    "name": "Латте с карамелью",
+    "weight": "350 мл",
+    "description": "Эспрессо, молоко, карамельный сироп",
+    "price": 180,
+    "image": "https://image.pollinations.ai/prompt/Латте с карамелью",
+    "tags": ["ГОРЯЧИЙ"],
+    "category": "drinks",
+    "addons": [
+      {
+        "id": 14,
+        "name": "Лед",
+        "price": 10
+      },
+      {
+        "id": 15,
+        "name": "Лимон",
+        "price": 20
+      }
+    ],
+    "recommendedItems": [17, 18, 19]
+  },
+  {
+    "id": 21,
+    "name": "Тирамису",
+    "weight": "200 г",
+    "description": "Итальянский десерт с кофе, маскарпоне и какао",
+    "price": 280,
+    "image": "https://image.pollinations.ai/prompt/Тирамису",
+    "tags": ["ДЕСЕРТ", "ПОПУЛЯРНОЕ"],
+    "category": "desserts",
+    "addons": [
+      {
+        "id": 16,
+        "name": "Дополнительный кофе",
+        "price": 50
+      },
+      {
+        "id": 17,
+        "name": "Шоколадная крошка",
+        "price": 30
+      }
+    ],
+    "recommendedItems": [22, 23, 24]
+  },
+  {
+    "id": 22,
+    "name": "Панна Котта",
+    "weight": "150 г",
+    "description": "Нежный итальянский десерт с ванилью и ягодным соусом",
+    "price": 220,
+    "image": "https://image.pollinations.ai/prompt/Панна Котта",
+    "tags": ["ДЕСЕРТ"],
+    "category": "desserts",
+    "addons": [
+      {
+        "id": 18,
+        "name": "Ягодный соус",
+        "price": 40
+      },
+      {
+        "id": 19,
+        "name": "Орехи",
+        "price": 35
+      }
+    ],
+    "recommendedItems": [21, 23, 24]
+  },
+  {
+    "id": 23,
+    "name": "Чизкейк Нью-Йорк",
+    "weight": "250 г",
+    "description": "Классический чизкейк с нежным творожным кремом",
+    "price": 320,
+    "image": "https://image.pollinations.ai/prompt/Чизкейк Нью-Йорк",
+    "tags": ["ДЕСЕРТ", "КЛАССИКА"],
+    "category": "desserts",
+    "addons": [
+      {
+        "id": 20,
+        "name": "Карамельный соус",
+        "price": 45
+      },
+      {
+        "id": 21,
+        "name": "Свежие ягоды",
+        "price": 60
+      }
+    ],
+    "recommendedItems": [21, 22, 24]
+  },
+  {
+    "id": 24,
+    "name": "Шоколадный фондан",
+    "weight": "180 г",
+    "description": "Теплый шоколадный кекс с жидкой начинкой и мороженым",
+    "price": 290,
+    "image": "https://image.pollinations.ai/prompt/Шоколадный фондан",
+    "tags": ["ДЕСЕРТ", "ГОРЯЧИЙ"],
+    "category": "desserts",
+    "addons": [
+      {
+        "id": 22,
+        "name": "Ванильное мороженое",
+        "price": 50
+      },
+      {
+        "id": 23,
+        "name": "Шоколадный соус",
+        "price": 30
+      }
+    ],
+    "recommendedItems": [21, 22, 23]
+  },
+  {
+    "id": 25,
+    "name": "Суп Том Ям",
+    "weight": "400 мл",
+    "description": "Острый тайский суп с креветками, грибами и кокосовым молоком",
+    "price": 450,
+    "image": "https://image.pollinations.ai/prompt/Суп Том Ям",
+    "tags": ["СУП", "ОСТРОЕ"],
+    "category": "soups",
+    "addons": [
+      {
+        "id": 24,
+        "name": "Дополнительные креветки",
+        "price": 120
+      },
+      {
+        "id": 25,
+        "name": "Рис",
+        "price": 80
+      }
+    ],
+    "recommendedItems": [26, 27, 28]
+  },
+  {
+    "id": 26,
+    "name": "Борщ",
+    "weight": "500 мл",
+    "description": "Традиционный украинский борщ со сметаной и чесночными пампушками",
+    "price": 380,
+    "image": "https://image.pollinations.ai/prompt/Борщ",
+    "tags": ["СУП", "КЛАССИКА"],
+    "category": "soups",
+    "addons": [
+      {
+        "id": 26,
+        "name": "Сметана",
+        "price": 25
+      },
+      {
+        "id": 27,
+        "name": "Чесночные пампушки",
+        "price": 60
+      }
+    ],
+    "recommendedItems": [25, 27, 28]
+  },
+  {
+    "id": 27,
+    "name": "Суп-пюре из тыквы",
+    "weight": "350 мл",
+    "description": "Нежный суп-пюре из тыквы с кремом и тыквенными семечками",
+    "price": 320,
+    "image": "https://image.pollinations.ai/prompt/Суп-пюре из тыквы",
+    "tags": ["СУП", "ВЕГЕТАРИАНСКОЕ"],
+    "category": "soups",
+    "addons": [
+      {
+        "id": 28,
+        "name": "Сливки",
+        "price": 30
+      },
+      {
+        "id": 29,
+        "name": "Тыквенные семечки",
+        "price": 40
+      }
+    ],
+    "recommendedItems": [25, 26, 28]
+  },
+  {
+    "id": 28,
+    "name": "Грибной суп",
+    "weight": "400 мл",
+    "description": "Ароматный грибной суп с лесными грибами и сметаной",
+    "price": 350,
+    "image": "https://image.pollinations.ai/prompt/Грибной суп",
+    "tags": ["СУП", "ВЕГЕТАРИАНСКОЕ"],
+    "category": "soups",
+    "addons": [
+      {
+        "id": 30,
+        "name": "Сметана",
+        "price": 25
+      },
+      {
+        "id": 31,
+        "name": "Гренки",
+        "price": 35
+      }
+    ],
+    "recommendedItems": [25, 26, 27]
+  },
+  {
+    "id": 29,
+    "name": "Пицца Маргарита",
+    "weight": "400 г",
+    "description": "Классическая итальянская пицца с томатами, моцареллой и базиликом",
+    "price": 520,
+    "image": "https://image.pollinations.ai/prompt/Пицца Маргарита",
+    "tags": ["ПИЦЦА", "КЛАССИКА"],
+    "category": "pizza",
+    "addons": [
+      {
+        "id": 32,
+        "name": "Дополнительный сыр",
+        "price": 80
+      },
+      {
+        "id": 33,
+        "name": "Пармезан",
+        "price": 60
+      }
+    ],
+    "recommendedItems": [30, 31, 32]
+  },
+  {
+    "id": 30,
+    "name": "Пицца Пепперони",
+    "weight": "450 г",
+    "description": "Пицца с пепперони, моцареллой и томатным соусом",
+    "price": 580,
+    "image": "https://image.pollinations.ai/prompt/Пицца Пепперони",
+    "tags": ["ПИЦЦА", "ОСТРОЕ"],
+    "category": "pizza",
+    "addons": [
+      {
+        "id": 34,
+        "name": "Дополнительный пепперони",
+        "price": 100
+      },
+      {
+        "id": 35,
+        "name": "Перец чили",
+        "price": 40
+      }
+    ],
+    "recommendedItems": [29, 31, 32]
+  },
+  {
+    "id": 31,
+    "name": "Пицца Четыре сыра",
+    "weight": "420 г",
+    "description": "Пицца с моцареллой, горгонзолой, пармезаном и рикоттой",
+    "price": 620,
+    "image": "https://image.pollinations.ai/prompt/Пицца с моцареллой, горгонзолой, пармезаном и рикоттой",
+    "tags": ["ПИЦЦА", "ПРЕМИУМ"],
+    "category": "pizza",
+    "addons": [
+      {
+        "id": 36,
+        "name": "Трюфельное масло",
+        "price": 150
+      },
+      {
+        "id": 37,
+        "name": "Грибы",
+        "price": 70
+      }
+    ],
+    "recommendedItems": [29, 30, 32]
+  },
+  {
+    "id": 32,
+    "name": "Пицца Вегетарианская",
+    "weight": "380 г",
+    "description": "Пицца с овощами: баклажаны, цукини, перец, помидоры",
+    "price": 480,
+    "image": "https://image.pollinations.ai/prompt/Пицца Вегетарианская",
+    "tags": ["ПИЦЦА", "ВЕГЕТАРИАНСКОЕ"],
+    "category": "pizza",
+    "addons": [
+      {
+        "id": 38,
+        "name": "Дополнительные овощи",
+        "price": 60
+      },
+      {
+        "id": 39,
+        "name": "Оливки",
+        "price": 50
+      }
+    ],
+    "recommendedItems": [29, 30, 31]
+  }
+] 

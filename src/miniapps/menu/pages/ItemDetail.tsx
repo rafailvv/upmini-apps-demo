@@ -3,27 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates, removeFromGlobalCart, updateGlobalCartItemWithData, updateCartItemCommentWithAddons } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
-import { getAddonsForItem, calculateAddonsPrice, type Addon } from '../utils/addonsManager';
-
-interface RecommendedItem {
-  id: number;
-  name: string;
-  volume: string;
-  description: string;
-  price: number;
-}
+import { getAddonsForItem, calculateAddonsPrice, getRecommendedItemsForItem, type Addon, type MenuItem } from '../utils/dataLoader';
 
 interface ItemDetailProps {
-  item: {
-    id: number;
-    name: string;
-    weight: string;
-    description: string;
-    price: number;
-    image: string;
-    tags: string[];
-    category: string;
-  };
+  item: MenuItem;
 }
 
 // Функция для склонения слова "шт"
@@ -55,28 +38,23 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   const [isInCart, setIsInCart] = useState(false);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [isButtonPressed, setIsButtonPressed] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const addons: Addon[] = getAddonsForItem(item.id);
+  const recommendedItems: MenuItem[] = getRecommendedItemsForItem(item.id);
 
-  const recommendedItems: RecommendedItem[] = [
-    {
-      id: 1,
-      name: 'Каберне Совиньон',
-      volume: '120 мл',
-      description: 'Терпкое, танинное, с ароматом чёрной смородины',
-      price: 250,
-    },
-    {
-      id: 2,
-      name: 'Каберне Совиньон',
-      volume: '120 мл',
-      description: 'Терпкое, танинное, с ароматом чёрной смородины',
-      price: 250,
-    },
-  ];
+  // Сброс состояния изображения при изменении товара
+  useEffect(() => {
+    setImageLoaded(false);
+    setImageError(false);
+  }, [item.id]);
 
   // Подписываемся на обновления корзины и избранного
   useEffect(() => {
+    // Скролл наверх страницы при открытии
+    window.scrollTo(0, 0);
+
     const unsubscribeCart = subscribeToCartUpdates(() => {
       const cart = getGlobalCart();
       const cartItem = cart.find(cartItem => cartItem.id === item.id);
@@ -103,22 +81,20 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     setIsInCart(!!cartItem);
     setCartQuantity(cartItem ? cartItem.quantity : 0);
     
-    // Загружаем сохраненные данные при инициализации
     if (cartItem) {
       setComment(cartItem.comment || '');
       setSelectedAddons(cartItem.selectedAddons || []);
-      // Если товар в корзине, показываем состояние pressed
       setIsButtonPressed(true);
     }
 
     const favorites = getFavorites();
     setIsFavorite(!!favorites[item.id]);
-    
+
     return () => {
       unsubscribeCart();
       unsubscribeFavorites();
     };
-  }, [item.id]);
+  }, [item.id]); // Добавляем зависимость от item.id
 
   // Инициализация Telegram MiniApp
   useEffect(() => {
@@ -200,21 +176,34 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
         >
           {isFavorite ? '❤️' : '🤍'}
         </button>
-        <img 
-          src={item.image} 
-          alt={item.name}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          onError={(e) => {
-            e.currentTarget.style.display = 'none';
-            const placeholder = e.currentTarget.nextElementSibling as HTMLElement;
-            if (placeholder) {
-              placeholder.style.display = 'flex';
-            }
-          }}
-        />
+        {item.image && item.image.trim() !== '' ? (
+          <img 
+            src={`${item.image}?v=${item.id}`} 
+            alt={item.name}
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover',
+              display: imageError ? 'none' : 'block'
+            }}
+            onLoad={() => {
+              setImageLoaded(true);
+              setImageError(false);
+            }}
+            onError={(e) => {
+              setImageError(true);
+              setImageLoaded(false);
+              e.currentTarget.style.display = 'none';
+              const placeholder = e.currentTarget.nextElementSibling as HTMLElement;
+              if (placeholder) {
+                placeholder.style.display = 'flex';
+              }
+            }}
+          />
+        ) : null}
         <div 
           className="image-placeholder-large"
-          style={{ display: 'none' }}
+          style={{ display: (item.image && item.image.trim() !== '' && !imageError) ? 'none' : 'flex' }}
         >
         </div>
       </div>
@@ -271,13 +260,48 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
         <h3 className="section-title-detail">Лучшие дополнения</h3>
         <div className="recommended-list">
           {recommendedItems.map((recItem) => (
-            <div key={recItem.id} className="recommended-item">
+            <div 
+              key={recItem.id} 
+              className="recommended-item"
+              onClick={() => {
+                navigate(`/miniapp/menu/item/${recItem.id}`);
+                // Скролл наверх при переходе к рекомендуемому товару
+                window.scrollTo(0, 0);
+              }}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="rec-item-image">
-                <div className="image-placeholder-small"></div>
+                {recItem.image && recItem.image.trim() !== '' ? (
+                  <img 
+                    src={`${recItem.image}?v=${recItem.id}`} 
+                    alt={recItem.name}
+                    style={{ 
+                      width: '50px', 
+                      height: '50px', 
+                      objectFit: 'cover',
+                      borderRadius: '6px'
+                    }}
+                    onLoad={() => {
+                      // Успешная загрузка изображения
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      const placeholder = e.currentTarget.nextElementSibling as HTMLElement;
+                      if (placeholder) {
+                        placeholder.style.display = 'flex';
+                      }
+                    }}
+                  />
+                ) : null}
+                <div 
+                  className="image-placeholder-small"
+                  style={{ display: recItem.image && recItem.image.trim() !== '' ? 'none' : 'flex' }}
+                >
+                </div>
               </div>
               <div className="rec-item-info">
                 <h4 className="rec-item-name">{recItem.name}</h4>
-                <p className="rec-item-volume">{recItem.volume}</p>
+                <p className="rec-item-volume">{recItem.weight}</p>
                 <p className="rec-item-description">{recItem.description}</p>
               </div>
               <button className="rec-item-arrow">→</button>

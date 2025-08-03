@@ -1,0 +1,37 @@
+[
+  {
+    "id": "hits",
+    "name": "hits",
+    "label": "НАШИ ХИТЫ"
+  },
+  {
+    "id": "main",
+    "name": "main",
+    "label": "ОСНОВНЫЕ БЛЮДА"
+  },
+  {
+    "id": "appetizers",
+    "name": "appetizers",
+    "label": "ЗАКУСКИ"
+  },
+  {
+    "id": "desserts",
+    "name": "desserts",
+    "label": "ДЕСЕРТЫ"
+  },
+  {
+    "id": "drinks",
+    "name": "drinks",
+    "label": "НАПИТКИ"
+  },
+  {
+    "id": "soups",
+    "name": "soups",
+    "label": "СУПЫ"
+  },
+  {
+    "id": "pizza",
+    "name": "pizza",
+    "label": "ПИЦЦА"
+  }
+] 

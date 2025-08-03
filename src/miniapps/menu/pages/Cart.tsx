@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getGlobalCart, updateGlobalCartItem, subscribeToCartUpdates } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
-import { getAddon, calculateAddonsPrice } from '../utils/addonsManager';
+import { calculateAddonsPrice, getAddons } from '../utils/dataLoader';
 import '../styles.css';
 
 interface CartItem {
@@ -148,7 +148,7 @@ export const Cart: React.FC = () => {
                   {item.selectedAddons && item.selectedAddons.length > 0 && (
                     <div className="item-addons">
                       {item.selectedAddons.map((addonId) => {
-                        const addon = getAddon(addonId);
+                        const addon = getAddons().find(a => a.id === addonId);
                         return addon ? (
                           <div key={addonId} className="addon-item-new">
                             + {addon.name}

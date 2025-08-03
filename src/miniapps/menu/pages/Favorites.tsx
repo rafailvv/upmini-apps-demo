@@ -3,17 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { addTelegramHeaderOffset } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
 import { Sidebar } from '../components/Sidebar';
-
-interface MenuItem {
-  id: number;
-  name: string;
-  weight: string;
-  description: string;
-  price: number;
-  image: string;
-  tags: string[];
-  category: string;
-}
+import { getMenuItems, type MenuItem } from '../utils/dataLoader';
 
 interface CartItem {
   id: number;
@@ -33,101 +23,8 @@ import {
   subscribeToCartUpdates 
 } from './MenuList';
 
-// Все доступные блюда из меню (те же данные, что и в MenuList)
-const allMenuItems: MenuItem[] = [
-  // НАШИ ХИТЫ
-  {
-    id: 1,
-    name: 'Карбонара с грибами и сыром',
-    weight: '300 г',
-    description: 'Паста, бекон, куриные яйца, пармезан, специи',
-    price: 500,
-    image: '/images/carbonara.jpg',
-    tags: ['НОВИНКА', 'ОСТРОЕ'],
-    category: 'hits'
-  },
-  {
-    id: 2,
-    name: 'Карбонара с грибами и сыром',
-    weight: '300 г',
-    description: 'Паста, бекон, куриные яйца, пармезан, специи',
-    price: 500,
-    image: '/images/carbonara.jpg',
-    tags: ['НОВИНКА', 'ОСТРОЕ'],
-    category: 'hits'
-  },
-  {
-    id: 3,
-    name: 'Стейк из говядины',
-    weight: '250 г',
-    description: 'Говядина, овощи гриль, соус',
-    price: 800,
-    image: '/images/carbonara.jpg',
-    tags: ['ПОПУЛЯРНОЕ'],
-    category: 'hits'
-  },
-  {
-    id: 4,
-    name: 'Цезарь с курицей',
-    weight: '280 г',
-    description: 'Салат, курица, сухарики, соус цезарь',
-    price: 350,
-    image: '/images/carbonara.jpg',
-    tags: ['ЛЕГКОЕ'],
-    category: 'hits'
-  },
-  // ОСНОВНЫЕ БЛЮДА
-  {
-    id: 5,
-    name: 'Карбонара с грибами и сыром',
-    weight: '300 г',
-    description: 'Паста, бекон, куриные яйца, пармезан, специи',
-    price: 500,
-    image: '/images/carbonara.jpg',
-    tags: ['НОВИНКА', 'ОСТРОЕ'],
-    category: 'main'
-  },
-  {
-    id: 6,
-    name: 'Карбонара с грибами и сыром',
-    weight: '300 г',
-    description: 'Паста, бекон, куриные яйца, пармезан, специи',
-    price: 500,
-    image: '/images/carbonara.jpg',
-    tags: ['НОВИНКА', 'ОСТРОЕ'],
-    category: 'main'
-  },
-  {
-    id: 7,
-    name: 'Карбонара с грибами и сыром',
-    weight: '300 г',
-    description: 'Паста, бекон, куриные яйца, пармезан, специи',
-    price: 500,
-    image: '/api/placeholder/300/200',
-    tags: ['НОВИНКА', 'ОСТРОЕ'],
-    category: 'main'
-  },
-  {
-    id: 8,
-    name: 'Карбонара с грибами и сыром',
-    weight: '300 г',
-    description: 'Паста, бекон, куриные яйца, пармезан, специи',
-    price: 500,
-    image: '/api/placeholder/300/200',
-    tags: ['НОВИНКА', 'ОСТРОЕ'],
-    category: 'main'
-  },
-  {
-    id: 9,
-    name: 'Паста Болоньезе',
-    weight: '320 г',
-    description: 'Паста, фарш, томатный соус, пармезан',
-    price: 450,
-    image: '/api/placeholder/300/200',
-    tags: ['КЛАССИКА'],
-    category: 'main'
-  }
-];
+// Все доступные блюда из меню
+const allMenuItems: MenuItem[] = getMenuItems();
 
 export const Favorites: React.FC = () => {
   const navigate = useNavigate();

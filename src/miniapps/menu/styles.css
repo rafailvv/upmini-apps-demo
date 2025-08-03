@@ -2215,18 +2215,13 @@
   padding-top: 0;
 }
 
-/* Стили для страницы "Прошлые заказы" в Telegram WebApp */
-/* .telegram-miniapp .past-orders-page {
-  margin-top: 100px;
-} */
-
 .telegram-miniapp .past-orders-page .menu-content {
-  margin-top: 170px;
-  min-height: calc(100vh - 170px);
+  margin-top: 160px;
+  min-height: calc(100vh - 160px);
 }
 
 .past-orders-list {
-  padding: 16px 0;
+  padding: 12px 0;
 }
 
 .past-order-container {

@@ -1156,15 +1156,15 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
-  height: 64px;
+  height: 60px;
   width: auto;
   max-width: none;
 }
 
 .bottom-action-bar.active,
 .bottom-action-bar.pressed {
-  left: 100px;
-  right: 100px;
+  left: 80px;
+  right: 80px;
 }
 
 .bottom-action-bar.active {
@@ -1328,7 +1328,7 @@
 .separate-cart-btn {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  right: 10px;
   width: 60px;
   height: 60px;
   background: white;
@@ -1353,7 +1353,7 @@
 .separate-back-btn {
   position: fixed;
   bottom: 20px;
-  left: 20px;
+  left: 10px;
   width: 60px;
   height: 60px;
   background: white;
@@ -1363,6 +1363,7 @@
   align-items: center;
   justify-content: center;
   font-size: 24px;
+  color: #000;
   cursor: pointer;
   transition: all 0.2s;
   z-index: 1000;
@@ -1726,18 +1727,18 @@
 
   .bottom-action-bar.active,
   .bottom-action-bar.pressed {
-    left: 100px;
-    right: 100px;
+    left: 80px;
+    right: 80px;
   }
 
   .separate-back-btn {
     bottom: 20px;
-    left: 20px;
+    left: 10px;
   }
 
   .separate-cart-btn {
     bottom: 20px;
-    right: 20px;
+    right: 10px;
   }
 }
 

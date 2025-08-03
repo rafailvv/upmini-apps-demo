@@ -90,3 +90,41 @@ const recommendedItems = getRecommendedItemsForItem(1);
 - Плавные переходы между страницами
 
 Это позволяет легко управлять тем, какие добавки доступны для каждого блюда и какие блюда рекомендуются вместе. 
+
+# Настройки темы меню
+
+## Файл theme.json
+
+Файл `theme.json` содержит настройки внешнего вида меню ресторана.
+
+### Структура файла
+
+```json
+{
+  "font": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  "accentColor": "#FF6B35"
+}
+```
+
+### Параметры
+
+- **font** (string) - Семейство шрифтов для всего меню
+- **accentColor** (string) - Акцентный цвет в формате HEX (#RRGGBB)
+
+### Примеры цветов
+
+- Оранжевый: `#FF6B35`
+- Синий: `#3B82F6`
+- Зеленый: `#10B981`
+- Красный: `#EF4444`
+- Фиолетовый: `#8B5CF6`
+
+### Примеры шрифтов
+
+- Inter: `"Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"`
+- Roboto: `"Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"`
+- Open Sans: `"Open Sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"`
+
+### Применение изменений
+
+Изменения в файле `theme.json` применяются автоматически при загрузке приложения. Для применения изменений необходимо перезагрузить страницу. 

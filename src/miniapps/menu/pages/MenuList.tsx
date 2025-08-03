@@ -118,6 +118,8 @@ export const MenuList: React.FC = () => {
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const containerRef = useRef<HTMLDivElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const lastScrollTop = useRef<number>(0);
+  const lastCategoryChange = useRef<number>(0);
 
   // Создаем объект для быстрой проверки товаров в корзине
   const cartItemsMap = cart.reduce((acc, item) => {
@@ -165,6 +167,13 @@ export const MenuList: React.FC = () => {
 
   const categories: Category[] = getCategories();
   const menuItems: MenuItem[] = getMenuItems();
+
+  // Инициализация активной категории при загрузке
+  useEffect(() => {
+    if (categories.length > 0 && !selectedCategory) {
+      setSelectedCategory(categories[0].id);
+    }
+  }, [categories, selectedCategory]);
 
   // Функция для обрезки текста
   const truncateText = (text: string, maxLength: number): string => {
@@ -234,64 +243,119 @@ export const MenuList: React.FC = () => {
     console.log('Клик по категории:', categoryId);
     setSelectedCategory(categoryId);
     const section = sectionRefs.current[categoryId];
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
+    if (section && containerRef.current) {
+      const headerHeight = 60; // Высота хедера
+      const navHeight = 60; // Высота навигации
+      const totalOffset = headerHeight + navHeight + 10; // Небольшой отступ
+      
+      const sectionTop = section.offsetTop - totalOffset;
+      containerRef.current.scrollTo({
+        top: sectionTop,
+        behavior: 'smooth'
+      });
     }
   };
 
   // Автоматическое переключение категории при скролле
   useEffect(() => {
-    let scrollTimeout: number;
+    let animationFrameId: number;
 
     const handleScroll = () => {
       if (!containerRef.current) return;
 
-      // Очищаем предыдущий таймаут для дебаунсинга
-      clearTimeout(scrollTimeout);
+      // Отменяем предыдущий кадр анимации
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
 
-      scrollTimeout = setTimeout(() => {
+      // Используем requestAnimationFrame для плавного обновления
+      animationFrameId = requestAnimationFrame(() => {
         const scrollTop = containerRef.current?.scrollTop || 0;
+        const scrollDirection = scrollTop > lastScrollTop.current ? 'down' : 'up';
+        lastScrollTop.current = scrollTop;
+        
         const headerHeight = 60; // Высота хедера
         const navHeight = 60; // Высота навигации
-        const totalOffset = headerHeight + navHeight;
+        const totalOffset = headerHeight + navHeight + 20; // Добавляем небольшой отступ
 
         // Находим активную секцию
         let currentSection = '';
+        let minDistance = Infinity;
+        let bestSection = '';
 
         categories.forEach(category => {
           const section = sectionRefs.current[category.id];
           if (section) {
             const sectionTop = section.offsetTop - totalOffset;
             const sectionBottom = sectionTop + section.offsetHeight;
+            const sectionCenter = sectionTop + (section.offsetHeight / 2);
 
             // Проверяем, находится ли скролл в пределах секции
             if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
               currentSection = category.id;
             }
-          }
-        });
 
-        // Если не нашли активную секцию, определяем ближайшую
-        if (!currentSection) {
-          let minDistance = Infinity;
-          categories.forEach(category => {
-            const section = sectionRefs.current[category.id];
-            if (section) {
-              const sectionTop = section.offsetTop - totalOffset;
-              const distance = Math.abs(scrollTop - sectionTop);
+            // Вычисляем расстояние до центра секции для определения ближайшей
+            const distanceToCenter = Math.abs(scrollTop - sectionCenter);
+            if (distanceToCenter < minDistance) {
+              minDistance = distanceToCenter;
+              bestSection = category.id;
+            }
 
-              if (distance < minDistance) {
-                minDistance = distance;
+            // Дополнительная проверка: если секция видна в верхней части экрана
+            const viewportHeight = window.innerHeight;
+            const sectionVisibleTop = sectionTop;
+            const sectionVisibleBottom = sectionTop + Math.min(section.offsetHeight, viewportHeight * 0.3);
+            
+            if (scrollTop >= sectionVisibleTop && scrollTop <= sectionVisibleBottom) {
+              currentSection = category.id;
+            }
+
+            // Учитываем направление скролла для более точного определения
+            if (scrollDirection === 'down' && scrollTop >= sectionTop && scrollTop < sectionTop + 100) {
+              currentSection = category.id;
+            } else if (scrollDirection === 'up' && scrollTop <= sectionBottom && scrollTop > sectionBottom - 100) {
+              currentSection = category.id;
+            }
+
+            // Дополнительная логика для более быстрого переключения
+            if (scrollTop >= sectionTop - 50 && scrollTop <= sectionBottom + 50) {
+              if (!currentSection) {
                 currentSection = category.id;
               }
             }
-          });
+          }
+        });
+
+        // Если не нашли активную секцию в пределах секции, используем ближайшую
+        if (!currentSection && bestSection) {
+          currentSection = bestSection;
         }
 
-        if (currentSection && currentSection !== selectedCategory) {
-          setSelectedCategory(currentSection);
+        // Дополнительная логика для начала и конца списка
+        if (scrollTop < 100 && categories.length > 0) {
+          currentSection = categories[0].id;
+        } else if (scrollTop > (containerRef.current?.scrollHeight || 0) - (containerRef.current?.clientHeight || 0) - 100 && categories.length > 0) {
+          currentSection = categories[categories.length - 1].id;
         }
-      }, 50); // Небольшая задержка для плавности
+
+        const now = Date.now();
+        const timeSinceLastChange = now - lastCategoryChange.current;
+        
+        if (currentSection && currentSection !== selectedCategory && timeSinceLastChange > 10) {
+          console.log('Переключение на категорию:', currentSection, 'при скролле:', scrollTop, 'направление:', scrollDirection);
+          setSelectedCategory(currentSection);
+          lastCategoryChange.current = now;
+        } else if (!currentSection && categories.length > 0) {
+          // Если не определили секцию, но есть категории, используем первую
+          const firstCategory = categories[0];
+          if (firstCategory && firstCategory.id !== selectedCategory && timeSinceLastChange > 10) {
+            console.log('Используем первую категорию:', firstCategory.id);
+            setSelectedCategory(firstCategory.id);
+            lastCategoryChange.current = now;
+          }
+        }
+      });
     };
 
     const container = containerRef.current;
@@ -299,7 +363,9 @@ export const MenuList: React.FC = () => {
       container.addEventListener('scroll', handleScroll, { passive: true });
       return () => {
         container.removeEventListener('scroll', handleScroll);
-        clearTimeout(scrollTimeout);
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
       };
     }
   }, [categories, selectedCategory]);
@@ -329,7 +395,7 @@ export const MenuList: React.FC = () => {
   console.log('Текущая активная категория:', selectedCategory);
 
   return (
-    <div className="menu-app" ref={containerRef}>
+    <div className="menu-app" ref={containerRef} style={{ height: '100vh', overflowY: 'auto' }}>
       <Sidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 

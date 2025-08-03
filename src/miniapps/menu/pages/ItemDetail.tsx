@@ -175,10 +175,7 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     }
   };
 
-  const handleBackClick = () => {
-    setIsButtonPressed(false);
-    navigate('/miniapp/menu');
-  };
+
 
   const handleGoToCart = () => {
     navigate('/miniapp/menu/cart');

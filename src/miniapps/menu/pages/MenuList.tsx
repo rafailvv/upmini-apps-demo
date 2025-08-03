@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
 import { Sidebar } from '../components/Sidebar';
-import { getCategories, getMenuItems, calculateAddonsPrice, getTagsForItem, type Category, type MenuItem, type Tag } from '../utils/dataLoader';
+import { getCategories, getMenuItems, calculateAddonsPrice, getTagsForItem, type Category, type MenuItem } from '../utils/dataLoader';
 import '../styles.css';
 
 interface CartItem {

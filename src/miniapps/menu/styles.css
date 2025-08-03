@@ -1074,6 +1074,7 @@
   height: 18px;
   accent-color: var(--menu-accent-color);
   transform: scale(1.2);
+  filter: brightness(0) invert(1);
 }
 
 .addon-name {

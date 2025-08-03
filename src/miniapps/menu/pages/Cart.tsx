@@ -93,6 +93,10 @@ export const Cart: React.FC = () => {
     alert('Ожидайте, с вами свяжется менеджер');
   };
 
+  const handleItemClick = (itemId: number) => {
+    navigate(`/miniapp/menu/item/${itemId}`);
+  };
+
   return (
     <div className="cart-page-new">
       {/* Bill Summary Section */}
@@ -117,7 +121,12 @@ export const Cart: React.FC = () => {
         ) : (
           <div className="cart-items-list">
             {cartItems.map((item) => (
-              <div key={item.id} className="cart-item-new">
+              <div 
+                key={item.id} 
+                className="cart-item-new"
+                onClick={() => handleItemClick(item.id)}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className="item-quantity-badge">
                   <span>{item.quantity}</span>
                 </div>
@@ -167,13 +176,19 @@ export const Cart: React.FC = () => {
                 <div className="item-controls">
                   <button 
                     className="quantity-control-btn"
-                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      updateQuantity(item.id, item.quantity - 1);
+                    }}
                   >
                     -
                   </button>
                   <button 
                     className="quantity-control-btn"
-                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      updateQuantity(item.id, item.quantity + 1);
+                    }}
                   >
                     +
                   </button>
@@ -246,18 +261,18 @@ export const Cart: React.FC = () => {
           </div>
 
           {/* Final Payment Button */}
-          <div className="final-payment">
+          <div className="final-payment-vertical">
+            <button 
+              className="order-submit-btn"
+              onClick={handleOrder}
+            >
+              Отправить заказ
+            </button>
             <button 
               className="back-to-menu-btn"
               onClick={() => navigate('/miniapp/menu')}
             >
               Вернуться в меню
-            </button>
-            <button 
-              className="pay-button"
-              onClick={handleOrder}
-            >
-              Отправить заказ
             </button>
           </div>
         </>

@@ -1074,7 +1074,29 @@
   height: 18px;
   accent-color: var(--menu-accent-color);
   transform: scale(1.2);
-  filter: brightness(0) invert(1);
+  appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+  background: white;
+  position: relative;
+  cursor: pointer;
+}
+
+.addon-checkbox:checked {
+  background: var(--menu-accent-color);
+  border-color: var(--menu-accent-color);
+}
+
+.addon-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .addon-name {
@@ -1497,6 +1519,19 @@
   flex: 1;
 }
 
+.order-submit-btn {
+  background: var(--menu-accent-color);
+  color: white;
+  border: 1px solid var(--menu-accent-color);
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+
 .pay-button:hover {
   background: #f8f9fa;
   border-color: var(--menu-accent-color);
@@ -1507,9 +1542,28 @@
   border-color: var(--menu-accent-color);
 }
 
+.order-submit-btn:hover {
+  background: var(--menu-accent-color);
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.order-submit-btn:active {
+  background: var(--menu-accent-color);
+  opacity: 0.8;
+  transform: translateY(0);
+}
+
 /* Контейнер для кнопок в корзине */
 .final-payment {
   display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.final-payment-vertical {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
   margin-top: 20px;
 }
@@ -1523,6 +1577,14 @@
   align-items: center;
   margin-bottom: 15px;
   padding: 10px 0;
+  transition: background-color 0.2s ease;
+}
+
+.cart-item-new:hover {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 0 -10px 15px -10px;
 }
 
 .item-quantity-badge {

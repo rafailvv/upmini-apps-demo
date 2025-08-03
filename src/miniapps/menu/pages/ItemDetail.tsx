@@ -38,7 +38,6 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   const [isInCart, setIsInCart] = useState(false);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [isButtonPressed, setIsButtonPressed] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
   const addons: Addon[] = getAddonsForItem(item.id);
@@ -46,7 +45,6 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
 
   // Сброс состояния изображения при изменении товара
   useEffect(() => {
-    setImageLoaded(false);
     setImageError(false);
   }, [item.id]);
 
@@ -186,19 +184,17 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
               objectFit: 'cover',
               display: imageError ? 'none' : 'block'
             }}
-            onLoad={() => {
-              setImageLoaded(true);
-              setImageError(false);
-            }}
-            onError={(e) => {
-              setImageError(true);
-              setImageLoaded(false);
-              e.currentTarget.style.display = 'none';
-              const placeholder = e.currentTarget.nextElementSibling as HTMLElement;
-              if (placeholder) {
-                placeholder.style.display = 'flex';
-              }
-            }}
+                      onLoad={() => {
+            setImageError(false);
+          }}
+          onError={(e) => {
+            setImageError(true);
+            e.currentTarget.style.display = 'none';
+            const placeholder = e.currentTarget.nextElementSibling as HTMLElement;
+            if (placeholder) {
+              placeholder.style.display = 'flex';
+            }
+          }}
           />
         ) : null}
         <div 

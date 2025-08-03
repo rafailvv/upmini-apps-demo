@@ -26,24 +26,24 @@ interface ItemDetailProps {
   };
 }
 
-// Функция для склонения слова "штук"
+// Функция для склонения слова "шт"
 const getQuantityText = (quantity: number): string => {
   const lastDigit = quantity % 10;
   const lastTwoDigits = quantity % 100;
   
   if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
-    return 'штук';
+    return 'шт';
   }
   
   switch (lastDigit) {
     case 1:
-      return 'штука';
+      return 'шт';
     case 2:
     case 3:
     case 4:
-      return 'штуки';
+      return 'шт';
     default:
-      return 'штук';
+      return 'шт';
   }
 };
 
@@ -292,15 +292,6 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
         ) : !isInCart && isButtonPressed ? (
           <>
             <button 
-              className="action-btn back-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleBackClick();
-              }}
-            >
-              ← Назад
-            </button>
-            <button 
               className="quantity-btn minus"
               onClick={(e) => {
                 e.stopPropagation();
@@ -325,27 +316,9 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
             >
               +
             </button>
-            <button 
-              className="action-btn cart-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleGoToCart();
-              }}
-            >
-              В корзину →
-            </button>
           </>
         ) : isInCart && isButtonPressed ? (
           <>
-            <button 
-              className="action-btn back-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleBackClick();
-              }}
-            >
-              ← Назад
-            </button>
             <button 
               className="quantity-btn minus"
               onClick={(e) => {
@@ -370,15 +343,6 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
               }}
             >
               +
-            </button>
-            <button 
-              className="action-btn cart-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleGoToCart();
-              }}
-            >
-              В корзину →
             </button>
           </>
         ) : (
@@ -409,6 +373,19 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
           </>
         )}
       </div>
+
+      {/* Separate Cart Button */}
+      {(isInCart || isButtonPressed) && (
+        <button 
+          className="separate-cart-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleGoToCart();
+          }}
+        >
+          🛒
+        </button>
+      )}
     </div>
   );
 }; 

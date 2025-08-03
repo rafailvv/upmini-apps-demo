@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
+import { initTelegramMiniApp, setupTelegramBackButton, isTelegramMiniApp } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
 import { Sidebar } from '../components/Sidebar';
 import { getCategories, getMenuItems, calculateAddonsPrice, getTagsForItem, type Category, type MenuItem } from '../utils/dataLoader';
@@ -122,6 +122,7 @@ export const MenuList: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const lastScrollTop = useRef<number>(0);
   const lastCategoryChange = useRef<number>(0);
+  const isManualClick = useRef<boolean>(false);
 
   // Создаем объект для быстрой проверки товаров в корзине
   const cartItemsMap = cart.reduce((acc, item) => {
@@ -179,11 +180,18 @@ export const MenuList: React.FC = () => {
 
   // Скролл к активной категории при изменении selectedCategory
   useEffect(() => {
-    if (selectedCategory && categoriesNavRef.current) {
+    if (selectedCategory && categoriesNavRef.current && !isManualClick.current) {
       // Даем время на рендеринг
       setTimeout(() => {
         scrollToActiveCategory(selectedCategory);
       }, 100);
+    }
+    
+    // Сбрасываем флаг ручного клика
+    if (isManualClick.current) {
+      setTimeout(() => {
+        isManualClick.current = false;
+      }, 200);
     }
   }, [selectedCategory]);
 
@@ -262,18 +270,26 @@ export const MenuList: React.FC = () => {
   // Функция для скролла к секции
   const scrollToSection = (categoryId: string) => {
     console.log('Клик по категории:', categoryId);
+    isManualClick.current = true; // Устанавливаем флаг ручного клика
     setSelectedCategory(categoryId);
-    
-    // Скроллим к активной категории в горизонтальном списке
-    setTimeout(() => {
-      scrollToActiveCategory(categoryId);
-    }, 50);
     
     const section = sectionRefs.current[categoryId];
     if (section && containerRef.current) {
-      const headerHeight = 60; // Высота хедера
-      const navHeight = 60; // Высота навигации
-      const totalOffset = headerHeight + navHeight + 10; // Небольшой отступ
+      // Определяем правильные отступы в зависимости от контекста
+      const isTelegram = isTelegramMiniApp();
+      
+      let headerHeight = 60; // Высота хедера по умолчанию
+      let navHeight = 60; // Высота навигации по умолчанию
+      let additionalOffset = 10; // Дополнительный отступ
+      
+      if (isTelegram) {
+        // В Telegram MiniApp используем другие отступы
+        headerHeight = 90; // Высота хедера в Telegram
+        navHeight = 60; // Высота навигации в Telegram
+        additionalOffset = 20; // Больший дополнительный отступ для Telegram
+      }
+      
+      const totalOffset = headerHeight + navHeight + additionalOffset;
       
       const sectionTop = section.offsetTop - totalOffset;
       containerRef.current.scrollTo({
@@ -348,9 +364,21 @@ export const MenuList: React.FC = () => {
         const scrollDirection = scrollTop > lastScrollTop.current ? 'down' : 'up';
         lastScrollTop.current = scrollTop;
         
-        const headerHeight = 60; // Высота хедера
-        const navHeight = 60; // Высота навигации
-        const totalOffset = headerHeight + navHeight + 20; // Добавляем небольшой отступ
+        // Определяем правильные отступы в зависимости от контекста
+        const isTelegram = isTelegramMiniApp();
+        
+        let headerHeight = 60; // Высота хедера по умолчанию
+        let navHeight = 60; // Высота навигации по умолчанию
+        let additionalOffset = 20; // Дополнительный отступ
+        
+        if (isTelegram) {
+          // В Telegram MiniApp используем другие отступы
+          headerHeight = 90; // Высота хедера в Telegram
+          navHeight = 60; // Высота навигации в Telegram
+          additionalOffset = 30; // Больший дополнительный отступ для Telegram
+        }
+        
+        const totalOffset = headerHeight + navHeight + additionalOffset;
 
         // Находим активную секцию
         let currentSection = '';

@@ -181,6 +181,10 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     navigate('/miniapp/menu/cart');
   };
 
+  const handleBackToMenu = () => {
+    navigate('/miniapp/menu');
+  };
+
   return (
     <div className="item-detail-page">
       {/* Header */}
@@ -370,6 +374,19 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
           </>
         )}
       </div>
+
+      {/* Separate Back Button */}
+      {(isInCart || isButtonPressed) && (
+        <button 
+          className="separate-back-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleBackToMenu();
+          }}
+        >
+          ←
+        </button>
+      )}
 
       {/* Separate Cart Button */}
       {(isInCart || isButtonPressed) && (

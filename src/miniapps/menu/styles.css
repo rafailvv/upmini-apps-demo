@@ -1148,7 +1148,7 @@
   right: 20px;
   background: white;
   border: 2px solid #FF6B35;
-  padding: 16px;
+  padding: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1163,6 +1163,7 @@
 
 .bottom-action-bar.active,
 .bottom-action-bar.pressed {
+  left: 100px;
   right: 100px;
 }
 
@@ -1245,10 +1246,7 @@
   transform: scale(1.1);
 }
 
-.bottom-action-bar .quantity-btn:active {
-  background: rgba(255, 255, 255, 0.3);
-  color: #FF6B35;
-}
+
 
 .bottom-action-bar.active .quantity-btn {
   background: transparent;
@@ -1258,10 +1256,7 @@
 
 
 
-.bottom-action-bar.active .quantity-btn:active {
-  background: rgba(255, 255, 255, 0.3);
-  color: white;
-}
+
 
 /* Quantity buttons for pressed state */
 .bottom-action-bar.pressed .quantity-btn {
@@ -1275,10 +1270,7 @@
   transform: scale(1.1);
 }
 
-.bottom-action-bar.pressed .quantity-btn:active {
-  background: rgba(255, 255, 255, 0.3);
-  color: white;
-}
+
 
 /* Action buttons for pressed state */
 .action-btn {
@@ -1350,16 +1342,39 @@
   transition: all 0.2s;
   z-index: 1000;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  outline: none;
 }
 
-.separate-cart-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+.separate-cart-btn:focus {
+  outline: none;
 }
 
-.separate-cart-btn:active {
-  transform: scale(0.95);
+/* Separate Back Button */
+.separate-back-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
+  background: white;
+  border: 2px solid #FF6B35;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  outline: none;
 }
+
+.separate-back-btn:focus {
+  outline: none;
+}
+
+
 
 /* New Cart Styles - Exactly as in the design */
 .cart-page-new {
@@ -1711,7 +1726,13 @@
 
   .bottom-action-bar.active,
   .bottom-action-bar.pressed {
+    left: 100px;
     right: 100px;
+  }
+
+  .separate-back-btn {
+    bottom: 20px;
+    left: 20px;
   }
 
   .separate-cart-btn {
@@ -1754,10 +1775,7 @@
   transform: scale(1.1);
 }
 
-.quantity-control-btn:active {
-  background: #FF6B35;
-  color: white;
-}
+
 
 /* Telegram MiniApp specific styles */
 .telegram-miniapp {

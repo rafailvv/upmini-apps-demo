@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
 import { Sidebar } from '../components/Sidebar';
-import { getCategories, getMenuItems, calculateAddonsPrice, type Category, type MenuItem } from '../utils/dataLoader';
+import { getCategories, getMenuItems, calculateAddonsPrice, getTagsForItem, type Category, type MenuItem, type Tag } from '../utils/dataLoader';
 import '../styles.css';
 
 interface CartItem {
@@ -297,10 +297,11 @@ export const MenuList: React.FC = () => {
     if (!searchQuery.trim()) return true;
 
     const query = searchQuery.toLowerCase();
+    const itemTags = getTagsForItem(item.id);
     return (
       item.name.toLowerCase().includes(query) ||
       item.description.toLowerCase().includes(query) ||
-      item.tags.some(tag => tag.toLowerCase().includes(query))
+      itemTags.some(tag => tag.name.toLowerCase().includes(query))
     );
   });
 
@@ -437,10 +438,18 @@ export const MenuList: React.FC = () => {
 
                         {item.tags.length > 0 && (
                           <div className="item-tags">
-                            {item.tags.map((tag, index) => (
-                              <span key={index} className={`tag tag-${tag.toLowerCase()}`}>
-                                {tag}
-                              </span>
+                            {getTagsForItem(item.id).map((tag) => (
+                                                              <span
+                                  key={tag.id}
+                                  className="item-tag"
+                                  style={{
+                                    color: tag.color,
+                                    backgroundColor: tag.backgroundColor,
+                                    border: `1px solid ${tag.color}`
+                                  }}
+                                >
+                                  {tag.name}
+                                </span>
                             ))}
                           </div>
                         )}

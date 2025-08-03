@@ -6,7 +6,7 @@
     "description": "Паста, бекон, куриные яйца, пармезан, специи",
     "price": 500,
     "image": "https://image.pollinations.ai/prompt/Карбонара с грибами и сыром",
-    "tags": ["НОВИНКА", "ОСТРОЕ"],
+    "tags": [1, 2],
     "category": "hits",
     "addons": [
       {
@@ -34,7 +34,7 @@
     "description": "Говядина, овощи гриль, соус",
     "price": 800,
     "image": "https://image.pollinations.ai/prompt/Стейк из говядины",
-    "tags": ["ПОПУЛЯРНОЕ"],
+    "tags": [3],
     "category": "hits",
     "addons": [
       {
@@ -62,7 +62,7 @@
     "description": "Салат, курица, сухарики, соус цезарь",
     "price": 350,
     "image": "https://image.pollinations.ai/prompt/Салат Цезарь с курицей",
-    "tags": ["ЛЕГКОЕ"],
+    "tags": [4],
     "category": "hits",
     "addons": [
       {
@@ -90,7 +90,7 @@
     "description": "Паста, фарш, томатный соус, пармезан",
     "price": 450,
     "image": "https://image.pollinations.ai/prompt/Паста Болоньезе",
-    "tags": ["КЛАССИКА"],
+    "tags": [5],
     "category": "hits",
     "addons": [
       {
@@ -118,7 +118,7 @@
     "description": "Рис, креветки, мидии, пармезан, белое вино",
     "price": 650,
     "image": "https://image.pollinations.ai/prompt/Ризотто с морепродуктами",
-    "tags": ["ПРЕМИУМ"],
+    "tags": [6],
     "category": "main",
     "addons": [
       {
@@ -146,7 +146,7 @@
     "description": "Листы лазаньи, мясной фарш, соус бешамель, пармезан",
     "price": 580,
     "image": "https://image.pollinations.ai/prompt/Лазанья с мясом",
-    "tags": ["КЛАССИКА"],
+    "tags": [5],
     "category": "main",
     "addons": [
       {
@@ -202,7 +202,7 @@
     "description": "Паста, лосось, сливочный соус, каперсы, лимон",
     "price": 720,
     "image": "https://image.pollinations.ai/prompt/Паста с лососем",
-    "tags": ["ПРЕМИУМ"],
+    "tags": [6],
     "category": "main",
     "addons": [
       {
@@ -230,7 +230,7 @@
     "description": "Хлеб, помидоры, базилик, оливковое масло",
     "price": 180,
     "image": "https://image.pollinations.ai/prompt/Брускетта с томатами",
-    "tags": ["ВЕГЕТАРИАНСКОЕ"],
+    "tags": [8],
     "category": "appetizers",
     "addons": [
       {
@@ -253,7 +253,7 @@
     "description": "Тонко нарезанная говядина, руккола, пармезан",
     "price": 420,
     "image": "https://image.pollinations.ai/prompt/Карпаччо из говядины",
-    "tags": ["ПРЕМИУМ"],
+    "tags": [6],
     "category": "appetizers",
     "addons": [
       {
@@ -276,7 +276,7 @@
     "description": "Ассорти сыров, орехи, мед, крекеры",
     "price": 380,
     "image": "https://image.pollinations.ai/prompt/Сырная тарелка",
-    "tags": ["ВЕГЕТАРИАНСКОЕ"],
+    "tags": [8],
     "category": "appetizers",
     "addons": [
       {
@@ -299,7 +299,7 @@
     "description": "Кальмары, кляр, соус тартар",
     "price": 320,
     "image": "https://image.pollinations.ai/prompt/Кальмары в кляре",
-    "tags": ["МОРЕПРОДУКТЫ"],
+    "tags": [7],
     "category": "appetizers",
     "addons": [
       {
@@ -322,7 +322,7 @@
     "description": "Печенье савоярди, кофе, маскарпоне, какао",
     "price": 280,
     "image": "https://image.pollinations.ai/prompt/Тирамису",
-    "tags": ["КЛАССИКА"],
+    "tags": [5],
     "category": "desserts",
     "addons": [
       {
@@ -368,7 +368,7 @@
     "description": "Темный шоколад, ванильное мороженое",
     "price": 250,
     "image": "https://image.pollinations.ai/prompt/Шоколадный фондан",
-    "tags": ["НОВИНКА"],
+    "tags": [1],
     "category": "desserts",
     "addons": [
       {
@@ -391,7 +391,7 @@
     "description": "Сливки, ваниль, свежие ягоды",
     "price": 220,
     "image": "https://image.pollinations.ai/prompt/Панакота с ягодами",
-    "tags": ["ЛЕГКОЕ"],
+    "tags": [4],
     "category": "desserts",
     "addons": [
       {
@@ -414,7 +414,7 @@
     "description": "Итальянский ликер из лимонов",
     "price": 180,
     "image": "https://image.pollinations.ai/prompt/Лимончелло",
-    "tags": ["АЛКОГОЛЬ"],
+    "tags": [11],
     "category": "drinks",
     "addons": [
       {
@@ -437,7 +437,7 @@
     "description": "Апероль, просекко, содовая, апельсин",
     "price": 420,
     "image": "https://image.pollinations.ai/prompt/Апероль Шприц",
-    "tags": ["АЛКОГОЛЬ", "ПОПУЛЯРНОЕ"],
+    "tags": [11, 3],
     "category": "drinks",
     "addons": [
       {
@@ -460,7 +460,7 @@
     "description": "Свежевыжатый апельсиновый сок",
     "price": 150,
     "image": "https://image.pollinations.ai/prompt/Фреш из апельсинов",
-    "tags": ["БЕЗ АЛКОГОЛЯ"],
+    "tags": [12],
     "category": "drinks",
     "addons": [
       {
@@ -483,7 +483,7 @@
     "description": "Эспрессо, молоко, карамельный сироп",
     "price": 180,
     "image": "https://image.pollinations.ai/prompt/Латте с карамелью",
-    "tags": ["ГОРЯЧИЙ"],
+    "tags": [10],
     "category": "drinks",
     "addons": [
       {
@@ -506,7 +506,7 @@
     "description": "Итальянский десерт с кофе, маскарпоне и какао",
     "price": 280,
     "image": "https://image.pollinations.ai/prompt/Тирамису",
-    "tags": ["ДЕСЕРТ", "ПОПУЛЯРНОЕ"],
+    "tags": [9, 3],
     "category": "desserts",
     "addons": [
       {
@@ -528,8 +528,8 @@
     "weight": "150 г",
     "description": "Нежный итальянский десерт с ванилью и ягодным соусом",
     "price": 220,
-    "image": "https://image.pollinations.ai/prompt/Панна Котта",
-    "tags": ["ДЕСЕРТ"],
+    "image": "https://image.pollinations.ai/prompt/Нежный итальянский десерт с ванилью и ягодным соусом",
+    "tags": [9],
     "category": "desserts",
     "addons": [
       {
@@ -552,7 +552,7 @@
     "description": "Классический чизкейк с нежным творожным кремом",
     "price": 320,
     "image": "https://image.pollinations.ai/prompt/Чизкейк Нью-Йорк",
-    "tags": ["ДЕСЕРТ", "КЛАССИКА"],
+    "tags": [9, 5],
     "category": "desserts",
     "addons": [
       {
@@ -575,7 +575,7 @@
     "description": "Теплый шоколадный кекс с жидкой начинкой и мороженым",
     "price": 290,
     "image": "https://image.pollinations.ai/prompt/Шоколадный фондан",
-    "tags": ["ДЕСЕРТ", "ГОРЯЧИЙ"],
+    "tags": [9, 10],
     "category": "desserts",
     "addons": [
       {
@@ -598,7 +598,7 @@
     "description": "Острый тайский суп с креветками, грибами и кокосовым молоком",
     "price": 450,
     "image": "https://image.pollinations.ai/prompt/Суп Том Ям",
-    "tags": ["СУП", "ОСТРОЕ"],
+    "tags": [13, 2],
     "category": "soups",
     "addons": [
       {
@@ -620,8 +620,8 @@
     "weight": "500 мл",
     "description": "Традиционный украинский борщ со сметаной и чесночными пампушками",
     "price": 380,
-    "image": "https://image.pollinations.ai/prompt/Борщ",
-    "tags": ["СУП", "КЛАССИКА"],
+    "image": "https://image.pollinations.ai/prompt/Традиционный украинский борщ со сметаной и чесночными пампушками",
+    "tags": [13, 5],
     "category": "soups",
     "addons": [
       {
@@ -644,7 +644,7 @@
     "description": "Нежный суп-пюре из тыквы с кремом и тыквенными семечками",
     "price": 320,
     "image": "https://image.pollinations.ai/prompt/Суп-пюре из тыквы",
-    "tags": ["СУП", "ВЕГЕТАРИАНСКОЕ"],
+    "tags": [13, 8],
     "category": "soups",
     "addons": [
       {
@@ -667,7 +667,7 @@
     "description": "Ароматный грибной суп с лесными грибами и сметаной",
     "price": 350,
     "image": "https://image.pollinations.ai/prompt/Грибной суп",
-    "tags": ["СУП", "ВЕГЕТАРИАНСКОЕ"],
+    "tags": [13, 8],
     "category": "soups",
     "addons": [
       {
@@ -690,7 +690,7 @@
     "description": "Классическая итальянская пицца с томатами, моцареллой и базиликом",
     "price": 520,
     "image": "https://image.pollinations.ai/prompt/Пицца Маргарита",
-    "tags": ["ПИЦЦА", "КЛАССИКА"],
+    "tags": [14, 5],
     "category": "pizza",
     "addons": [
       {
@@ -713,7 +713,7 @@
     "description": "Пицца с пепперони, моцареллой и томатным соусом",
     "price": 580,
     "image": "https://image.pollinations.ai/prompt/Пицца Пепперони",
-    "tags": ["ПИЦЦА", "ОСТРОЕ"],
+    "tags": [14, 2],
     "category": "pizza",
     "addons": [
       {
@@ -736,7 +736,7 @@
     "description": "Пицца с моцареллой, горгонзолой, пармезаном и рикоттой",
     "price": 620,
     "image": "https://image.pollinations.ai/prompt/Пицца с моцареллой, горгонзолой, пармезаном и рикоттой",
-    "tags": ["ПИЦЦА", "ПРЕМИУМ"],
+    "tags": [14, 6],
     "category": "pizza",
     "addons": [
       {
@@ -759,7 +759,7 @@
     "description": "Пицца с овощами: баклажаны, цукини, перец, помидоры",
     "price": 480,
     "image": "https://image.pollinations.ai/prompt/Пицца Вегетарианская",
-    "tags": ["ПИЦЦА", "ВЕГЕТАРИАНСКОЕ"],
+    "tags": [14, 8],
     "category": "pizza",
     "addons": [
       {

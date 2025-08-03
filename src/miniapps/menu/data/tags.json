@@ -1,0 +1,100 @@
+[
+  {
+    "id": 1,
+    "name": "НОВИНКА",
+    "color": "#FF6B35",
+    "backgroundColor": "#FFF5F2",
+    "description": "Новые блюда в меню"
+  },
+  {
+    "id": 2,
+    "name": "ОСТРОЕ",
+    "color": "#E74C3C",
+    "backgroundColor": "#FDF2F2",
+    "description": "Острые блюда"
+  },
+  {
+    "id": 3,
+    "name": "ПОПУЛЯРНОЕ",
+    "color": "#F39C12",
+    "backgroundColor": "#FEF9E7",
+    "description": "Популярные блюда"
+  },
+  {
+    "id": 4,
+    "name": "ЛЕГКОЕ",
+    "color": "#27AE60",
+    "backgroundColor": "#F0F9F4",
+    "description": "Легкие блюда"
+  },
+  {
+    "id": 5,
+    "name": "КЛАССИКА",
+    "color": "#8E44AD",
+    "backgroundColor": "#F8F4FD",
+    "description": "Классические блюда"
+  },
+  {
+    "id": 6,
+    "name": "ПРЕМИУМ",
+    "color": "#C0392B",
+    "backgroundColor": "#FDF2F2",
+    "description": "Премиум блюда"
+  },
+  {
+    "id": 7,
+    "name": "МОРЕПРОДУКТЫ",
+    "color": "#3498DB",
+    "backgroundColor": "#F0F8FF",
+    "description": "Блюда с морепродуктами"
+  },
+  {
+    "id": 8,
+    "name": "ВЕГЕТАРИАНСКОЕ",
+    "color": "#27AE60",
+    "backgroundColor": "#F0F9F4",
+    "description": "Вегетарианские блюда"
+  },
+  {
+    "id": 9,
+    "name": "ДЕСЕРТ",
+    "color": "#E91E63",
+    "backgroundColor": "#FCE4EC",
+    "description": "Десерты"
+  },
+  {
+    "id": 10,
+    "name": "ГОРЯЧИЙ",
+    "color": "#FF5722",
+    "backgroundColor": "#FBE9E7",
+    "description": "Горячие напитки"
+  },
+  {
+    "id": 11,
+    "name": "АЛКОГОЛЬ",
+    "color": "#9C27B0",
+    "backgroundColor": "#F3E5F5",
+    "description": "Алкогольные напитки"
+  },
+  {
+    "id": 12,
+    "name": "БЕЗ АЛКОГОЛЯ",
+    "color": "#4CAF50",
+    "backgroundColor": "#E8F5E8",
+    "description": "Безалкогольные напитки"
+  },
+  {
+    "id": 13,
+    "name": "СУП",
+    "color": "#FF9800",
+    "backgroundColor": "#FFF3E0",
+    "description": "Супы"
+  },
+  {
+    "id": 14,
+    "name": "ПИЦЦА",
+    "color": "#795548",
+    "backgroundColor": "#EFEBE9",
+    "description": "Пицца"
+  }
+] 

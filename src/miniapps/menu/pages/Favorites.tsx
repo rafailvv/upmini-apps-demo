@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { addTelegramHeaderOffset } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
 import { Sidebar } from '../components/Sidebar';
-import { getMenuItems, type MenuItem } from '../utils/dataLoader';
+import { getMenuItems, getTags, type MenuItem } from '../utils/dataLoader';
 
 interface CartItem {
   id: number;
@@ -187,9 +187,9 @@ export const Favorites: React.FC = () => {
                     <div className="item-description">{item.description}</div>
                     <div className="item-price">{item.price} ₽</div>
                     <div className="item-tags">
-                      {item.tags.map((tag: string, index: number) => (
+                      {item.tags.map((tag: number, index: number) => (
                         <span key={index} className={`tag tag-${tag}`}>
-                          {tag.toUpperCase()}
+                          {getTags().find((t: any) => t.id === tag)?.name}
                         </span>
                       ))}
                     </div>

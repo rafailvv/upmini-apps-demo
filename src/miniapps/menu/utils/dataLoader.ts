@@ -1,10 +1,19 @@
 import categoriesData from '../data/categories.json';
 import menuItemsData from '../data/menuItems.json';
+import tagsData from '../data/tags.json';
 
 export interface Category {
   id: string;
   name: string;
   label: string;
+}
+
+export interface Tag {
+  id: number;
+  name: string;
+  color: string;
+  backgroundColor: string;
+  description: string;
 }
 
 export interface Addon {
@@ -20,7 +29,7 @@ export interface MenuItem {
   description: string;
   price: number;
   image: string;
-  tags: string[];
+  tags: number[];
   category: string;
   addons: Addon[];
   recommendedItems: number[]; // массив ID рекомендуемых блюд
@@ -34,6 +43,26 @@ export const getCategories = (): Category[] => {
 // Загружаем все блюда меню
 export const getMenuItems = (): MenuItem[] => {
   return menuItemsData as MenuItem[];
+};
+
+// Загружаем все теги
+export const getTags = (): Tag[] => {
+  return tagsData as Tag[];
+};
+
+// Получаем тег по ID
+export const getTagById = (id: number): Tag | undefined => {
+  return getTags().find(tag => tag.id === id);
+};
+
+// Получаем теги для блюда
+export const getTagsForItem = (itemId: number): Tag[] => {
+  const item = getMenuItemById(itemId);
+  if (!item) return [];
+  
+  return item.tags
+    .map(tagId => getTagById(tagId))
+    .filter((tag): tag is Tag => tag !== undefined);
 };
 
 // Загружаем блюдо по ID

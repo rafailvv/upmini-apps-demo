@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates, removeFromGlobalCart, updateGlobalCartItemWithData, updateCartItemCommentWithAddons } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
-import { getAddonsForItem, calculateAddonsPrice, getRecommendedItemsForItem, type Addon, type MenuItem } from '../utils/dataLoader';
+import { getAddonsForItem, calculateAddonsPrice, getRecommendedItemsForItem, getTagsForItem, type Addon, type MenuItem, type Tag } from '../utils/dataLoader';
 
 interface ItemDetailProps {
   item: MenuItem;
@@ -42,6 +42,7 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
 
   const addons: Addon[] = getAddonsForItem(item.id);
   const recommendedItems: MenuItem[] = getRecommendedItemsForItem(item.id);
+  const tags: Tag[] = getTagsForItem(item.id);
 
   // Сброс состояния изображения при изменении товара
   useEffect(() => {
@@ -211,6 +212,24 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
         <p className="item-description-detail">
           Нежная паста. Очень вкусная. Фаворит среди наших гостей. Текст. Можем приготовить с собой.
         </p>
+        {/* Tags */}
+        {tags.length > 0 && (
+          <div className="item-tags">
+            {tags.map((tag) => (
+                              <span
+                  key={tag.id}
+                  className="item-tag"
+                  style={{
+                    color: tag.color,
+                    backgroundColor: tag.backgroundColor,
+                    border: `1px solid ${tag.color}`
+                  }}
+                >
+                  {tag.name}
+                </span>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Add-ons Section */}

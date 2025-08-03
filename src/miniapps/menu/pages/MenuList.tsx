@@ -117,6 +117,8 @@ export const MenuList: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const containerRef = useRef<HTMLDivElement>(null);
+  const categoriesScrollRef = useRef<HTMLDivElement>(null);
+  const categoriesNavRef = useRef<HTMLDivElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const lastScrollTop = useRef<number>(0);
   const lastCategoryChange = useRef<number>(0);
@@ -174,6 +176,25 @@ export const MenuList: React.FC = () => {
       setSelectedCategory(categories[0].id);
     }
   }, [categories, selectedCategory]);
+
+  // Скролл к активной категории при изменении selectedCategory
+  useEffect(() => {
+    if (selectedCategory && categoriesNavRef.current) {
+      // Даем время на рендеринг
+      setTimeout(() => {
+        scrollToActiveCategory(selectedCategory);
+      }, 100);
+    }
+  }, [selectedCategory]);
+
+  // Принудительный скролл к активной категории после загрузки
+  useEffect(() => {
+    if (categories.length > 0 && categoriesNavRef.current) {
+      setTimeout(() => {
+        scrollToActiveCategory(selectedCategory);
+      }, 500);
+    }
+  }, [categories]);
 
   // Функция для обрезки текста
   const truncateText = (text: string, maxLength: number): string => {
@@ -242,6 +263,12 @@ export const MenuList: React.FC = () => {
   const scrollToSection = (categoryId: string) => {
     console.log('Клик по категории:', categoryId);
     setSelectedCategory(categoryId);
+    
+    // Скроллим к активной категории в горизонтальном списке
+    setTimeout(() => {
+      scrollToActiveCategory(categoryId);
+    }, 50);
+    
     const section = sectionRefs.current[categoryId];
     if (section && containerRef.current) {
       const headerHeight = 60; // Высота хедера
@@ -254,6 +281,53 @@ export const MenuList: React.FC = () => {
         behavior: 'smooth'
       });
     }
+  };
+
+  // Функция для скролла к активной категории в горизонтальном списке
+  const scrollToActiveCategory = (categoryId: string) => {
+    if (!categoriesNavRef.current) return;
+    
+    const activeButton = categoriesNavRef.current.querySelector(`[data-category-id="${categoryId}"]`) as HTMLElement;
+    if (!activeButton) return;
+
+    const container = categoriesNavRef.current;
+    
+    // Проверяем, нужен ли скролл вообще
+    if (container.scrollWidth <= container.clientWidth) {
+      console.log('Скролл не нужен - контейнер помещается в видимую область');
+      return;
+    }
+    
+    // Вычисляем позицию кнопки относительно контейнера
+    const buttonLeft = activeButton.offsetLeft;
+    const buttonWidth = activeButton.offsetWidth;
+    const containerWidth = container.clientWidth;
+    
+    // Центрируем кнопку в контейнере
+    const targetScrollLeft = buttonLeft - (containerWidth / 2) + (buttonWidth / 2);
+    
+    // Ограничиваем скролл границами контейнера
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    const finalScrollLeft = Math.max(0, Math.min(targetScrollLeft, maxScrollLeft));
+    
+    console.log('Скролл к категории:', categoryId, {
+      buttonLeft,
+      buttonWidth,
+      containerWidth,
+      targetScrollLeft,
+      maxScrollLeft,
+      finalScrollLeft,
+      currentScrollLeft: container.scrollLeft,
+      scrollWidth: container.scrollWidth,
+      clientWidth: container.clientWidth
+    });
+    
+    // Плавный скролл к активной категории
+    activeButton.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center'
+    });
   };
 
   // Автоматическое переключение категории при скролле
@@ -346,6 +420,11 @@ export const MenuList: React.FC = () => {
           console.log('Переключение на категорию:', currentSection, 'при скролле:', scrollTop, 'направление:', scrollDirection);
           setSelectedCategory(currentSection);
           lastCategoryChange.current = now;
+          
+          // Автоматически скроллим к активной категории
+          setTimeout(() => {
+            scrollToActiveCategory(currentSection);
+          }, 100);
         } else if (!currentSection && categories.length > 0) {
           // Если не определили секцию, но есть категории, используем первую
           const firstCategory = categories[0];
@@ -353,6 +432,11 @@ export const MenuList: React.FC = () => {
             console.log('Используем первую категорию:', firstCategory.id);
             setSelectedCategory(firstCategory.id);
             lastCategoryChange.current = now;
+            
+            // Автоматически скроллим к активной категории
+            setTimeout(() => {
+              scrollToActiveCategory(firstCategory.id);
+            }, 100);
           }
         }
       });
@@ -439,11 +523,12 @@ export const MenuList: React.FC = () => {
       </div>
 
       {/* Categories */}
-      <div className="categories-nav">
-        <div className="categories-scroll">
+      <div className="categories-nav" ref={categoriesNavRef}>
+        <div className="categories-scroll" ref={categoriesScrollRef}>
           {categories.map((category) => (
             <button
               key={category.id}
+              data-category-id={category.id}
               className={`category-tab ${selectedCategory === category.id ? 'active' : ''}`}
               onClick={() => scrollToSection(category.id)}
             >
@@ -517,17 +602,17 @@ export const MenuList: React.FC = () => {
                         {item.tags.length > 0 && (
                           <div className="item-tags">
                             {getTagsForItem(item.id).map((tag) => (
-                                                              <span
-                                  key={tag.id}
-                                  className="item-tag"
-                                  style={{
-                                    color: tag.color,
-                                    backgroundColor: tag.backgroundColor,
-                                    border: `1px solid ${tag.color}`
-                                  }}
-                                >
-                                  {tag.name}
-                                </span>
+                              <span
+                                key={tag.id}
+                                className="item-tag"
+                                style={{
+                                  color: tag.color,
+                                  backgroundColor: tag.backgroundColor,
+                                  border: `1px solid ${tag.color}`
+                                }}
+                              >
+                                {tag.name}
+                              </span>
                             ))}
                           </div>
                         )}

@@ -123,7 +123,6 @@
   background: white;
   border-bottom: 1px solid #f0f0f0;
   padding: 0 16px;
-  overflow-x: auto;
   position: fixed;
   top: 60px;
   left: 0;
@@ -131,6 +130,13 @@
   z-index: 999;
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.categories-nav::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
 
 .categories-scroll {
@@ -138,6 +144,19 @@
   gap: 16px;
   padding: 12px 0;
   min-width: max-content;
+  overflow-x: auto;
+  width: 100%;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.categories-scroll::-webkit-scrollbar {
+  display: none;
+}
+.categories-scroll::after {
+  content: '';
+  display: block;
+  height: 1px;
 }
 
 .category-tab {

@@ -286,7 +286,7 @@ export const MenuList: React.FC = () => {
         // В Telegram MiniApp используем другие отступы
         headerHeight = 90; // Высота хедера в Telegram
         navHeight = 60; // Высота навигации в Telegram
-        additionalOffset = 40; // Увеличиваем отступ для позиционирования над заголовком
+        additionalOffset = 80; // Увеличиваем отступ для позиционирования над заголовком
       }
       
       const totalOffset = headerHeight + navHeight + additionalOffset;
@@ -375,7 +375,7 @@ export const MenuList: React.FC = () => {
           // В Telegram MiniApp используем другие отступы
           headerHeight = 90; // Высота хедера в Telegram
           navHeight = 60; // Высота навигации в Telegram
-          additionalOffset = 50; // Увеличиваем отступ для позиционирования над заголовком
+          additionalOffset = 90; // Увеличиваем отступ для позиционирования над заголовком
         }
         
         const totalOffset = headerHeight + navHeight + additionalOffset;

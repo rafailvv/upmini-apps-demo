@@ -263,7 +263,10 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
       {/* Item Info */}
       <div className="item-info-detail">
         <h2 className="item-name-detail">{item.name}</h2>
-        <p className="item-weight-detail">{item.weight}</p>
+        <div className="item-meta-row">
+          <p className="item-weight-detail">{item.weight}</p>
+          <p className="item-waiting-time-detail">Время ожидания: {item.waitingTime ?? 15} мин</p>
+        </div>
         <p className="item-description-detail">
           {item.description}
         </p>

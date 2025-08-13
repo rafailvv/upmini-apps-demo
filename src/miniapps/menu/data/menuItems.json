@@ -6,7 +6,10 @@
     "description": "Классическая итальянская паста с хрустящим беконом, свежими яйцами и тертым пармезаном. Блюдо готовится по традиционному рецепту с добавлением черного перца и ароматных специй. Идеально подходит для любителей насыщенных вкусов.",
     "price": 500,
     "image": "https://image.pollinations.ai/prompt/Карбонара с грибами и сыром",
-    "tags": [1, 2],
+    "tags": [
+      1,
+      2
+    ],
     "category": "hits",
     "addons": [
       {
@@ -25,7 +28,12 @@
         "price": 60
       }
     ],
-    "recommendedItems": [2, 3, 4]
+    "recommendedItems": [
+      2,
+      3,
+      4
+    ],
+    "waitingTime": 18
   },
   {
     "id": 2,
@@ -34,7 +42,9 @@
     "description": "Сочный стейк из отборной говядины, приготовленный на гриле до идеальной прожарки. Подается с сезонными овощами гриль и ароматным соусом. Мясо нежное и сочное, с характерной корочкой.",
     "price": 800,
     "image": "https://image.pollinations.ai/prompt/Стейк из говядины",
-    "tags": [3],
+    "tags": [
+      3
+    ],
     "category": "hits",
     "addons": [
       {
@@ -53,7 +63,12 @@
         "price": 30
       }
     ],
-    "recommendedItems": [1, 3, 4]
+    "recommendedItems": [
+      1,
+      3,
+      4
+    ],
+    "waitingTime": 25
   },
   {
     "id": 3,
@@ -62,7 +77,9 @@
     "description": "Свежий салат с нежной куриной грудкой, хрустящими сухариками и классическим соусом Цезарь. Листья салата хрустящие, курица сочная и ароматная. Идеальный выбор для легкого и полезного обеда.",
     "price": 350,
     "image": "https://image.pollinations.ai/prompt/Салат Цезарь с курицей",
-    "tags": [4],
+    "tags": [
+      4
+    ],
     "category": "hits",
     "addons": [
       {
@@ -81,7 +98,12 @@
         "price": 20
       }
     ],
-    "recommendedItems": [1, 2, 4]
+    "recommendedItems": [
+      1,
+      2,
+      4
+    ],
+    "waitingTime": 12
   },
   {
     "id": 4,
@@ -90,7 +112,9 @@
     "description": "Традиционная итальянская паста с сочным мясным фаршем в томатном соусе. Блюдо посыпано тертым пармезаном и свежим базиликом. Соус густой и ароматный, паста приготовлена аль денте.",
     "price": 450,
     "image": "https://image.pollinations.ai/prompt/Паста Болоньезе",
-    "tags": [5],
+    "tags": [
+      5
+    ],
     "category": "hits",
     "addons": [
       {
@@ -109,7 +133,12 @@
         "price": 60
       }
     ],
-    "recommendedItems": [1, 2, 3]
+    "recommendedItems": [
+      1,
+      2,
+      3
+    ],
+    "waitingTime": 15
   },
   {
     "id": 5,
@@ -118,7 +147,9 @@
     "description": "Кремовый ризотто с сочными креветками и мидиями, приготовленный на белом вине с добавлением пармезана. Рис получается нежным и ароматным, морепродукты свежие и сочные. Итальянская классика в лучшем исполнении.",
     "price": 650,
     "image": "https://image.pollinations.ai/prompt/Ризотто с морепродуктами",
-    "tags": [6],
+    "tags": [
+      6
+    ],
     "category": "main",
     "addons": [
       {
@@ -137,7 +168,12 @@
         "price": 60
       }
     ],
-    "recommendedItems": [6, 7, 8]
+    "recommendedItems": [
+      6,
+      7,
+      8
+    ],
+    "waitingTime": 15
   },
   {
     "id": 6,
@@ -146,7 +182,9 @@
     "description": "Многослойная лазанья с сочным мясным фаршем, нежным соусом бешамель и тертым пармезаном. Каждый слой пропитан ароматным соусом, тесто нежное и эластичное. Классическое итальянское блюдо.",
     "price": 580,
     "image": "https://image.pollinations.ai/prompt/Лазанья с мясом",
-    "tags": [5],
+    "tags": [
+      5
+    ],
     "category": "main",
     "addons": [
       {
@@ -165,7 +203,12 @@
         "price": 60
       }
     ],
-    "recommendedItems": [5, 7, 8]
+    "recommendedItems": [
+      5,
+      7,
+      8
+    ],
+    "waitingTime": 15
   },
   {
     "id": 7,
@@ -174,7 +217,9 @@
     "description": "Классические спагетти карбонара с хрустящим беконом, свежими яйцами и тертым пармезаном. Блюдо приправлено черным перцем и ароматными специями. Паста приготовлена аль денте для идеальной текстуры.",
     "price": 520,
     "image": "https://image.pollinations.ai/prompt/Спагетти Карбонара",
-    "tags": ["ПОПУЛЯРНОЕ"],
+    "tags": [
+      "ПОПУЛЯРНОЕ"
+    ],
     "category": "main",
     "addons": [
       {
@@ -193,7 +238,12 @@
         "price": 60
       }
     ],
-    "recommendedItems": [5, 6, 8]
+    "recommendedItems": [
+      5,
+      6,
+      8
+    ],
+    "waitingTime": 15
   },
   {
     "id": 8,
@@ -202,7 +252,9 @@
     "description": "Нежная паста с сочным лососем в сливочном соусе с каперсами и лимоном. Рыба свежая и ароматная, соус густой и насыщенный. Идеальное сочетание морских ноток и сливочной нежности.",
     "price": 720,
     "image": "https://image.pollinations.ai/prompt/Паста с лососем",
-    "tags": [6],
+    "tags": [
+      6
+    ],
     "category": "main",
     "addons": [
       {
@@ -221,7 +273,12 @@
         "price": 60
       }
     ],
-    "recommendedItems": [5, 6, 7]
+    "recommendedItems": [
+      5,
+      6,
+      7
+    ],
+    "waitingTime": 15
   },
   {
     "id": 9,
@@ -230,7 +287,9 @@
     "description": "Хлеб, помидоры, базилик, оливковое масло",
     "price": 180,
     "image": "https://image.pollinations.ai/prompt/Брускетта с томатами",
-    "tags": [8],
+    "tags": [
+      8
+    ],
     "category": "appetizers",
     "addons": [
       {
@@ -244,7 +303,12 @@
         "price": 25
       }
     ],
-    "recommendedItems": [10, 11, 12]
+    "recommendedItems": [
+      10,
+      11,
+      12
+    ],
+    "waitingTime": 15
   },
   {
     "id": 10,
@@ -253,7 +317,9 @@
     "description": "Тонко нарезанная говядина, руккола, пармезан",
     "price": 420,
     "image": "https://image.pollinations.ai/prompt/Карпаччо из говядины",
-    "tags": [6],
+    "tags": [
+      6
+    ],
     "category": "appetizers",
     "addons": [
       {
@@ -267,7 +333,12 @@
         "price": 25
       }
     ],
-    "recommendedItems": [9, 11, 12]
+    "recommendedItems": [
+      9,
+      11,
+      12
+    ],
+    "waitingTime": 15
   },
   {
     "id": 11,
@@ -276,7 +347,9 @@
     "description": "Ассорти сыров, орехи, мед, крекеры",
     "price": 380,
     "image": "https://image.pollinations.ai/prompt/Сырная тарелка",
-    "tags": [8],
+    "tags": [
+      8
+    ],
     "category": "appetizers",
     "addons": [
       {
@@ -290,7 +363,12 @@
         "price": 25
       }
     ],
-    "recommendedItems": [9, 10, 12]
+    "recommendedItems": [
+      9,
+      10,
+      12
+    ],
+    "waitingTime": 15
   },
   {
     "id": 12,
@@ -299,7 +377,9 @@
     "description": "Кальмары, кляр, соус тартар",
     "price": 320,
     "image": "https://image.pollinations.ai/prompt/Кальмары в кляре",
-    "tags": [7],
+    "tags": [
+      7
+    ],
     "category": "appetizers",
     "addons": [
       {
@@ -313,7 +393,12 @@
         "price": 25
       }
     ],
-    "recommendedItems": [9, 10, 11]
+    "recommendedItems": [
+      9,
+      10,
+      11
+    ],
+    "waitingTime": 15
   },
   {
     "id": 13,
@@ -322,7 +407,9 @@
     "description": "Классический итальянский десерт с нежными печеньями савоярди, пропитанными крепким кофе, и воздушным кремом из маскарпоне. Сверху посыпан какао-порошком. Нежный и ароматный десерт.",
     "price": 280,
     "image": "https://image.pollinations.ai/prompt/Тирамису",
-    "tags": [5],
+    "tags": [
+      5
+    ],
     "category": "desserts",
     "addons": [
       {
@@ -336,7 +423,12 @@
         "price": 15
       }
     ],
-    "recommendedItems": [14, 15, 16]
+    "recommendedItems": [
+      14,
+      15,
+      16
+    ],
+    "waitingTime": 15
   },
   {
     "id": 14,
@@ -345,7 +437,9 @@
     "description": "Классический нью-йоркский чизкейк с нежным творожным кремом на хрустящей песочной основе. Подается с ароматным ягодным соусом. Десерт получается нежным и воздушным, с идеальным балансом вкусов.",
     "price": 320,
     "image": "https://image.pollinations.ai/prompt/Чизкейк Нью-Йорк",
-    "tags": ["ПОПУЛЯРНОЕ"],
+    "tags": [
+      "ПОПУЛЯРНОЕ"
+    ],
     "category": "desserts",
     "addons": [
       {
@@ -359,7 +453,12 @@
         "price": 15
       }
     ],
-    "recommendedItems": [13, 15, 16]
+    "recommendedItems": [
+      13,
+      15,
+      16
+    ],
+    "waitingTime": 15
   },
   {
     "id": 15,
@@ -368,7 +467,9 @@
     "description": "Темный шоколад, ванильное мороженое",
     "price": 250,
     "image": "https://image.pollinations.ai/prompt/Шоколадный фондан",
-    "tags": [1],
+    "tags": [
+      1
+    ],
     "category": "desserts",
     "addons": [
       {
@@ -382,7 +483,12 @@
         "price": 15
       }
     ],
-    "recommendedItems": [13, 14, 16]
+    "recommendedItems": [
+      13,
+      14,
+      16
+    ],
+    "waitingTime": 15
   },
   {
     "id": 16,
@@ -391,7 +497,9 @@
     "description": "Сливки, ваниль, свежие ягоды",
     "price": 220,
     "image": "https://image.pollinations.ai/prompt/Панакота с ягодами",
-    "tags": [4],
+    "tags": [
+      4
+    ],
     "category": "desserts",
     "addons": [
       {
@@ -405,7 +513,12 @@
         "price": 15
       }
     ],
-    "recommendedItems": [13, 14, 15]
+    "recommendedItems": [
+      13,
+      14,
+      15
+    ],
+    "waitingTime": 15
   },
   {
     "id": 17,
@@ -414,7 +527,9 @@
     "description": "Итальянский ликер из лимонов",
     "price": 180,
     "image": "https://image.pollinations.ai/prompt/Лимончелло",
-    "tags": [11],
+    "tags": [
+      11
+    ],
     "category": "drinks",
     "addons": [
       {
@@ -428,7 +543,12 @@
         "price": 20
       }
     ],
-    "recommendedItems": [18, 19, 20]
+    "recommendedItems": [
+      18,
+      19,
+      20
+    ],
+    "waitingTime": 15
   },
   {
     "id": 18,
@@ -437,7 +557,10 @@
     "description": "Апероль, просекко, содовая, апельсин",
     "price": 420,
     "image": "https://image.pollinations.ai/prompt/Апероль Шприц",
-    "tags": [11, 3],
+    "tags": [
+      11,
+      3
+    ],
     "category": "drinks",
     "addons": [
       {
@@ -451,7 +574,12 @@
         "price": 20
       }
     ],
-    "recommendedItems": [17, 19, 20]
+    "recommendedItems": [
+      17,
+      19,
+      20
+    ],
+    "waitingTime": 15
   },
   {
     "id": 19,
@@ -460,7 +588,9 @@
     "description": "Свежевыжатый апельсиновый сок",
     "price": 150,
     "image": "https://image.pollinations.ai/prompt/Фреш из апельсинов",
-    "tags": [12],
+    "tags": [
+      12
+    ],
     "category": "drinks",
     "addons": [
       {
@@ -474,7 +604,12 @@
         "price": 20
       }
     ],
-    "recommendedItems": [17, 18, 20]
+    "recommendedItems": [
+      17,
+      18,
+      20
+    ],
+    "waitingTime": 15
   },
   {
     "id": 20,
@@ -483,7 +618,9 @@
     "description": "Эспрессо, молоко, карамельный сироп",
     "price": 180,
     "image": "https://image.pollinations.ai/prompt/Латте с карамелью",
-    "tags": [10],
+    "tags": [
+      10
+    ],
     "category": "drinks",
     "addons": [
       {
@@ -497,7 +634,12 @@
         "price": 20
       }
     ],
-    "recommendedItems": [17, 18, 19]
+    "recommendedItems": [
+      17,
+      18,
+      19
+    ],
+    "waitingTime": 15
   },
   {
     "id": 21,
@@ -506,7 +648,10 @@
     "description": "Итальянский десерт с кофе, маскарпоне и какао",
     "price": 280,
     "image": "https://image.pollinations.ai/prompt/Тирамису",
-    "tags": [9, 3],
+    "tags": [
+      9,
+      3
+    ],
     "category": "desserts",
     "addons": [
       {
@@ -520,7 +665,12 @@
         "price": 30
       }
     ],
-    "recommendedItems": [22, 23, 24]
+    "recommendedItems": [
+      22,
+      23,
+      24
+    ],
+    "waitingTime": 15
   },
   {
     "id": 22,
@@ -529,7 +679,9 @@
     "description": "Нежный итальянский десерт с ванилью и ягодным соусом",
     "price": 220,
     "image": "https://image.pollinations.ai/prompt/Нежный итальянский десерт с ванилью и ягодным соусом",
-    "tags": [9],
+    "tags": [
+      9
+    ],
     "category": "desserts",
     "addons": [
       {
@@ -543,7 +695,12 @@
         "price": 35
       }
     ],
-    "recommendedItems": [21, 23, 24]
+    "recommendedItems": [
+      21,
+      23,
+      24
+    ],
+    "waitingTime": 15
   },
   {
     "id": 23,
@@ -552,7 +709,10 @@
     "description": "Классический чизкейк с нежным творожным кремом",
     "price": 320,
     "image": "https://image.pollinations.ai/prompt/Чизкейк Нью-Йорк",
-    "tags": [9, 5],
+    "tags": [
+      9,
+      5
+    ],
     "category": "desserts",
     "addons": [
       {
@@ -566,7 +726,12 @@
         "price": 60
       }
     ],
-    "recommendedItems": [21, 22, 24]
+    "recommendedItems": [
+      21,
+      22,
+      24
+    ],
+    "waitingTime": 15
   },
   {
     "id": 24,
@@ -575,7 +740,10 @@
     "description": "Теплый шоколадный кекс с жидкой начинкой и мороженым",
     "price": 290,
     "image": "https://image.pollinations.ai/prompt/Шоколадный фондан",
-    "tags": [9, 10],
+    "tags": [
+      9,
+      10
+    ],
     "category": "desserts",
     "addons": [
       {
@@ -589,7 +757,12 @@
         "price": 30
       }
     ],
-    "recommendedItems": [21, 22, 23]
+    "recommendedItems": [
+      21,
+      22,
+      23
+    ],
+    "waitingTime": 15
   },
   {
     "id": 25,
@@ -598,7 +771,10 @@
     "description": "Ароматный тайский суп том ям с сочными креветками, свежими грибами и кокосовым молоком. Блюдо имеет характерную остроту и кислинку, приправлено лемонграссом и галангалом. Экзотический вкус Таиланда.",
     "price": 450,
     "image": "https://image.pollinations.ai/prompt/Суп Том Ям",
-    "tags": [13, 2],
+    "tags": [
+      13,
+      2
+    ],
     "category": "soups",
     "addons": [
       {
@@ -612,7 +788,12 @@
         "price": 80
       }
     ],
-    "recommendedItems": [26, 27, 28]
+    "recommendedItems": [
+      26,
+      27,
+      28
+    ],
+    "waitingTime": 15
   },
   {
     "id": 26,
@@ -621,7 +802,10 @@
     "description": "Наваристый украинский борщ с говядиной, свеклой и овощами. Подается со сметаной и ароматными чесночными пампушками. Суп густой и насыщенный, с характерным бордовым цветом и богатым вкусом.",
     "price": 380,
     "image": "https://image.pollinations.ai/prompt/Традиционный украинский борщ со сметаной и чесночными пампушками",
-    "tags": [13, 5],
+    "tags": [
+      13,
+      5
+    ],
     "category": "soups",
     "addons": [
       {
@@ -635,7 +819,12 @@
         "price": 60
       }
     ],
-    "recommendedItems": [25, 27, 28]
+    "recommendedItems": [
+      25,
+      27,
+      28
+    ],
+    "waitingTime": 15
   },
   {
     "id": 27,
@@ -644,7 +833,10 @@
     "description": "Нежный суп-пюре из тыквы с кремом и тыквенными семечками",
     "price": 320,
     "image": "https://image.pollinations.ai/prompt/Суп-пюре из тыквы",
-    "tags": [13, 8],
+    "tags": [
+      13,
+      8
+    ],
     "category": "soups",
     "addons": [
       {
@@ -658,7 +850,12 @@
         "price": 40
       }
     ],
-    "recommendedItems": [25, 26, 28]
+    "recommendedItems": [
+      25,
+      26,
+      28
+    ],
+    "waitingTime": 15
   },
   {
     "id": 28,
@@ -667,7 +864,10 @@
     "description": "Ароматный грибной суп с лесными грибами и сметаной",
     "price": 350,
     "image": "https://image.pollinations.ai/prompt/Грибной суп",
-    "tags": [13, 8],
+    "tags": [
+      13,
+      8
+    ],
     "category": "soups",
     "addons": [
       {
@@ -681,7 +881,12 @@
         "price": 35
       }
     ],
-    "recommendedItems": [25, 26, 27]
+    "recommendedItems": [
+      25,
+      26,
+      27
+    ],
+    "waitingTime": 15
   },
   {
     "id": 29,
@@ -690,7 +895,10 @@
     "description": "Классическая пицца Маргарита с сочными томатами, нежной моцареллой и свежим базиликом. Тесто тонкое и хрустящее, приготовлено в дровяной печи. Итальянская классика в лучшем исполнении.",
     "price": 520,
     "image": "https://image.pollinations.ai/prompt/Пицца Маргарита",
-    "tags": [14, 5],
+    "tags": [
+      14,
+      5
+    ],
     "category": "pizza",
     "addons": [
       {
@@ -704,7 +912,12 @@
         "price": 60
       }
     ],
-    "recommendedItems": [30, 31, 32]
+    "recommendedItems": [
+      30,
+      31,
+      32
+    ],
+    "waitingTime": 15
   },
   {
     "id": 30,
@@ -713,7 +926,10 @@
     "description": "Острая пицца с сочным пепперони, нежной моцареллой и томатным соусом. Салями имеет характерную остроту и аромат. Тесто тонкое и хрустящее, приготовлено в дровяной печи.",
     "price": 580,
     "image": "https://image.pollinations.ai/prompt/Пицца Пепперони",
-    "tags": [14, 2],
+    "tags": [
+      14,
+      2
+    ],
     "category": "pizza",
     "addons": [
       {
@@ -727,7 +943,12 @@
         "price": 40
       }
     ],
-    "recommendedItems": [29, 31, 32]
+    "recommendedItems": [
+      29,
+      31,
+      32
+    ],
+    "waitingTime": 15
   },
   {
     "id": 31,
@@ -736,7 +957,10 @@
     "description": "Пицца с моцареллой, горгонзолой, пармезаном и рикоттой",
     "price": 620,
     "image": "https://image.pollinations.ai/prompt/Пицца с моцареллой, горгонзолой, пармезаном и рикоттой",
-    "tags": [14, 6],
+    "tags": [
+      14,
+      6
+    ],
     "category": "pizza",
     "addons": [
       {
@@ -750,7 +974,12 @@
         "price": 70
       }
     ],
-    "recommendedItems": [29, 30, 32]
+    "recommendedItems": [
+      29,
+      30,
+      32
+    ],
+    "waitingTime": 15
   },
   {
     "id": 32,
@@ -759,7 +988,10 @@
     "description": "Пицца с овощами: баклажаны, цукини, перец, помидоры",
     "price": 480,
     "image": "https://image.pollinations.ai/prompt/Пицца Вегетарианская",
-    "tags": [14, 8],
+    "tags": [
+      14,
+      8
+    ],
     "category": "pizza",
     "addons": [
       {
@@ -773,6 +1005,11 @@
         "price": 50
       }
     ],
-    "recommendedItems": [29, 30, 31]
+    "recommendedItems": [
+      29,
+      30,
+      31
+    ],
+    "waitingTime": 15
   }
-] 
+]

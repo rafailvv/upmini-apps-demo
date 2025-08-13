@@ -33,6 +33,7 @@ export interface MenuItem {
   category: string;
   addons: Addon[];
   recommendedItems: number[]; // массив ID рекомендуемых блюд
+  waitingTime?: number; // время ожидания приготовления в минутах
 }
 
 export interface PastOrder {

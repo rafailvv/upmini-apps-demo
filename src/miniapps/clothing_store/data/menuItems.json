@@ -1,0 +1,514 @@
+[
+  {
+    "id": 1,
+    "name": "Джинсы Slim Fit",
+    "size": "M",
+    "description": "Классические джинсы с облегающим кроем Slim Fit, выполненные из прочного денима. Идеальны для повседневной носки, легко комбинируются с рубашками и футболками.",
+    "price": 3500,
+    "image": "https://image.pollinations.ai/prompt/Classic slim-fit jeans made of durable blue denim, clean minimal styling, subtle fading, front view laid flat, high-detail fabric texture, neutral studio background, soft studio lighting, realistic shadows",
+    "tags": [1, 5],
+    "category": "men",
+    "addons": [
+      { "id": 1, "name": "Ремень кожаный", "price": 1200 },
+      { "id": 2, "name": "Брелок для джинсов", "price": 300 }
+    ],
+    "recommendedItems": [2, 3, 4],
+    "stock": 25
+  },
+  {
+    "id": 2,
+    "name": "Рубашка классическая белая",
+    "size": "L",
+    "description": "Стильная рубашка из хлопка с длинным рукавом. Подходит для офиса, встреч и мероприятий. Легко сочетается с брюками и джинсами.",
+    "price": 2400,
+    "image": "https://image.pollinations.ai/prompt/Classic white men's cotton dress shirt, long sleeves, button-down front, crisp collar, neatly ironed, front view on hanger or flat lay, neutral studio background, soft even lighting, high detail",
+    "tags": [4],
+    "category": "men",
+    "addons": [
+      { "id": 3, "name": "Запонки стальные", "price": 1500 },
+      { "id": 4, "name": "Галстук шелковый", "price": 1800 }
+    ],
+    "recommendedItems": [1, 5, 6],
+    "stock": 40
+  },
+  {
+    "id": 3,
+    "name": "Платье вечернее",
+    "size": "S",
+    "description": "Элегантное вечернее платье в пол из шифона с поясом на талии. Идеально для особых случаев.",
+    "price": 5200,
+    "image": "https://image.pollinations.ai/prompt/Elegant floor-length evening dress made of chiffon, fitted waist with a belt, flowing fabric, women's fashion, front view on mannequin, neutral studio background, soft studio lighting, detailed texture",
+    "tags": [2, 6],
+    "category": "women",
+    "addons": [
+      { "id": 5, "name": "Клатч", "price": 2500 },
+      { "id": 6, "name": "Шарф шелковый", "price": 1700 }
+    ],
+    "recommendedItems": [7, 8, 9],
+    "stock": 15
+  },
+  {
+    "id": 4,
+    "name": "Куртка кожаная мужская",
+    "size": "L",
+    "description": "Классическая мужская кожаная куртка с подкладкой. Подходит для осени и весны.",
+    "price": 8900,
+    "image": "https://image.pollinations.ai/prompt/Classic men's black leather jacket with lining, zip closure, minimal detailing, slight sheen, front view on mannequin, neutral studio background, soft directional lighting, realistic texture",
+    "tags": [6],
+    "category": "outerwear",
+    "addons": [
+      { "id": 7, "name": "Шарф шерстяной", "price": 1500 },
+      { "id": 8, "name": "Перчатки кожаные", "price": 2200 }
+    ],
+    "recommendedItems": [1, 2, 10],
+    "stock": 12
+  },
+  {
+    "id": 5,
+    "name": "Кроссовки Nike Air",
+    "size": "42",
+    "description": "Лёгкие и стильные кроссовки Nike Air, подходящие для спорта и повседневной носки.",
+    "price": 6700,
+    "image": "https://image.pollinations.ai/prompt/Nike Air inspired lightweight sporty sneakers, breathable mesh upper, cushioned sole, three-quarter angle product shot, floating on neutral studio background, soft even lighting, crisp detail",
+    "tags": [1, 3],
+    "category": "shoes",
+    "addons": [
+      { "id": 9, "name": "Носки спортивные", "price": 500 },
+      { "id": 10, "name": "Стельки ортопедические", "price": 900 }
+    ],
+    "recommendedItems": [4, 6, 7],
+    "stock": 20
+  },
+  {
+    "id": 6,
+    "name": "Худи oversize",
+    "size": "XL",
+    "description": "Тёплое худи оверсайз с капюшоном и карманом кенгуру. Идеально для повседневного комфорта.",
+    "price": 3100,
+    "image": "https://image.pollinations.ai/prompt/Cozy oversized hoodie with hood and kangaroo pocket, relaxed fit, soft fleece texture, front view on mannequin, neutral studio background, soft diffused lighting, high detail",
+    "tags": [1, 5],
+    "category": "sportswear",
+    "addons": [
+      { "id": 11, "name": "Шапка вязаная", "price": 800 },
+      { "id": 12, "name": "Рюкзак городской", "price": 3500 }
+    ],
+    "recommendedItems": [5, 8, 9],
+    "stock": 30
+  },
+  {
+    "id": 7,
+    "name": "Платье летнее",
+    "size": "M",
+    "description": "Лёгкое летнее платье из хлопка с цветочным принтом. Отлично подходит для прогулок и отдыха.",
+    "price": 2800,
+    "image": "https://image.pollinations.ai/prompt/Lightweight summer cotton dress with floral print, knee-length, short sleeves, feminine silhouette, front view on mannequin, outdoor-sunlit feel on neutral studio background, soft lighting",
+    "tags": [1, 4],
+    "category": "women",
+    "addons": [
+      { "id": 13, "name": "Сумка плетёная", "price": 1900 },
+      { "id": 14, "name": "Солнцезащитные очки", "price": 2500 }
+    ],
+    "recommendedItems": [3, 8, 12],
+    "stock": 18
+  },
+  {
+    "id": 8,
+    "name": "Блузка шёлковая",
+    "size": "S",
+    "description": "Элегантная блузка из натурального шёлка, подходящая для офиса и встреч.",
+    "price": 3400,
+    "image": "https://image.pollinations.ai/prompt/Elegant women's silk blouse, smooth drape, subtle sheen, tailored fit, front view on hanger or mannequin, neutral studio background, soft studio lighting, fine fabric detail",
+    "tags": [4],
+    "category": "women",
+    "addons": [
+      { "id": 15, "name": "Юбка миди", "price": 3200 },
+      { "id": 16, "name": "Колье серебряное", "price": 4100 }
+    ],
+    "recommendedItems": [3, 7, 9],
+    "stock": 22
+  },
+  {
+    "id": 9,
+    "name": "Спортивный костюм Adidas",
+    "size": "L",
+    "description": "Комплект спортивной одежды Adidas из худи и брюк. Подходит для тренировок и прогулок.",
+    "price": 5900,
+    "image": "https://image.pollinations.ai/prompt/Men's athletic tracksuit set with hoodie and jogger pants, modern sporty design, comfortable fit, front view on mannequin, neutral studio background, soft even lighting, detailed fabric texture",
+    "tags": [3, 5],
+    "category": "sportswear",
+    "addons": [
+      { "id": 17, "name": "Фитнес-браслет", "price": 2500 },
+      { "id": 18, "name": "Бутылка для воды", "price": 900 }
+    ],
+    "recommendedItems": [5, 6, 10],
+    "stock": 27
+  },
+  {
+    "id": 10,
+    "name": "Куртка пуховая женская",
+    "size": "M",
+    "description": "Тёплая женская пуховая куртка для зимы. Лёгкая и комфортная.",
+    "price": 11500,
+    "image": "https://image.pollinations.ai/prompt/Women's down puffer jacket, warm and lightweight, quilted pattern, hood optional, front view on mannequin, winter outerwear, neutral studio background, soft lighting, realistic texture",
+    "tags": [6],
+    "category": "outerwear",
+    "addons": [
+      { "id": 19, "name": "Шапка с помпоном", "price": 1500 },
+      { "id": 20, "name": "Перчатки утеплённые", "price": 1800 }
+    ],
+    "recommendedItems": [4, 7, 8],
+    "stock": 14
+  },
+  {
+    "id": 11,
+    "name": "Брюки чинос",
+    "size": "M",
+    "description": "Удобные хлопковые чиносы прямого кроя для повседневной носки и офиса.",
+    "price": 3200,
+    "image": "https://image.pollinations.ai/prompt/Men's cotton chino pants, straight fit, minimalist design, front view laid flat with slight fold, neutral studio background, soft even lighting, detailed fabric texture",
+    "tags": [5],
+    "category": "men",
+    "addons": [
+      { "id": 21, "name": "Ремень плетёный", "price": 900 },
+      { "id": 22, "name": "Набор носков (3 пары)", "price": 750 }
+    ],
+    "recommendedItems": [2, 30, 31],
+    "stock": 28
+  },
+  {
+    "id": 12,
+    "name": "Футболка базовая",
+    "size": "L",
+    "description": "Базовая футболка из мягкого хлопка, дышащая и комфортная.",
+    "price": 1200,
+    "image": "https://image.pollinations.ai/prompt/Basic men's cotton T-shirt, short sleeves, crew neck, clean minimal design, front view on mannequin, neutral studio background, soft lighting, high detail fabric",
+    "tags": [1, 5],
+    "category": "men",
+    "addons": [
+      { "id": 23, "name": "Набор вешалок (5 шт.)", "price": 400 },
+      { "id": 24, "name": "Спрей для ткани", "price": 350 }
+    ],
+    "recommendedItems": [1, 11, 30],
+    "stock": 60
+  },
+  {
+    "id": 13,
+    "name": "Пальто шерстяное",
+    "size": "L",
+    "description": "Классическое мужское пальто из шерсти с подкладкой, прямой силуэт.",
+    "price": 13500,
+    "image": "https://image.pollinations.ai/prompt/Classic men's wool overcoat, straight silhouette, notch lapels, front buttons, elegant minimal style, front view on mannequin, neutral studio background, soft directional lighting",
+    "tags": [6, 4],
+    "category": "outerwear",
+    "addons": [
+      { "id": 25, "name": "Шарф кашемировый", "price": 3200 },
+      { "id": 26, "name": "Чехол для одежды", "price": 700 }
+    ],
+    "recommendedItems": [2, 31, 4],
+    "stock": 10
+  },
+  {
+    "id": 14,
+    "name": "Костюм классический",
+    "size": "50",
+    "description": "Двухпредметный мужской костюм: пиджак и брюки, полуприталенный крой.",
+    "price": 18900,
+    "image": "https://image.pollinations.ai/prompt/Men's two-piece classic suit, semi-fitted, jacket and trousers, elegant tailoring, front view on mannequin, neutral studio background, soft studio lighting, crisp fabric detail",
+    "tags": [6, 4],
+    "category": "men",
+    "addons": [
+      { "id": 27, "name": "Ремень лакированный", "price": 1400 },
+      { "id": 28, "name": "Бабочка атласная", "price": 900 }
+    ],
+    "recommendedItems": [2, 31, 11],
+    "stock": 7
+  },
+  {
+    "id": 15,
+    "name": "Юбка плиссе",
+    "size": "S",
+    "description": "Женская юбка миди с плиссировкой, струящаяся ткань.",
+    "price": 3100,
+    "image": "https://image.pollinations.ai/prompt/Women's pleated midi skirt, flowing fabric, gentle pleats, high waist, front view on mannequin, neutral studio background, soft lighting, detailed texture",
+    "tags": [4, 5],
+    "category": "women",
+    "addons": [
+      { "id": 29, "name": "Пояс тонкий", "price": 700 },
+      { "id": 30, "name": "Колготки 40 den", "price": 450 }
+    ],
+    "recommendedItems": [8, 32, 7],
+    "stock": 24
+  },
+  {
+    "id": 16,
+    "name": "Топ базовый",
+    "size": "M",
+    "description": "Базовый топ из вискозы, мягкий и эластичный.",
+    "price": 1100,
+    "image": "https://image.pollinations.ai/prompt/Basic women's viscose top, soft and stretchy, sleeveless, clean minimal design, front view on mannequin, neutral studio background, soft even lighting",
+    "tags": [1, 5],
+    "category": "women",
+    "addons": [
+      { "id": 31, "name": "Бра-топ бесшовный", "price": 1300 },
+      { "id": 32, "name": "Лямки прозрачные", "price": 250 }
+    ],
+    "recommendedItems": [7, 15, 8],
+    "stock": 50
+  },
+  {
+    "id": 17,
+    "name": "Кардиган вязаный",
+    "size": "M",
+    "description": "Тёплый женский кардиган крупной вязки на пуговицах.",
+    "price": 4200,
+    "image": "https://image.pollinations.ai/prompt/Women's chunky-knit cardigan with buttons, cozy texture, front view on mannequin, neutral studio background, soft directional lighting, high detail knit pattern",
+    "tags": [4, 5],
+    "category": "women",
+    "addons": [
+      { "id": 33, "name": "Брошь минималистичная", "price": 600 },
+      { "id": 34, "name": "Чехол для свитера", "price": 350 }
+    ],
+    "recommendedItems": [8, 10, 15],
+    "stock": 19
+  },
+  {
+    "id": 18,
+    "name": "Кроссовки беговые ASICS",
+    "size": "43",
+    "description": "Беговые кроссовки с амортизацией и сетчатым верхом для вентиляции.",
+    "price": 7400,
+    "image": "https://image.pollinations.ai/prompt/Running shoes with cushioning and breathable mesh upper, sporty silhouette, three-quarter angle product shot, neutral studio background, soft even lighting, crisp details",
+    "tags": [3, 5],
+    "category": "shoes",
+    "addons": [
+      { "id": 35, "name": "Шнурки эластичные", "price": 450 },
+      { "id": 36, "name": "Защитный спрей для обуви", "price": 520 }
+    ],
+    "recommendedItems": [9, 27, 26],
+    "stock": 21
+  },
+  {
+    "id": 19,
+    "name": "Туфли лодочки",
+    "size": "38",
+    "description": "Классические женские лодочки на среднем каблуке.",
+    "price": 5600,
+    "image": "https://image.pollinations.ai/prompt/Classic women's pumps with mid heel, elegant pointed toe, smooth finish, three-quarter angle product shot, neutral studio background, soft lighting, realistic shadows",
+    "tags": [6, 4],
+    "category": "shoes",
+    "addons": [
+      { "id": 37, "name": "Гелевые подушечки", "price": 390 },
+      { "id": 38, "name": "Щётка для замши", "price": 480 }
+    ],
+    "recommendedItems": [3, 8, 15],
+    "stock": 16
+  },
+  {
+    "id": 20,
+    "name": "Ботинки кожаные",
+    "size": "44",
+    "description": "Зимние кожаные ботинки с утеплителем и нескользящей подошвой.",
+    "price": 8900,
+    "image": "https://image.pollinations.ai/prompt/Men's leather winter boots with insulation and non-slip sole, rugged design, three-quarter angle product shot, neutral studio background, soft lighting, detailed leather texture",
+    "tags": [6],
+    "category": "shoes",
+    "addons": [
+      { "id": 39, "name": "Крем для обуви", "price": 300 },
+      { "id": 40, "name": "Пропитка водоотталкивающая", "price": 550 }
+    ],
+    "recommendedItems": [4, 13, 29],
+    "stock": 13
+  },
+  {
+    "id": 21,
+    "name": "Рюкзак кожаный",
+    "size": "one size",
+    "description": "Городской рюкзак из натуральной кожи с отделением для ноутбука.",
+    "price": 7200,
+    "image": "https://image.pollinations.ai/prompt/Urban leather backpack with laptop compartment, minimalist design, front view standing upright, neutral studio background, soft even lighting, detailed leather grain",
+    "tags": [6, 5],
+    "category": "accessories",
+    "addons": [
+      { "id": 41, "name": "Органайзер для кабелей", "price": 650 },
+      { "id": 42, "name": "Брелок-карабин", "price": 290 }
+    ],
+    "recommendedItems": [6, 1, 30],
+    "stock": 17
+  },
+  {
+    "id": 22,
+    "name": "Сумка кросс-боди",
+    "size": "one size",
+    "description": "Компактная женская сумка через плечо с регулируемым ремнём.",
+    "price": 4600,
+    "image": "https://image.pollinations.ai/prompt/Compact women's crossbody bag with adjustable strap, minimalist modern style, front view, neutral studio background, soft lighting, clean product shot",
+    "tags": [1, 5],
+    "category": "accessories",
+    "addons": [
+      { "id": 43, "name": "Ремень сменный", "price": 800 },
+      { "id": 44, "name": "Чехол для карт", "price": 450 }
+    ],
+    "recommendedItems": [7, 3, 19],
+    "stock": 26
+  },
+  {
+    "id": 23,
+    "name": "Кепка бейсболка",
+    "size": "adjustable",
+    "description": "Хлопковая бейсболка с регулировкой размера, универсальный стиль.",
+    "price": 1100,
+    "image": "https://image.pollinations.ai/prompt/Cotton baseball cap, adjustable back strap, clean unbranded design, front three-quarter angle, neutral studio background, soft even lighting, crisp details",
+    "tags": [1, 5],
+    "category": "accessories",
+    "addons": [
+      { "id": 45, "name": "Нашивки (набор)", "price": 350 },
+      { "id": 46, "name": "Значок эмалевый", "price": 290 }
+    ],
+    "recommendedItems": [6, 27, 12],
+    "stock": 44
+  },
+  {
+    "id": 24,
+    "name": "Ремень плетёный текстильный",
+    "size": "110 см",
+    "description": "Эластичный ремень с металлической пряжкой, комфортная посадка.",
+    "price": 1300,
+    "image": "https://image.pollinations.ai/prompt/Woven textile belt with metal buckle, elastic comfort fit, coiled and laid flat, neutral studio background, soft lighting, detailed weave texture",
+    "tags": [5],
+    "category": "accessories",
+    "addons": [
+      { "id": 47, "name": "Дырокол для ремней", "price": 500 },
+      { "id": 48, "name": "Чехол для ремня", "price": 300 }
+    ],
+    "recommendedItems": [1, 11, 14],
+    "stock": 35
+  },
+  {
+    "id": 25,
+    "name": "Носки (3 пары)",
+    "size": "41-45",
+    "description": "Набор хлопковых носков без резинки, дышащие и мягкие.",
+    "price": 690,
+    "image": "https://image.pollinations.ai/prompt/Pack of three pairs of cotton socks, breathable and soft, neatly stacked, neutral studio background, soft even lighting, high detail fabric texture",
+    "tags": [5, 1],
+    "category": "accessories",
+    "addons": [
+      { "id": 49, "name": "Подарочная коробка", "price": 250 },
+      { "id": 50, "name": "Аромасаше", "price": 220 }
+    ],
+    "recommendedItems": [12, 5, 11],
+    "stock": 90
+  },
+  {
+    "id": 26,
+    "name": "Леггинсы спортивные",
+    "size": "M",
+    "description": "Эластичные леггинсы с высокой посадкой для тренировок.",
+    "price": 2600,
+    "image": "https://image.pollinations.ai/prompt/Women's high-waisted athletic leggings, stretchy performance fabric, slim fit, front view on mannequin, neutral studio background, soft lighting, detailed texture",
+    "tags": [3, 5],
+    "category": "sportswear",
+    "addons": [
+      { "id": 51, "name": "Напульсники", "price": 450 },
+      { "id": 52, "name": "Полотенце микрофибра", "price": 600 }
+    ],
+    "recommendedItems": [27, 18, 9],
+    "stock": 33
+  },
+  {
+    "id": 27,
+    "name": "Майка спортивная",
+    "size": "L",
+    "description": "Дышащая майка из быстросохнущей ткани для фитнеса и бега.",
+    "price": 1500,
+    "image": "https://image.pollinations.ai/prompt/Breathable athletic tank top made of quick-dry fabric, men's sportswear, front view on mannequin, neutral studio background, soft even lighting, fine fabric detail",
+    "tags": [3, 5],
+    "category": "sportswear",
+    "addons": [
+      { "id": 53, "name": "Повязка на голову", "price": 390 },
+      { "id": 54, "name": "Спортивная сумка", "price": 2100 }
+    ],
+    "recommendedItems": [26, 18, 5],
+    "stock": 48
+  },
+  {
+    "id": 28,
+    "name": "Куртка-ветровка",
+    "size": "M",
+    "description": "Лёгкая ветровка с водоотталкивающей пропиткой и капюшоном.",
+    "price": 5200,
+    "image": "https://image.pollinations.ai/prompt/Lightweight windbreaker jacket with hood and water-repellent finish, front view on mannequin, outdoor-tech style, neutral studio background, soft lighting, realistic fabric texture",
+    "tags": [1, 5],
+    "category": "outerwear",
+    "addons": [
+      { "id": 55, "name": "Чехол-компрессор", "price": 650 },
+      { "id": 56, "name": "Светоотражающие наклейки", "price": 300 }
+    ],
+    "recommendedItems": [27, 5, 9],
+    "stock": 29
+  },
+  {
+    "id": 29,
+    "name": "Пуховик мужской",
+    "size": "XL",
+    "description": "Тёплый мужской пуховик с высоким воротником и глубокими карманами.",
+    "price": 12900,
+    "image": "https://image.pollinations.ai/prompt/Warm men's down parka with high collar and deep pockets, quilted pattern, front view on mannequin, winter outerwear, neutral studio background, soft lighting, detailed texture",
+    "tags": [6],
+    "category": "outerwear",
+    "addons": [
+      { "id": 57, "name": "Балаклава тёплая", "price": 900 },
+      { "id": 58, "name": "Подогреватели для рук", "price": 350 }
+    ],
+    "recommendedItems": [20, 4, 13],
+    "stock": 11
+  },
+  {
+    "id": 30,
+    "name": "Поло хлопковое",
+    "size": "M",
+    "description": "Футболка-поло из 100% хлопка, классический воротник и планка на пуговицах.",
+    "price": 1900,
+    "image": "https://image.pollinations.ai/prompt/Cotton polo shirt, classic collar and button placket, men's casual wear, front view on mannequin, neutral studio background, soft even lighting, clean product shot",
+    "tags": [5, 4],
+    "category": "men",
+    "addons": [
+      { "id": 59, "name": "Пакет подарочный", "price": 180 },
+      { "id": 60, "name": "Запасные пуговицы", "price": 120 }
+    ],
+    "recommendedItems": [1, 11, 2],
+    "stock": 46
+  },
+  {
+    "id": 31,
+    "name": "Джемпер кашемировый",
+    "size": "L",
+    "description": "Мужской кашемировый джемпер с круглым вырезом, мягкий и тёплый.",
+    "price": 8700,
+    "image": "https://image.pollinations.ai/prompt/Men's cashmere crewneck sweater, soft and warm, fine knit, front view on mannequin, neutral studio background, soft lighting, detailed cashmere texture",
+    "tags": [6, 4],
+    "category": "men",
+    "addons": [
+      { "id": 61, "name": "Средство для шерсти", "price": 390 },
+      { "id": 62, "name": "Плечики широкие", "price": 520 }
+    ],
+    "recommendedItems": [13, 14, 11],
+    "stock": 9
+  },
+  {
+    "id": 32,
+    "name": "Блузка офисная",
+    "size": "M",
+    "description": "Женская офисная блузка из хлопка с эластаном, приталенный силуэт.",
+    "price": 2700,
+    "image": "https://image.pollinations.ai/prompt/Women's office blouse made of cotton with elastane, tailored slim fit, crisp collar, front view on mannequin, neutral studio background, soft studio lighting, high detail",
+    "tags": [4, 5],
+    "category": "women",
+    "addons": [
+      { "id": 63, "name": "Подкладка для воротника", "price": 260 },
+      { "id": 64, "name": "Лента для подгиба", "price": 180 }
+    ],
+    "recommendedItems": [15, 8, 19],
+    "stock": 34
+  }
+]

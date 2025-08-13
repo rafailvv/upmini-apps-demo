@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "НОВИНКА",
+    "color": "#FF6B35",
+    "backgroundColor": "#FFF5F2",
+    "description": "Новые модели сезона"
+  },
+  {
+    "id": 2,
+    "name": "РАСПРОДАЖА",
+    "color": "#E74C3C",
+    "backgroundColor": "#FDF2F2",
+    "description": "Скидки на популярные товары"
+  },
+  {
+    "id": 3,
+    "name": "ПОПУЛЯРНОЕ",
+    "color": "#F39C12",
+    "backgroundColor": "#FEF9E7",
+    "description": "Хиты продаж"
+  },
+  {
+    "id": 4,
+    "name": "КЛАССИКА",
+    "color": "#8E44AD",
+    "backgroundColor": "#F8F4FD",
+    "description": "Вечные модели"
+  },
+  {
+    "id": 5,
+    "name": "КАЖДЫЙ ДЕНЬ",
+    "color": "#27AE60",
+    "backgroundColor": "#F0F9F4",
+    "description": "Одежда для повседневной носки"
+  },
+  {
+    "id": 6,
+    "name": "ПРЕМИУМ",
+    "color": "#C0392B",
+    "backgroundColor": "#FDF2F2",
+    "description": "Премиум-коллекция"
+  }
+]

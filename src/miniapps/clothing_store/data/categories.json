@@ -1,0 +1,37 @@
+[
+  {
+    "id": "new",
+    "name": "new",
+    "label": "НОВИНКИ"
+  },
+  {
+    "id": "men",
+    "name": "men",
+    "label": "МУЖСКАЯ ОДЕЖДА"
+  },
+  {
+    "id": "women",
+    "name": "women",
+    "label": "ЖЕНСКАЯ ОДЕЖДА"
+  },
+  {
+    "id": "shoes",
+    "name": "shoes",
+    "label": "ОБУВЬ"
+  },
+  {
+    "id": "accessories",
+    "name": "accessories",
+    "label": "АКСЕССУАРЫ"
+  },
+  {
+    "id": "outerwear",
+    "name": "outerwear",
+    "label": "ВЕРХНЯЯ ОДЕЖДА"
+  },
+  {
+    "id": "sportswear",
+    "name": "sportswear",
+    "label": "СПОРТИВНАЯ ОДЕЖДА"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1",
+    "date": "6 июня 2025",
+    "status": "completed",
+    "totalPrice": 9700,
+    "items": [
+      {
+        "id": 1,
+        "name": "Джинсы Slim Fit",
+        "price": 3500,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Джинсы Slim Fit",
+        "addons": ["Ремень кожаный"],
+        "comment": "Размер M"
+      },
+      {
+        "id": 3,
+        "name": "Платье вечернее",
+        "price": 5200,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Платье вечернее",
+        "addons": ["Клатч"]
+      }
+    ]
+  }
+]

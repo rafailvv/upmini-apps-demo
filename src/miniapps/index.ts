@@ -5,6 +5,7 @@ import { notesAppConfig } from './notes';
 import { menuAppConfig } from './menu';
 import { miniappRegistry } from '../utils/miniappRegistry';
 import { clothingStoreAppConfig } from './clothing_store';
+import { booksStoreAppConfig } from './books_store';
 
 // Регистрируем все мини-приложения
 miniappRegistry.register(todoAppConfig);
@@ -13,6 +14,7 @@ miniappRegistry.register(weatherAppConfig);
 miniappRegistry.register(notesAppConfig);
 miniappRegistry.register(menuAppConfig);
 miniappRegistry.register(clothingStoreAppConfig);
+miniappRegistry.register(booksStoreAppConfig);
 
 export {
   todoAppConfig,
@@ -21,4 +23,5 @@ export {
   notesAppConfig,
   menuAppConfig,
   clothingStoreAppConfig,
+  booksStoreAppConfig,
 }; 

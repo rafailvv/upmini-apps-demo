@@ -1,0 +1,37 @@
+[
+  {
+    "id": "new",
+    "name": "new",
+    "label": "НОВИНКИ"
+  },
+  {
+    "id": "fiction",
+    "name": "fiction",
+    "label": "ХУДОЖЕСТВЕННАЯ ЛИТЕРАТУРА"
+  },
+  {
+    "id": "nonfiction",
+    "name": "nonfiction",
+    "label": "НАУЧНО-ПОПУЛЯРНАЯ ЛИТЕРАТУРА"
+  },
+  {
+    "id": "children",
+    "name": "children",
+    "label": "ДЕТСКИЕ КНИГИ"
+  },
+  {
+    "id": "comics",
+    "name": "comics",
+    "label": "КОМИКСЫ И МАНГА"
+  },
+  {
+    "id": "selfhelp",
+    "name": "selfhelp",
+    "label": "САМООБРАЗОВАНИЕ И ПСИХОЛОГИЯ"
+  },
+  {
+    "id": "fantasy",
+    "name": "fantasy",
+    "label": "ФАНТАСТИКА И ФЭНТЕЗИ"
+  }
+]

@@ -1,0 +1,482 @@
+[
+  {
+    "id": 1,
+    "name": "1984",
+    "size": "Джордж Оруэлл",
+    "description": "Антиутопический роман Джорджа Оруэлла о мире тотального контроля и языка двойных стандартов.",
+    "price": 650,
+    "image": "https://image.pollinations.ai/prompt/Book cover of George Orwell 1984 dystopian minimal design, high detail, neutral studio background",
+    "tags": [3, 4],
+    "category": "fiction",
+    "addons": [
+      { "id": 1, "name": "закладка кожаная", "price": 150 },
+      { "id": 2, "name": "чехол для книги", "price": 400 }
+    ],
+    "recommendedItems": [9, 10, 27],
+    "stock": 30
+  },
+  {
+    "id": 2,
+    "name": "Краткая история времени",
+    "size": "Стивен Хокинг",
+    "description": "Классика популярной науки от Стивена Хокинга: происхождение вселенной, чёрные дыры и время.",
+    "price": 890,
+    "image": "https://image.pollinations.ai/prompt/Book cover Stephen Hawking A Brief History of Time cosmic theme stars and galaxies, high detail",
+    "tags": [5, 3],
+    "category": "nonfiction",
+    "addons": [
+      { "id": 3, "name": "лупа для чтения", "price": 300 },
+      { "id": 4, "name": "подставка для книги", "price": 700 }
+    ],
+    "recommendedItems": [5, 25, 26],
+    "stock": 22
+  },
+  {
+    "id": 3,
+    "name": "Гарри Поттер и философский камень",
+    "size": "Дж. К. Роулинг",
+    "description": "Первая книга о мальчике-волшебнике, открывающая двери в мир магии и дружбы.",
+    "price": 1200,
+    "image": "https://image.pollinations.ai/prompt/Harry Potter and the Philosopher's Stone book cover magical fantasy style, high detail",
+    "tags": [6, 3],
+    "category": "fantasy",
+    "addons": [
+      { "id": 5, "name": "постер по книге", "price": 250 },
+      { "id": 6, "name": "магнит с гербом школы", "price": 200 }
+    ],
+    "recommendedItems": [7, 8, 20],
+    "stock": 18
+  },
+  {
+    "id": 4,
+    "name": "Маленький принц",
+    "size": "Антуан де Сент-Экзюпери",
+    "description": "Поэтичная повесть-сказка Экзюпери о дружбе, ответственности и смысле взрослости.",
+    "price": 590,
+    "image": "https://image.pollinations.ai/prompt/Book cover The Little Prince poetic illustration stars and planets, soft lighting",
+    "tags": [4, 3],
+    "category": "children",
+    "addons": [
+      { "id": 7, "name": "наклейки с иллюстрациями", "price": 180 },
+      { "id": 8, "name": "ночник для чтения", "price": 520 }
+    ],
+    "recommendedItems": [21, 22, 16],
+    "stock": 40
+  },
+  {
+    "id": 5,
+    "name": "Sapiens. Краткая история человечества",
+    "size": "Юваль Ной Харари",
+    "description": "Юваль Ной Харари о том, как Homo sapiens сформировал культуру, экономику и будущее.",
+    "price": 1150,
+    "image": "https://image.pollinations.ai/prompt/Book cover Sapiens by Yuval Noah Harari minimalist white design, high detail",
+    "tags": [5, 3],
+    "category": "nonfiction",
+    "addons": [
+      { "id": 9, "name": "футляр-слайд для книги", "price": 350 },
+      { "id": 10, "name": "тетрадь в точку (A5)", "price": 240 }
+    ],
+    "recommendedItems": [2, 25, 30],
+    "stock": 26
+  },
+  {
+    "id": 6,
+    "name": "Атомные привычки",
+    "size": "Джеймс Клир",
+    "description": "Джеймс Клир о системе маленьких шагов, меняющих жизнь к лучшему.",
+    "price": 890,
+    "image": "https://image.pollinations.ai/prompt/Book cover Atomic Habits clean typography habit building theme",
+    "tags": [5, 3],
+    "category": "selfhelp",
+    "addons": [
+      { "id": 11, "name": "планер недатированный", "price": 490 },
+      { "id": 12, "name": "набор стикеров для заметок", "price": 220 }
+    ],
+    "recommendedItems": [12, 25, 26],
+    "stock": 34
+  },
+  {
+    "id": 7,
+    "name": "Хоббит, или Туда и обратно",
+    "size": "Дж. Р. Р. Толкин",
+    "description": "Классика Толкина: путешествие Бильбо, дракон, гномы и вся магия Средиземья.",
+    "price": 1100,
+    "image": "https://image.pollinations.ai/prompt/Book cover The Hobbit classic fantasy map and dragon motif",
+    "tags": [6, 4],
+    "category": "fantasy",
+    "addons": [
+      { "id": 13, "name": "карта Средиземья (постер)", "price": 290 },
+      { "id": 14, "name": "обложка-суперобложка", "price": 260 }
+    ],
+    "recommendedItems": [3, 8, 20],
+    "stock": 16
+  },
+  {
+    "id": 8,
+    "name": "Дюна",
+    "size": "Фрэнк Герберт",
+    "description": "Эпическая сага Фрэнка Герберта о власти, ресурсах и судьбе на планете Арракис.",
+    "price": 1150,
+    "image": "https://image.pollinations.ai/prompt/Book cover Dune desert sci-fi sand dunes, bold typography",
+    "tags": [6, 3],
+    "category": "fantasy",
+    "addons": [
+      { "id": 15, "name": "пылезащитная суперобложка", "price": 320 },
+      { "id": 16, "name": "салфетка для пыли из микрофибры", "price": 140 }
+    ],
+    "recommendedItems": [19, 28, 20],
+    "stock": 20
+  },
+  {
+    "id": 9,
+    "name": "Убить пересмешника",
+    "size": "Харпер Ли",
+    "description": "Роман Харпер Ли о справедливости, расовых предрассудках и взрослении.",
+    "price": 720,
+    "image": "https://image.pollinations.ai/prompt/Book cover To Kill a Mockingbird classic novel tree silhouette",
+    "tags": [3, 4],
+    "category": "fiction",
+    "addons": [
+      { "id": 17, "name": "закладка-клипса металлическая", "price": 190 },
+      { "id": 18, "name": "набор бумажных закладок (5 шт.)", "price": 160 }
+    ],
+    "recommendedItems": [1, 27, 29],
+    "stock": 28
+  },
+  {
+    "id": 10,
+    "name": "Преступление и наказание",
+    "size": "Фёдор Достоевский",
+    "description": "Ф. М. Достоевский: психологическая драма о преступлении, вине и искуплении.",
+    "price": 980,
+    "image": "https://image.pollinations.ai/prompt/Book cover Crime and Punishment classic Russian literature austere design",
+    "tags": [4],
+    "category": "fiction",
+    "addons": [
+      { "id": 19, "name": "матовая суперобложка", "price": 260 },
+      { "id": 20, "name": "защита углов книги", "price": 210 }
+    ],
+    "recommendedItems": [1, 27, 30],
+    "stock": 14
+  },
+  {
+    "id": 11,
+    "name": "Образованная",
+    "size": "Тара Вестовер",
+    "description": "Мемуары Тары Вестовер о пути от изоляции к образованию и свободе.",
+    "price": 840,
+    "image": "https://image.pollinations.ai/prompt/Book cover Educated Tara Westover memoir pencil mountain motif",
+    "tags": [5, 3],
+    "category": "nonfiction",
+    "addons": [
+      { "id": 21, "name": "обложка из мягкого тпу", "price": 230 },
+      { "id": 22, "name": "лампа-прищепка для чтения", "price": 590 }
+    ],
+    "recommendedItems": [2, 25, 30],
+    "stock": 19
+  },
+  {
+    "id": 12,
+    "name": "Тонкое искусство пофигизма",
+    "size": "Марк Мэнсон",
+    "description": "Марк Мэнсон о ценностях, границах и спокойствии ума в сложном мире.",
+    "price": 790,
+    "image": "https://image.pollinations.ai/prompt/Book cover The Subtle Art of Not Giving a F*ck bold orange minimalist",
+    "tags": [5],
+    "category": "selfhelp",
+    "addons": [
+      { "id": 23, "name": "ежедневник минималистичный", "price": 520 },
+      { "id": 24, "name": "ручка гелевая (набор 3 шт.)", "price": 210 }
+    ],
+    "recommendedItems": [6, 26, 25],
+    "stock": 32
+  },
+  {
+    "id": 13,
+    "name": "Этюд в багровых тонах",
+    "size": "Артур Конан Дойл",
+    "description": "Первое дело Шерлока Холмса: знакомство с доктором Ватсоном и загадочное убийство.",
+    "price": 560,
+    "image": "https://image.pollinations.ai/prompt/Book cover A Study in Scarlet Sherlock Holmes Victorian mystery",
+    "tags": [4],
+    "category": "fiction",
+    "addons": [
+      { "id": 25, "name": "обложка с резинкой", "price": 240 },
+      { "id": 26, "name": "сетка-органайзер для полки", "price": 340 }
+    ],
+    "recommendedItems": [9, 27, 10],
+    "stock": 36
+  },
+  {
+    "id": 14,
+    "name": "Коралина",
+    "size": "Нил Гейман",
+    "description": "Готическая сказка Нила Геймана о любопытстве и храбрости девочки Коралины.",
+    "price": 690,
+    "image": "https://image.pollinations.ai/prompt/Book cover Coraline Neil Gaiman eerie key door motif",
+    "tags": [6, 3],
+    "category": "children",
+    "addons": [
+      { "id": 27, "name": "ночник кошка", "price": 570 },
+      { "id": 28, "name": "наклейки люминесцентные", "price": 210 }
+    ],
+    "recommendedItems": [4, 21, 24],
+    "stock": 25
+  },
+  {
+    "id": 15,
+    "name": "Хранители",
+    "size": "Алан Мур",
+    "description": "Графический роман Алана Мура: деконструкция образа супергероя и взрослая драма.",
+    "price": 1600,
+    "image": "https://image.pollinations.ai/prompt/Book cover Watchmen graphic novel iconic smiley badge",
+    "tags": [3],
+    "category": "comics",
+    "addons": [
+      { "id": 29, "name": "футляр для комиксов (acid-free)", "price": 450 },
+      { "id": 30, "name": "держатель страниц", "price": 190 }
+    ],
+    "recommendedItems": [23, 24, 16],
+    "stock": 12
+  },
+  {
+    "id": 16,
+    "name": "Наруто. Том 1",
+    "size": "Масаси Кисимото",
+    "description": "Первый том манги о Наруто Удзумаки и его пути ниндзя.",
+    "price": 750,
+    "image": "https://image.pollinations.ai/prompt/Book cover Naruto Volume 1 manga shonen dynamic",
+    "tags": [1, 3],
+    "category": "comics",
+    "addons": [
+      { "id": 31, "name": "протектор для манги (набор 5)", "price": 260 },
+      { "id": 32, "name": "папка для коллекции", "price": 340 }
+    ],
+    "recommendedItems": [24, 15, 23],
+    "stock": 44
+  },
+  {
+    "id": 17,
+    "name": "Прагматичный программист",
+    "size": "Эндрю Хант, Дэвид Томас",
+    "description": "Классика ИТ-ремесла: мышление, инструменты и практики разработки.",
+    "price": 1350,
+    "image": "https://image.pollinations.ai/prompt/Book cover The Pragmatic Programmer clean professional tech design",
+    "tags": [5],
+    "category": "nonfiction",
+    "addons": [
+      { "id": 33, "name": "липкие закладки (100 шт.)", "price": 190 },
+      { "id": 34, "name": "держатель книжный металлический", "price": 520 }
+    ],
+    "recommendedItems": [18, 25, 2],
+    "stock": 17
+  },
+  {
+    "id": 18,
+    "name": "Чистый код",
+    "size": "Роберт Мартин",
+    "description": "Роберт Мартин о принципах понятного, поддерживаемого кода и архитектуры.",
+    "price": 1450,
+    "image": "https://image.pollinations.ai/prompt/Book cover Clean Code professional programming book minimalist",
+    "tags": [5],
+    "category": "nonfiction",
+    "addons": [
+      { "id": 35, "name": "тетрадь для конспектов (A4)", "price": 290 },
+      { "id": 36, "name": "маркер текстовыделитель (набор 4)", "price": 260 }
+    ],
+    "recommendedItems": [17, 25, 2],
+    "stock": 21
+  },
+  {
+    "id": 19,
+    "name": "Марсианин",
+    "size": "Энди Уир",
+    "description": "Увлекательная НФ о выживании астронавта на Марсе и силе инженерного мышления.",
+    "price": 880,
+    "image": "https://image.pollinations.ai/prompt/Book cover The Martian astronaut orange dust sci-fi",
+    "tags": [6, 3],
+    "category": "fantasy",
+    "addons": [
+      { "id": 37, "name": "лампа настольная для чтения", "price": 990 },
+      { "id": 38, "name": "закладка магнитная", "price": 170 }
+    ],
+    "recommendedItems": [8, 28, 20],
+    "stock": 29
+  },
+  {
+    "id": 20,
+    "name": "Имя ветра",
+    "size": "Патрик Ротфусс",
+    "description": "Первая часть Хроники убийцы короля: музыка, магия и путь Квоута.",
+    "price": 1100,
+    "image": "https://image.pollinations.ai/prompt/Book cover The Name of the Wind epic fantasy dark forest",
+    "tags": [6, 3],
+    "category": "fantasy",
+    "addons": [
+      { "id": 39, "name": "обложка тканевая", "price": 370 },
+      { "id": 40, "name": "подставка для чтения в постели", "price": 680 }
+    ],
+    "recommendedItems": [7, 8, 28],
+    "stock": 15
+  },
+  {
+    "id": 21,
+    "name": "Спокойной ночи, луна",
+    "size": "Маргарет Вайз Браун",
+    "description": "Классическая книга для самых маленьких с тёплыми иллюстрациями.",
+    "price": 520,
+    "image": "https://image.pollinations.ai/prompt/Book cover Goodnight Moon classic children's book cozy room",
+    "tags": [1],
+    "category": "children",
+    "addons": [
+      { "id": 41, "name": "мягкая игрушка-кролик", "price": 650 },
+      { "id": 42, "name": "ночник-луна", "price": 740 }
+    ],
+    "recommendedItems": [4, 22, 14],
+    "stock": 38
+  },
+  {
+    "id": 22,
+    "name": "Кот в шляпе",
+    "size": "Доктор Сьюз",
+    "description": "Ритмичная и смешная классика Доктора Сьюза для первых самостоятельных чтений.",
+    "price": 480,
+    "image": "https://image.pollinations.ai/prompt/Book cover The Cat in the Hat playful children's classic",
+    "tags": [4],
+    "category": "children",
+    "addons": [
+      { "id": 43, "name": "набор наклеек буквы", "price": 190 },
+      { "id": 44, "name": "коврик-подставка для книги", "price": 230 }
+    ],
+    "recommendedItems": [4, 21, 16],
+    "stock": 33
+  },
+  {
+    "id": 23,
+    "name": "Маус",
+    "size": "Арт Шпигельман",
+    "description": "Графический роман Арта Шпигельмана о семейной истории и Холокосте.",
+    "price": 1750,
+    "image": "https://image.pollinations.ai/prompt/Book cover Maus graphic novel stark black and white",
+    "tags": [3, 4],
+    "category": "comics",
+    "addons": [
+      { "id": 45, "name": "файл-протектор для обложки", "price": 160 },
+      { "id": 46, "name": "короб-слайсер для полки", "price": 420 }
+    ],
+    "recommendedItems": [15, 24, 2],
+    "stock": 10
+  },
+  {
+    "id": 24,
+    "name": "Песочный человек. Том 1",
+    "size": "Нил Гейман",
+    "description": "Мифы, сновидения и современность в культовом комиксе Нила Геймана.",
+    "price": 1650,
+    "image": "https://image.pollinations.ai/prompt/Book cover The Sandman Volume 1 dreamy surreal art",
+    "tags": [3],
+    "category": "comics",
+    "addons": [
+      { "id": 47, "name": "футляр для серии комиксов", "price": 590 },
+      { "id": 48, "name": "кисть для пыли антистатическая", "price": 260 }
+    ],
+    "recommendedItems": [15, 23, 14],
+    "stock": 13
+  },
+  {
+    "id": 25,
+    "name": "Думай медленно… решай быстро",
+    "size": "Даниэль Канеман",
+    "description": "Даниэль Канеман о когнитивных искажениях и системах мышления.",
+    "price": 990,
+    "image": "https://image.pollinations.ai/prompt/Book cover Thinking Fast and Slow pencil dual systems",
+    "tags": [5, 3],
+    "category": "nonfiction",
+    "addons": [
+      { "id": 49, "name": "закладки-флажки (набор 200)", "price": 210 },
+      { "id": 50, "name": "обложка с карманом для заметок", "price": 350 }
+    ],
+    "recommendedItems": [2, 6, 26],
+    "stock": 27
+  },
+  {
+    "id": 26,
+    "name": "Сказать жизни «Да!»",
+    "size": "Виктор Франкл",
+    "description": "Виктор Франкл о смысле, стойкости и логотерапии.",
+    "price": 720,
+    "image": "https://image.pollinations.ai/prompt/Book cover Man's Search for Meaning simple blue white design",
+    "tags": [5, 4],
+    "category": "selfhelp",
+    "addons": [
+      { "id": 51, "name": "тетрадь для рефлексии", "price": 260 },
+      { "id": 52, "name": "набор цветных закладок", "price": 180 }
+    ],
+    "recommendedItems": [6, 25, 27],
+    "stock": 35
+  },
+  {
+    "id": 27,
+    "name": "Алхимик",
+    "size": "Пауло Коэльо",
+    "description": "Притча Пауло Коэльо о поиске пути, мечте и знаках Вселенной.",
+    "price": 680,
+    "image": "https://image.pollinations.ai/prompt/Book cover The Alchemist warm desert sun minimalist",
+    "tags": [3, 4],
+    "category": "fiction",
+    "addons": [
+      { "id": 53, "name": "закладка тканевая", "price": 140 },
+      { "id": 54, "name": "мини-свеча для чтения", "price": 260 }
+    ],
+    "recommendedItems": [1, 9, 29],
+    "stock": 42
+  },
+  {
+    "id": 28,
+    "name": "Проект «Аве Мария»",
+    "size": "Энди Уир",
+    "description": "Новая НФ-одиссея Энди Уира о контакте и гениальных задачах на выживание.",
+    "price": 1250,
+    "image": "https://image.pollinations.ai/prompt/Book cover Project Hail Mary sci-fi starship luminous space",
+    "tags": [1, 3],
+    "category": "fantasy",
+    "addons": [
+      { "id": 55, "name": "постер звёздного неба", "price": 330 },
+      { "id": 56, "name": "кейс-сумка для книг", "price": 620 }
+    ],
+    "recommendedItems": [8, 19, 20],
+    "stock": 24
+  },
+  {
+    "id": 29,
+    "name": "Библиотека полуночи",
+    "size": "Мэтт Хейг",
+    "description": "Роман Мэтта Хейга о выборе, сожалениях и альтернативных жизнях.",
+    "price": 840,
+    "image": "https://image.pollinations.ai/prompt/Book cover The Midnight Library starry night windows choices",
+    "tags": [1, 3],
+    "category": "fiction",
+    "addons": [
+      { "id": 57, "name": "ночник-светлячок", "price": 540 },
+      { "id": 58, "name": "обложка водоотталкивающая", "price": 360 }
+    ],
+    "recommendedItems": [27, 1, 9],
+    "stock": 31
+  },
+  {
+    "id": 30,
+    "name": "Становление",
+    "size": "Мишель Обама",
+    "description": "Мемуары Мишель Обамы: взросление, работа и жизнь в Белом доме.",
+    "price": 1190,
+    "image": "https://image.pollinations.ai/prompt/Book cover Becoming Michelle Obama elegant portrait",
+    "tags": [3],
+    "category": "nonfiction",
+    "addons": [
+      { "id": 59, "name": "суперобложка прозрачная", "price": 240 },
+      { "id": 60, "name": "держатель для страниц кольцевой", "price": 290 }
+    ],
+    "recommendedItems": [11, 2, 25],
+    "stock": 18
+  }
+]

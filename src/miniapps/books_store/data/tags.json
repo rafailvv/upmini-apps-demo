@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "НОВИНКА",
+    "color": "#FF6B35",
+    "backgroundColor": "#FFF5F2",
+    "description": "Новые поступления"
+  },
+  {
+    "id": 2,
+    "name": "РАСПРОДАЖА",
+    "color": "#E74C3C",
+    "backgroundColor": "#FDF2F2",
+    "description": "Скидки на книги"
+  },
+  {
+    "id": 3,
+    "name": "БЕСТСЕЛЛЕР",
+    "color": "#F39C12",
+    "backgroundColor": "#FEF9E7",
+    "description": "Самые популярные книги"
+  },
+  {
+    "id": 4,
+    "name": "КЛАССИКА",
+    "color": "#8E44AD",
+    "backgroundColor": "#F8F4FD",
+    "description": "Вечные произведения"
+  },
+  {
+    "id": 5,
+    "name": "ПОЗНАВАТЕЛЬНОЕ",
+    "color": "#27AE60",
+    "backgroundColor": "#F0F9F4",
+    "description": "Научно-популярная и образовательная литература"
+  },
+  {
+    "id": 6,
+    "name": "ФЭНТЕЗИ",
+    "color": "#C0392B",
+    "backgroundColor": "#FDF2F2",
+    "description": "Фантастические миры и приключения"
+  }
+]

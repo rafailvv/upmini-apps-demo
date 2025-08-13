@@ -1,0 +1,99 @@
+[
+  {
+    "id": "1",
+    "date": "6 июня 2025",
+    "status": "completed",
+    "totalPrice": 2840,
+    "items": [
+      {
+        "id": 1,
+        "name": "1984",
+        "price": 650,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/1984 book cover",
+        "addons": ["закладка кожаная"],
+        "comment": "мягкая обложка"
+      },
+      {
+        "id": 3,
+        "name": "гарри поттер и философский камень",
+        "price": 1200,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Harry Potter book cover",
+        "addons": ["постер по книге"]
+      },
+      {
+        "id": 25,
+        "name": "думай медленно… решай быстро",
+        "price": 990,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Thinking Fast and Slow book cover",
+        "addons": ["закладки-флажки (набор 200)"]
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "date": "21 июля 2025",
+    "status": "processing",
+    "totalPrice": 3950,
+    "items": [
+      {
+        "id": 8,
+        "name": "дюна",
+        "price": 1150,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Dune book cover",
+        "addons": ["пылезащитная суперобложка"]
+      },
+      {
+        "id": 18,
+        "name": "чистый код",
+        "price": 1450,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Clean Code book cover",
+        "addons": ["маркер текстовыделитель (набор 4)"]
+      },
+      {
+        "id": 17,
+        "name": "прагматичный программист",
+        "price": 1350,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/The Pragmatic Programmer book cover",
+        "addons": ["держатель книжный металлический"]
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "date": "12 августа 2025",
+    "status": "completed",
+    "totalPrice": 3850,
+    "items": [
+      {
+        "id": 28,
+        "name": "проект «аве мария»",
+        "price": 1250,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/Project Hail Mary book cover",
+        "addons": ["постер звёздного неба"]
+      },
+      {
+        "id": 20,
+        "name": "имя ветра",
+        "price": 1100,
+        "quantity": 1,
+        "image": "https://image.pollinations.ai/prompt/The Name of the Wind book cover",
+        "addons": ["обложка тканевая"]
+      },
+      {
+        "id": 16,
+        "name": "наруто. том 1",
+        "price": 750,
+        "quantity": 2,
+        "image": "https://image.pollinations.ai/prompt/Naruto Volume 1 cover",
+        "addons": ["протектор для манги (набор 5)"]
+      }
+    ]
+  }
+]

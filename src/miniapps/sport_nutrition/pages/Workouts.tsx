@@ -15,6 +15,8 @@ interface Exercise {
 
 export const Workouts: React.FC = () => {
   const navigate = useNavigate();
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const [workoutCompleted, setWorkoutCompleted] = useState(false);
   const [exercises, setExercises] = useState<Exercise[]>([
     {
       id: 1,
@@ -55,6 +57,48 @@ export const Workouts: React.FC = () => {
     }));
   };
 
+  const handleCompleteWorkout = () => {
+    setShowCompletionModal(true);
+  };
+
+  const handleConfirmCompletion = () => {
+    setWorkoutCompleted(true);
+    setShowCompletionModal(false);
+    
+    // Создаем данные о завершенной тренировке
+    const workoutData = {
+      date: new Date().toISOString(),
+      exercises: exercises,
+      completedCount: completedCount,
+      totalCount: exercises.length,
+      percentage: Math.round((completedCount / exercises.length) * 100)
+    };
+    
+    // Сохраняем информацию о последней завершенной тренировке
+    localStorage.setItem('lastCompletedWorkout', JSON.stringify(workoutData));
+    
+    // Сохраняем в массив всех выполненных тренировок
+    const existingCompletedWorkouts = localStorage.getItem('completedWorkouts');
+    const completedWorkouts = existingCompletedWorkouts ? JSON.parse(existingCompletedWorkouts) : [];
+    
+    // Добавляем новую тренировку в массив
+    const newCompletedWorkout = {
+      date: new Date().toISOString(),
+      completedCount: completedCount,
+      totalCount: exercises.length,
+      percentage: Math.round((completedCount / exercises.length) * 100)
+    };
+    
+    completedWorkouts.push(newCompletedWorkout);
+    localStorage.setItem('completedWorkouts', JSON.stringify(completedWorkouts));
+    
+    navigate('/miniapp/sport-nutrition');
+  };
+
+  const handleCancelCompletion = () => {
+    setShowCompletionModal(false);
+  };
+
   const completedCount = exercises.filter(exercise => exercise.completed).length;
 
   return (
@@ -62,7 +106,9 @@ export const Workouts: React.FC = () => {
       {/* Основной контент */}
       <div className="workouts-header">
         <h1>Тренировки</h1>
-        <div className="progress-indicator">Выполнено: {completedCount}/{exercises.length}</div>
+        <div className={`progress-indicator ${workoutCompleted ? 'completed' : ''}`}>
+          Выполнено: <span className="completed-count">{completedCount}</span>/{exercises.length}
+        </div>
       </div>
 
       {/* Список упражнений */}
@@ -107,9 +153,40 @@ export const Workouts: React.FC = () => {
       </div>
 
       {/* Кнопка завершения тренировки */}
-      <button className="complete-workout-btn">
+      <button className="complete-workout-btn" onClick={handleCompleteWorkout}>
         <span>Завершить тренировку</span>
       </button>
+
+      {/* Модальное окно завершения тренировки */}
+      {showCompletionModal && (
+        <div className="modal-overlay" onClick={handleCancelCompletion}>
+          <div className="completion-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content">
+              <div className="modal-icon">✅</div>
+              <h2>Тренировка завершена!</h2>
+              <p>Отличная работа! Вы успешно завершили тренировку.</p>
+              <div className="modal-stats">
+                <div className="stat-item">
+                  <span className="stat-label">Выполнено упражнений:</span>
+                  <span className="stat-value">{completedCount}/{exercises.length}</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-label">Процент выполнения:</span>
+                  <span className="stat-value">{Math.round((completedCount / exercises.length) * 100)}%</span>
+                </div>
+              </div>
+              <div className="modal-buttons">
+                <button className="modal-btn cancel-btn" onClick={handleCancelCompletion}>
+                  Продолжить тренировку
+                </button>
+                <button className="modal-btn confirm-btn" onClick={handleConfirmCompletion}>
+                  Вернуться к расписанию
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

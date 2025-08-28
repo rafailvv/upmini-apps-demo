@@ -1,0 +1,1224 @@
+/* CSS переменные для цветов */
+:root {
+  --primary-color: #060F30;
+  --secondary-color: #007AFF;
+  --background-gradient: radial-gradient(72.41% 50% at 50% 50%, rgba(18, 68, 217, 0.36) 0%, rgba(255, 255, 255, 0.08) 100%);
+  --white: #FFFFFF;
+  --text-primary: #060F30;
+  --text-secondary: rgba(6, 15, 48, 0.5);
+  --border-radius: 20px;
+  --shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Основные стили */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--background-gradient);
+  min-height: 100vh;
+}
+
+/* Контейнер расписания */
+.schedule-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-y: auto;
+  padding: 0;
+}
+
+/* Кнопка назад */
+.back-button {
+  position: absolute;
+  width: clamp(40px, 12vw, 51px);
+  height: clamp(40px, 12vw, 51px);
+  left: clamp(16px, 4vw, 31px);
+  top: clamp(60px, 15vw, 85px);
+  background: var(--white);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  z-index: 10;
+}
+
+.back-button::before {
+  content: '←';
+  font-size: clamp(18px, 5vw, 24px);
+  color: var(--text-primary);
+}
+
+.back-button:hover {
+  background: #f0f0f0;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+.back-button:active {
+  transform: scale(0.95);
+  background: #e0e0e0;
+}
+
+.back-button:focus {
+  outline: 2px solid #007AFF;
+  outline-offset: 2px;
+}
+
+/* Основной контент */
+.main-content {
+  position: relative;
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0;
+  padding: clamp(60px, 15vw, 80px) clamp(16px, 4vw, 24px) clamp(20px, 5vw, 30px);
+}
+
+/* Заголовок и навигация */
+.header-section {
+  margin-bottom: clamp(16px, 4vw, 20px);
+  width: 100%;
+}
+
+.title-container h1 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(28px, 8vw, 40px);
+  line-height: 110%;
+  color: var(--text-primary);
+  margin: 0;
+  width: 100%;
+}
+
+.title-container h1:first-child {
+  margin-bottom: clamp(3px, 1vw, 5px);
+}
+
+/* Навигация по месяцам */
+.month-navigation {
+  display: flex;
+  gap: clamp(20px, 5vw, 30px);
+  align-items: center;
+  position: relative;
+  margin-top: clamp(8px, 2vw, 10px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  width: 100%;
+}
+
+.month-navigation::-webkit-scrollbar {
+  display: none;
+}
+
+.month-item {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.month-btn {
+  background: none;
+  border: none;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(16px, 4vw, 20px);
+  line-height: 110%;
+  text-align: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 16px);
+  white-space: nowrap;
+}
+
+.month-btn.active {
+  color: var(--text-primary);
+}
+
+.month-underline {
+  position: absolute;
+  width: clamp(50px, 15vw, 71px);
+  height: 1px;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  background: var(--text-primary);
+}
+
+/* Календарь */
+.calendar-section {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 4vw, 22px);
+  width: 100%;
+}
+
+/* Заголовки дней недели */
+.calendar-header {
+  width: 100%;
+  height: clamp(28px, 7vw, 31px);
+  background: var(--white);
+  border-radius: var(--border-radius);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  align-items: center;
+  position: relative;
+}
+
+.day-header {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(13px, 3.5vw, 15px);
+  line-height: 110%;
+  text-align: center;
+  color: var(--text-primary);
+  padding: clamp(5px, 1.5vw, 7px) 0;
+}
+
+/* Сетка календаря */
+.calendar-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: clamp(28px, 7vw, 31px);
+  gap: clamp(1px, 0.5vw, 2px);
+  position: relative;
+}
+
+/* Дни календаря */
+.calendar-day {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(16px, 4vw, 20px);
+  line-height: 110%;
+  text-align: center;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: clamp(28px, 7vw, 31px);
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  border-radius: clamp(14px, 4vw, 18px);
+}
+
+.calendar-day:hover {
+  opacity: 0.7;
+}
+
+/* Обычные дни без тренировок - не кликабельные */
+.calendar-day:not(.has-workout) {
+  cursor: default;
+}
+
+.calendar-day:not(.has-workout):hover {
+  opacity: 1;
+}
+
+/* Дни с тренировками - черные кружки */
+.calendar-day.has-workout {
+  color: var(--white);
+  background: var(--primary-color);
+  border-radius: clamp(14px, 4vw, 18px);
+  font-weight: 500;
+}
+
+/* Выбранный день - темно-синий кружок */
+.calendar-day.selected {
+  color: var(--white);
+  background: var(--secondary-color);
+  border-radius: clamp(14px, 4vw, 18px);
+  font-weight: 600;
+}
+
+/* Секция планов */
+.plans-section {
+  margin-top: clamp(20px, 5vw, 30px);
+  width: 100%;
+}
+
+.plans-section h2 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(20px, 5vw, 25px);
+  line-height: 110%;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Список планов */
+.plans-list {
+  margin-top: clamp(16px, 4vw, 20px);
+  width: 100%;
+}
+
+.plan-card {
+  width: 100%;
+  background: var(--white);
+  border-radius: var(--border-radius);
+  padding: clamp(16px, 4vw, 20px);
+  margin-bottom: clamp(12px, 3vw, 16px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+}
+
+.plan-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.plan-info h3 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(14px, 3.5vw, 16px);
+  line-height: 110%;
+  color: var(--text-primary);
+  margin: 0 0 clamp(4px, 1vw, 6px) 0;
+}
+
+.plan-time {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(12px, 3vw, 14px);
+  line-height: 110%;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.plan-arrow {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(28px, 7vw, 40px);
+  line-height: 110%;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-left: clamp(12px, 3vw, 15px);
+}
+
+/* Мобильная адаптация */
+@media (max-width: 480px) {
+  .schedule-container {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  .main-content {
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0;
+    padding: clamp(50px, 12vw, 60px) clamp(12px, 3vw, 16px) clamp(20px, 5vw, 30px);
+  }
+
+  .header-section {
+    width: 100%;
+  }
+
+  .title-container {
+    width: 100%;
+  }
+
+  .title-container h1 {
+    width: 100%;
+  }
+
+  .month-navigation {
+    gap: clamp(16px, 4vw, 20px);
+    width: 100%;
+  }
+
+  .month-btn {
+    font-size: clamp(14px, 3.5vw, 16px);
+    padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2.5vw, 12px);
+  }
+
+  .calendar-section {
+    width: 100%;
+  }
+
+  .calendar-header {
+    width: 100%;
+    border-radius: clamp(12px, 3vw, 15px);
+  }
+
+  .calendar-grid {
+    width: 100%;
+    gap: 1px;
+  }
+
+  .calendar-day {
+    font-size: clamp(14px, 3.5vw, 16px);
+    border-radius: clamp(12px, 3vw, 14px);
+  }
+
+  .day-header {
+    font-size: clamp(12px, 3vw, 13px);
+    padding: clamp(4px, 1vw, 5px) 0;
+  }
+
+  .plans-section {
+    width: 100%;
+    padding: 0 clamp(12px, 3vw, 16px);
+  }
+
+  .plans-list {
+    width: 100%;
+    padding: 0 clamp(12px, 3vw, 16px);
+  }
+
+  .plan-card {
+    width: 100%;
+    padding: clamp(12px, 3vw, 16px);
+  }
+}
+
+/* Планшетная адаптация */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .schedule-container {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  .main-content {
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0;
+    padding: clamp(60px, 15vw, 80px) clamp(20px, 5vw, 28px) clamp(24px, 6vw, 32px);
+  }
+
+  .header-section {
+    width: 100%;
+  }
+
+  .title-container {
+    width: 100%;
+  }
+
+  .title-container h1 {
+    width: 100%;
+  }
+
+  .month-navigation {
+    width: 100%;
+  }
+
+  .calendar-section {
+    width: 100%;
+  }
+
+  .calendar-header {
+    width: 100%;
+    border-radius: clamp(18px, 4.5vw, 22px);
+  }
+
+  .calendar-grid {
+    width: 100%;
+  }
+
+  .calendar-day {
+    font-size: clamp(18px, 4.5vw, 22px);
+    border-radius: clamp(16px, 4vw, 20px);
+  }
+
+  .day-header {
+    font-size: clamp(15px, 3.8vw, 17px);
+  }
+
+  .plans-section {
+    width: 100%;
+    padding: 0 clamp(20px, 5vw, 28px);
+  }
+
+  .plans-list {
+    width: 100%;
+    padding: 0 clamp(20px, 5vw, 28px);
+  }
+
+  .plan-card {
+    width: 100%;
+    padding: clamp(18px, 4.5vw, 24px);
+  }
+}
+
+/* Десктопная адаптация */
+@media (min-width: 1280px) {
+  .schedule-container {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  .main-content {
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0;
+    padding: clamp(80px, 20vw, 100px) clamp(24px, 6vw, 36px) clamp(32px, 8vw, 48px);
+  }
+
+  .header-section {
+    width: 100%;
+  }
+
+  .title-container {
+    width: 100%;
+  }
+
+  .title-container h1 {
+    width: 100%;
+  }
+
+  .month-navigation {
+    width: 100%;
+  }
+
+  .calendar-section {
+    width: 100%;
+  }
+
+  .calendar-header {
+    width: 100%;
+    border-radius: clamp(20px, 5vw, 24px);
+  }
+
+  .calendar-grid {
+    width: 100%;
+  }
+
+  .calendar-day {
+    font-size: clamp(20px, 5vw, 24px);
+    border-radius: clamp(18px, 4.5vw, 22px);
+  }
+
+  .day-header {
+    font-size: clamp(16px, 4vw, 18px);
+  }
+
+  .plans-section {
+    width: 100%;
+    padding: 0 clamp(24px, 6vw, 36px);
+  }
+
+  .plans-list {
+    width: 100%;
+    padding: 0 clamp(24px, 6vw, 36px);
+  }
+
+  .plan-card {
+    width: 100%;
+    padding: clamp(20px, 5vw, 28px);
+  }
+}
+
+/* Поддержка тёмной темы */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #FFFFFF;
+    --secondary-color: #007AFF;
+    --text-primary: #FFFFFF;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --white: #1C1C1E;
+  }
+}
+
+/* Доступность */
+.calendar-day:focus,
+.month-btn:focus,
+.plan-card:focus,
+.back-button:focus {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+}
+
+.calendar-day:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Плавные переходы */
+* {
+  transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Стили для страницы тренировок */
+.workouts-container {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Время */
+.time-display {
+  display: none;
+}
+
+/* Логотип */
+.logo-container {
+  display: none;
+}
+
+.logo-background {
+  display: none;
+}
+
+.logo-icon {
+  display: none;
+}
+
+/* Кнопка назад */
+.workouts-container .back-button {
+  position: absolute;
+  width: 51px;
+  height: 51px;
+  left: 31px;
+  top: 85px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.workouts-container .back-button::before {
+  content: '←';
+  font-size: 24px;
+  color: #060F30;
+}
+
+.workouts-container .back-button:hover {
+  background: #f0f0f0;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+.workouts-container .back-button:active {
+  transform: scale(0.95);
+  background: #e0e0e0;
+}
+
+.workouts-container .back-button:focus {
+  outline: 2px solid #007AFF;
+  outline-offset: 2px;
+}
+
+/* Дата */
+.date-display {
+  display: none;
+}
+
+/* Заголовок тренировок */
+.workouts-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(8px, 2vw, 12px);
+  margin: clamp(20px, 5vw, 30px) clamp(16px, 4vw, 24px) clamp(24px, 6vw, 32px) clamp(16px, 4vw, 24px);
+  width: calc(100% - clamp(32px, 8vw, 48px));
+}
+
+.workouts-header h1 {
+  width: 100%;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(28px, 6vw, 40px);
+  line-height: 110%;
+  color: #060F30;
+  margin: 0;
+}
+
+.progress-indicator {
+  width: 100%;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(14px, 3.5vw, 16px);
+  line-height: 110%;
+  color: #000000;
+  margin: 0;
+}
+
+/* Список упражнений */
+.exercises-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 5vw, 25px);
+  width: calc(100% - clamp(32px, 8vw, 48px));
+  margin: 0 clamp(16px, 4vw, 24px) clamp(100px, 20vw, 140px) clamp(16px, 4vw, 24px);
+}
+
+/* Секция упражнения */
+.exercise-section {
+  width: 100%;
+  position: relative;
+}
+
+/* Карточка упражнения */
+.exercise-card {
+  position: relative;
+  width: 100%;
+  min-height: clamp(100px, 25vw, 126px);
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+  cursor: pointer;
+  display: flex;
+  align-items: stretch;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+/* Изображение упражнения */
+.exercise-image {
+  position: relative;
+  width: clamp(160px, 35vw, 200px);
+  min-height: clamp(140px, 30vw, 180px);
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.play-button {
+  width: clamp(45px, 8vw, 60px);
+  height: clamp(45px, 8vw, 60px);
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(18px, 3vw, 24px);
+  color: #000;
+}
+
+/* Детали упражнения */
+.exercise-details {
+  position: relative;
+  flex: 1;
+  background: #FFFFFF;
+  padding: clamp(12px, 3vw, 14px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.exercise-details h3 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(16px, 4vw, 20px);
+  line-height: 110%;
+  color: #000000;
+  margin: 0 0 clamp(6px, 1.5vw, 10px) 0;
+}
+
+.exercise-stats {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(12px, 3vw, 16px);
+  line-height: 110%;
+  color: #000000;
+  margin: 0 0 clamp(6px, 1.5vw, 10px) 0;
+}
+
+.exercise-info {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(12px, 3vw, 16px);
+  line-height: 110%;
+  color: #000000;
+  margin: 0;
+}
+
+/* Индикатор выполнения */
+.completion-indicator {
+  position: absolute;
+  width: clamp(18px, 4vw, 20px);
+  height: clamp(18px, 4vw, 20px);
+  right: clamp(12px, 3vw, 16px);
+  top: clamp(12px, 3vw, 16px);
+  background: rgba(18, 68, 217, 0.5);
+  border-radius: 5px;
+}
+
+.completion-indicator.completed {
+  background: #1244D9;
+}
+
+/* Поле комментария */
+.comment-field {
+  position: relative;
+  width: 100%;
+  height: clamp(45px, 10vw, 50px);
+  margin-top: clamp(12px, 3vw, 16px);
+  background: rgba(255, 255, 255, 0.73);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+}
+
+.comment-field input {
+  position: absolute;
+  width: calc(100% - 34px);
+  height: 26px;
+  left: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(14px, 3.5vw, 16px);
+  line-height: 110%;
+  color: #798294;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.comment-field input::placeholder {
+  color: #798294;
+}
+
+/* Кнопка завершения тренировки */
+.complete-workout-btn {
+  position: fixed;
+  bottom: clamp(20px, 5vw, 30px);
+  left: clamp(16px, 4vw, 24px);
+  right: clamp(16px, 4vw, 24px);
+  height: clamp(55px, 12vw, 69px);
+  background: #1254FF;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  border: none;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(15px, 3vw, 18px) clamp(10px, 2vw, 15px);
+  gap: 10px;
+  cursor: pointer;
+  z-index: 100;
+  max-width: calc(100vw - clamp(32px, 8vw, 48px));
+}
+
+.complete-workout-btn span {
+  width: 100%;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(18px, 4vw, 24px);
+  line-height: 1.2;
+  text-align: center;
+  color: #F5F5F5;
+  margin: 0;
+}
+
+/* ===== АДАПТАЦИЯ ДЛЯ РАЗНЫХ ЭКРАНОВ ===== */
+
+/* Мобильные устройства (до 480px) */
+@media (max-width: 480px) {
+  .workouts-header {
+    margin: clamp(15px, 4vw, 20px) clamp(12px, 3vw, 16px) clamp(20px, 5vw, 24px) clamp(12px, 3vw, 16px);
+    width: calc(100% - clamp(24px, 6vw, 32px));
+  }
+  
+  .workouts-header h1 {
+    font-size: clamp(24px, 6vw, 28px);
+  }
+  
+  .progress-indicator {
+    font-size: clamp(12px, 3vw, 14px);
+  }
+  
+  .exercises-list {
+    width: calc(100% - clamp(24px, 6vw, 32px));
+    margin: 0 clamp(12px, 3vw, 16px) clamp(80px, 18vw, 100px) clamp(12px, 3vw, 16px);
+  }
+  
+  .exercise-image {
+    width: clamp(120px, 25vw, 140px);
+    min-height: clamp(100px, 22vw, 120px);
+  }
+  
+  .play-button {
+    width: clamp(35px, 8vw, 45px);
+    height: clamp(35px, 8vw, 45px);
+    font-size: clamp(14px, 3.5vw, 18px);
+  }
+  
+  .exercise-details h3 {
+    font-size: clamp(14px, 3.5vw, 16px);
+  }
+  
+  .exercise-stats {
+    font-size: clamp(11px, 2.8vw, 13px);
+  }
+  
+  .exercise-info {
+    font-size: clamp(11px, 2.8vw, 13px);
+  }
+  
+  .comment-field input {
+    font-size: clamp(12px, 3vw, 14px);
+  }
+  
+  .complete-workout-btn {
+    left: clamp(12px, 3vw, 16px);
+    right: clamp(12px, 3vw, 16px);
+    max-width: calc(100vw - clamp(24px, 6vw, 32px));
+  }
+  
+  .complete-workout-btn span {
+    font-size: clamp(16px, 4vw, 18px);
+  }
+}
+
+/* Планшеты (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .workouts-header {
+    margin: clamp(20px, 4vw, 25px) clamp(16px, 3vw, 20px) clamp(24px, 5vw, 28px) clamp(16px, 3vw, 20px);
+    width: calc(100% - clamp(32px, 6vw, 40px));
+  }
+  
+  .workouts-header h1 {
+    font-size: clamp(28px, 5.5vw, 32px);
+  }
+  
+  .progress-indicator {
+    font-size: clamp(14px, 2.8vw, 16px);
+  }
+  
+  .exercises-list {
+    width: calc(100% - clamp(32px, 6vw, 40px));
+    margin: 0 clamp(16px, 3vw, 20px) clamp(90px, 16vw, 110px) clamp(16px, 3vw, 20px);
+  }
+  
+  .exercise-image {
+    width: clamp(140px, 28vw, 160px);
+    min-height: clamp(120px, 24vw, 140px);
+  }
+  
+  .play-button {
+    width: clamp(40px, 7vw, 50px);
+    height: clamp(40px, 7vw, 50px);
+    font-size: clamp(16px, 3vw, 20px);
+  }
+  
+  .exercise-details h3 {
+    font-size: clamp(16px, 3.5vw, 18px);
+  }
+  
+  .exercise-stats {
+    font-size: clamp(13px, 2.8vw, 15px);
+  }
+  
+  .exercise-info {
+    font-size: clamp(13px, 2.8vw, 15px);
+  }
+  
+  .comment-field input {
+    font-size: clamp(14px, 2.8vw, 16px);
+  }
+  
+  .complete-workout-btn {
+    left: clamp(16px, 3vw, 20px);
+    right: clamp(16px, 3vw, 20px);
+    max-width: calc(100vw - clamp(32px, 6vw, 40px));
+  }
+  
+  .complete-workout-btn span {
+    font-size: clamp(18px, 3.5vw, 20px);
+  }
+}
+
+/* Планшеты (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .workouts-header {
+    margin: clamp(25px, 4vw, 30px) clamp(20px, 3vw, 24px) clamp(28px, 5vw, 32px) clamp(20px, 3vw, 24px);
+    width: calc(100% - clamp(40px, 6vw, 48px));
+  }
+  
+  .workouts-header h1 {
+    font-size: clamp(32px, 5vw, 36px);
+  }
+  
+  .progress-indicator {
+    font-size: clamp(16px, 2.5vw, 18px);
+  }
+  
+  .exercises-list {
+    width: calc(100% - clamp(40px, 6vw, 48px));
+    margin: 0 clamp(20px, 3vw, 24px) clamp(100px, 15vw, 120px) clamp(20px, 3vw, 24px);
+  }
+  
+  .exercise-image {
+    width: clamp(160px, 25vw, 180px);
+    min-height: clamp(140px, 20vw, 160px);
+  }
+  
+  .play-button {
+    width: clamp(45px, 6vw, 55px);
+    height: clamp(45px, 6vw, 55px);
+    font-size: clamp(18px, 2.5vw, 22px);
+  }
+  
+  .exercise-details h3 {
+    font-size: clamp(18px, 3vw, 20px);
+  }
+  
+  .exercise-stats {
+    font-size: clamp(15px, 2.5vw, 17px);
+  }
+  
+  .exercise-info {
+    font-size: clamp(15px, 2.5vw, 17px);
+  }
+  
+  .comment-field input {
+    font-size: clamp(16px, 2.5vw, 18px);
+  }
+  
+  .complete-workout-btn {
+    left: clamp(20px, 3vw, 24px);
+    right: clamp(20px, 3vw, 24px);
+    max-width: calc(100vw - clamp(40px, 6vw, 48px));
+  }
+  
+  .complete-workout-btn span {
+    font-size: clamp(20px, 3vw, 22px);
+  }
+}
+
+/* Десктопы (1025px - 1440px) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .workouts-header {
+    margin: clamp(30px, 4vw, 35px) clamp(24px, 3vw, 28px) clamp(32px, 5vw, 36px) clamp(24px, 3vw, 28px);
+    width: calc(100% - clamp(48px, 6vw, 56px));
+  }
+  
+  .workouts-header h1 {
+    font-size: clamp(36px, 4.5vw, 40px);
+  }
+  
+  .progress-indicator {
+    font-size: clamp(18px, 2vw, 20px);
+  }
+  
+  .exercises-list {
+    width: calc(100% - clamp(48px, 6vw, 56px));
+    margin: 0 clamp(24px, 3vw, 28px) clamp(110px, 14vw, 130px) clamp(24px, 3vw, 28px);
+  }
+  
+  .exercise-image {
+    width: clamp(180px, 22vw, 200px);
+    min-height: clamp(160px, 18vw, 180px);
+  }
+  
+  .play-button {
+    width: clamp(50px, 5vw, 60px);
+    height: clamp(50px, 5vw, 60px);
+    font-size: clamp(20px, 2vw, 24px);
+  }
+  
+  .exercise-details h3 {
+    font-size: clamp(20px, 2.5vw, 22px);
+  }
+  
+  .exercise-stats {
+    font-size: clamp(17px, 2vw, 19px);
+  }
+  
+  .exercise-info {
+    font-size: clamp(17px, 2vw, 19px);
+  }
+  
+  .comment-field input {
+    font-size: clamp(18px, 2vw, 20px);
+  }
+  
+  .complete-workout-btn {
+    left: clamp(24px, 3vw, 28px);
+    right: clamp(24px, 3vw, 28px);
+    max-width: calc(100vw - clamp(48px, 6vw, 56px));
+  }
+  
+  .complete-workout-btn span {
+    font-size: clamp(22px, 2.5vw, 24px);
+  }
+}
+
+/* Большие десктопы (1441px - 1920px) */
+@media (min-width: 1441px) and (max-width: 1920px) {
+  .workouts-header {
+    margin: clamp(35px, 4vw, 40px) clamp(28px, 3vw, 32px) clamp(36px, 5vw, 40px) clamp(28px, 3vw, 32px);
+    width: calc(100% - clamp(56px, 6vw, 64px));
+  }
+  
+  .workouts-header h1 {
+    font-size: clamp(40px, 4vw, 44px);
+  }
+  
+  .progress-indicator {
+    font-size: clamp(20px, 1.8vw, 22px);
+  }
+  
+  .exercises-list {
+    width: calc(100% - clamp(56px, 6vw, 64px));
+    margin: 0 clamp(28px, 3vw, 32px) clamp(120px, 13vw, 140px) clamp(28px, 3vw, 32px);
+  }
+  
+  .exercise-image {
+    width: clamp(200px, 20vw, 220px);
+    min-height: clamp(180px, 16vw, 200px);
+  }
+  
+  .play-button {
+    width: clamp(55px, 4.5vw, 65px);
+    height: clamp(55px, 4.5vw, 65px);
+    font-size: clamp(22px, 1.8vw, 26px);
+  }
+  
+  .exercise-details h3 {
+    font-size: clamp(22px, 2.2vw, 24px);
+  }
+  
+  .exercise-stats {
+    font-size: clamp(19px, 1.8vw, 21px);
+  }
+  
+  .exercise-info {
+    font-size: clamp(19px, 1.8vw, 21px);
+  }
+  
+  .comment-field input {
+    font-size: clamp(20px, 1.8vw, 22px);
+  }
+  
+  .complete-workout-btn {
+    left: clamp(28px, 3vw, 32px);
+    right: clamp(28px, 3vw, 32px);
+    max-width: calc(100vw - clamp(56px, 6vw, 64px));
+  }
+  
+  .complete-workout-btn span {
+    font-size: clamp(24px, 2.2vw, 26px);
+  }
+}
+
+/* Очень большие экраны (1921px и больше) */
+@media (min-width: 1921px) {
+  .workouts-header {
+    margin: clamp(40px, 4vw, 45px) clamp(32px, 3vw, 36px) clamp(40px, 5vw, 44px) clamp(32px, 3vw, 36px);
+    width: calc(100% - clamp(64px, 6vw, 72px));
+  }
+  
+  .workouts-header h1 {
+    font-size: clamp(44px, 3.5vw, 48px);
+  }
+  
+  .progress-indicator {
+    font-size: clamp(22px, 1.5vw, 24px);
+  }
+  
+  .exercises-list {
+    width: calc(100% - clamp(64px, 6vw, 72px));
+    margin: 0 clamp(32px, 3vw, 36px) clamp(130px, 12vw, 150px) clamp(32px, 3vw, 36px);
+  }
+  
+  .exercise-image {
+    width: clamp(220px, 18vw, 240px);
+    min-height: clamp(200px, 14vw, 220px);
+  }
+  
+  .play-button {
+    width: clamp(60px, 4vw, 70px);
+    height: clamp(60px, 4vw, 70px);
+    font-size: clamp(24px, 1.5vw, 28px);
+  }
+  
+  .exercise-details h3 {
+    font-size: clamp(24px, 2vw, 26px);
+  }
+  
+  .exercise-stats {
+    font-size: clamp(21px, 1.5vw, 23px);
+  }
+  
+  .exercise-info {
+    font-size: clamp(21px, 1.5vw, 23px);
+  }
+  
+  .comment-field input {
+    font-size: clamp(22px, 1.5vw, 24px);
+  }
+  
+  .complete-workout-btn {
+    left: clamp(32px, 3vw, 36px);
+    right: clamp(32px, 3vw, 36px);
+    max-width: calc(100vw - clamp(64px, 6vw, 72px));
+  }
+  
+  .complete-workout-btn span {
+    font-size: clamp(26px, 2vw, 28px);
+  }
+}

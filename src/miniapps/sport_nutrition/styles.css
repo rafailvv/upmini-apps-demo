@@ -2159,11 +2159,13 @@ body {
 .photo-upload-container {
   position: relative;
   width: 105px;
-  height: 73px;
+  min-height: 73px;
+  height: auto;
 }
 
 .add-button {
   width: 100%;
+  min-height: 73px;
   height: 100%;
   background: #FFFFFF;
   border: none;
@@ -2198,6 +2200,7 @@ body {
 .photo-preview {
   position: relative;
   width: 100%;
+  min-height: 73px;
   height: 100%;
   border-radius: 20px;
   overflow: hidden;

@@ -90,6 +90,17 @@ export const Nutrition: React.FC = () => {
     }
   }, []);
 
+  // Синхронизируем высоту поля фото с полем описания при загрузке
+  useEffect(() => {
+    const textarea = document.querySelector('.description-input') as HTMLTextAreaElement;
+    const photoContainer = document.querySelector('.photo-upload-container') as HTMLElement;
+    
+    if (textarea && photoContainer) {
+      const textareaHeight = textarea.offsetHeight;
+      photoContainer.style.height = textareaHeight + 'px';
+    }
+  }, [mealDescription]);
+
   // Данные для разных типов приемов пищи
   const mealData = {
     завтрак: {
@@ -206,7 +217,14 @@ export const Nutrition: React.FC = () => {
     
     // Автоматически изменяем высоту textarea
     textarea.style.height = 'auto';
-    textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
+    const newHeight = Math.min(textarea.scrollHeight, 200);
+    textarea.style.height = newHeight + 'px';
+    
+    // Синхронизируем высоту поля для фото
+    const photoContainer = document.querySelector('.photo-upload-container') as HTMLElement;
+    if (photoContainer) {
+      photoContainer.style.height = newHeight + 'px';
+    }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

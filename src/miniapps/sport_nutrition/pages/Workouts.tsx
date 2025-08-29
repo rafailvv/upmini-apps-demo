@@ -13,6 +13,16 @@ interface Exercise {
   completed: boolean;
 }
 
+interface CompletedWorkout {
+  date: string;
+  completedCount: number;
+  totalCount: number;
+  percentage: number;
+  originalPlannedDay?: number;
+  originalPlannedMonth?: number;
+  originalPlannedYear?: number;
+}
+
 export const Workouts: React.FC = () => {
   const navigate = useNavigate();
   const [showCompletionModal, setShowCompletionModal] = useState(false);
@@ -65,9 +75,16 @@ export const Workouts: React.FC = () => {
     setWorkoutCompleted(true);
     setShowCompletionModal(false);
     
+    // Получаем информацию о запланированном дне
+    const plannedWorkoutDay = localStorage.getItem('plannedWorkoutDay');
+    const currentDate = new Date();
+    const currentDay = currentDate.getDate();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    
     // Создаем данные о завершенной тренировке
     const workoutData = {
-      date: new Date().toISOString(),
+      date: currentDate.toISOString(),
       exercises: exercises,
       completedCount: completedCount,
       totalCount: exercises.length,
@@ -82,15 +99,29 @@ export const Workouts: React.FC = () => {
     const completedWorkouts = existingCompletedWorkouts ? JSON.parse(existingCompletedWorkouts) : [];
     
     // Добавляем новую тренировку в массив
-    const newCompletedWorkout = {
-      date: new Date().toISOString(),
+    const newCompletedWorkout: CompletedWorkout = {
+      date: currentDate.toISOString(),
       completedCount: completedCount,
       totalCount: exercises.length,
       percentage: Math.round((completedCount / exercises.length) * 100)
     };
     
+    // Проверяем, была ли тренировка перенесена на другой день
+    if (plannedWorkoutDay) {
+      const planned = JSON.parse(plannedWorkoutDay);
+      if (planned.day !== currentDay || planned.month !== currentMonth || planned.year !== currentYear) {
+        // Тренировка была перенесена - добавляем информацию об объединении
+        newCompletedWorkout.originalPlannedDay = planned.day;
+        newCompletedWorkout.originalPlannedMonth = planned.month;
+        newCompletedWorkout.originalPlannedYear = planned.year;
+      }
+    }
+    
     completedWorkouts.push(newCompletedWorkout);
     localStorage.setItem('completedWorkouts', JSON.stringify(completedWorkouts));
+    
+    // Очищаем информацию о запланированном дне
+    localStorage.removeItem('plannedWorkoutDay');
     
     navigate('/miniapp/sport-nutrition');
   };

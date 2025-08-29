@@ -119,6 +119,8 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
   width: 100%;
+  scroll-behavior: smooth;
+  padding: 0 clamp(16px, 4vw, 20px);
 }
 
 .month-navigation::-webkit-scrollbar {
@@ -228,6 +230,13 @@ body {
   opacity: 0.7;
 }
 
+/* Пустые ячейки календаря */
+.calendar-day.empty {
+  cursor: default;
+  background: transparent;
+  color: transparent;
+}
+
 /* Обычные дни без тренировок - не кликабельные */
 .calendar-day:not(.has-workout) {
   cursor: default;
@@ -285,6 +294,52 @@ body {
   font-weight: bold;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 1;
+}
+
+/* Индикатор перенесенной тренировки */
+.moved-indicator {
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+  background: #FF9800;
+  color: #FFFFFF;
+  border-radius: 50%;
+  width: clamp(12px, 3vw, 16px);
+  height: clamp(12px, 3vw, 16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(8px, 2vw, 10px);
+  font-weight: bold;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Стили для объединенных дней */
+.calendar-day.moved {
+  background: linear-gradient(135deg, #4CAF50 0%, #FF9800 100%);
+  position: relative;
+}
+
+.calendar-day.moved::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
+  border-radius: inherit;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Секция планов */
@@ -423,6 +478,12 @@ body {
   }
 
   .completion-check {
+    width: clamp(10px, 2.5vw, 12px);
+    height: clamp(10px, 2.5vw, 12px);
+    font-size: clamp(6px, 1.5vw, 8px);
+  }
+
+  .moved-indicator {
     width: clamp(10px, 2.5vw, 12px);
     height: clamp(10px, 2.5vw, 12px);
     font-size: clamp(6px, 1.5vw, 8px);
@@ -578,6 +639,12 @@ body {
   }
 
   .completion-check {
+    width: clamp(14px, 3.5vw, 16px);
+    height: clamp(14px, 3.5vw, 16px);
+    font-size: clamp(8px, 2vw, 10px);
+  }
+
+  .moved-indicator {
     width: clamp(14px, 3.5vw, 16px);
     height: clamp(14px, 3.5vw, 16px);
     font-size: clamp(8px, 2vw, 10px);
@@ -1648,5 +1715,772 @@ body {
     width: clamp(18px, 2vw, 20px);
     height: clamp(18px, 2vw, 20px);
     font-size: clamp(10px, 1vw, 12px);
+  }
+}
+
+/* ===== СТРАНИЦА ПИТАНИЯ ===== */
+
+.nutrition-container {
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(72.41% 50% at 50% 50%, rgba(18, 68, 217, 0.36) 0%, rgba(255, 255, 255, 0.08) 100%);
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(18, 68, 217, 0.3) transparent;
+}
+
+/* Стили для скроллбара WebKit (Chrome, Safari, Edge) */
+.nutrition-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.nutrition-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nutrition-container::-webkit-scrollbar-thumb {
+  background: rgba(18, 68, 217, 0.3);
+  border-radius: 3px;
+}
+
+.nutrition-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(18, 68, 217, 0.5);
+}
+
+/* Верхняя панель */
+.top-panel {
+  display: none;
+}
+
+.time {
+  display: none;
+}
+
+.dynamic-island {
+  display: none;
+}
+
+.date {
+  display: none;
+}
+
+
+
+/* Основной контент */
+.nutrition-content {
+  flex: 1;
+  padding: 0 30px 120px 30px;
+  margin-top: 40px;
+  transition: transform 0.3s ease;
+}
+
+/* Анимация для контента при смене вкладки */
+.nutrition-content.slide-left {
+  animation: contentSlideLeft 0.5s ease-in-out;
+}
+
+.nutrition-content.slide-right {
+  animation: contentSlideRight 0.5s ease-in-out;
+}
+
+@keyframes contentSlideLeft {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  25% {
+    transform: translateX(-50px);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(-80px);
+    opacity: 0.1;
+  }
+  75% {
+    transform: translateX(-30px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes contentSlideRight {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  25% {
+    transform: translateX(50px);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(80px);
+    opacity: 0.1;
+  }
+  75% {
+    transform: translateX(30px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Заголовок */
+.nutrition-header {
+  margin-bottom: 24px;
+}
+
+.nutrition-header h1 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 110%;
+  color: #060F30;
+  margin: 0 0 24px 0;
+}
+
+/* Навигация по приемам пищи */
+.meal-navigation {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: visible;
+  padding: 8px 0;
+}
+
+.meal-tab {
+  flex: 1;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 110%;
+  color: #000000;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 12px 8px;
+  position: relative;
+  text-align: center;
+  transition: all 0.3s ease;
+  transform: translateX(0);
+  overflow: visible;
+}
+
+.meal-tab:hover {
+  transform: translateX(-8px);
+  color: #1244D9;
+  background: rgba(18, 68, 217, 0.1);
+  border-radius: 8px;
+}
+
+.meal-tab.active {
+  color: #1244D9;
+  font-weight: 500;
+  transform: translateX(0);
+  background: rgba(18, 68, 217, 0.15);
+  border-radius: 8px;
+}
+
+.meal-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1244D9, #007AFF);
+  border-radius: 2px;
+  animation: slideIn 0.5s ease-in-out;
+  box-shadow: 0 2px 8px rgba(18, 68, 217, 0.3);
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+    width: 0;
+  }
+  50% {
+    transform: translateX(-50%);
+    opacity: 0.7;
+    width: 50%;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+    width: 100%;
+  }
+}
+
+/* Анимация для неактивных вкладок */
+.meal-tab:not(.active) {
+  transition: all 0.3s ease;
+}
+
+.meal-tab:not(.active):hover {
+  transform: translateX(-5px);
+  background: rgba(18, 68, 217, 0.05);
+  border-radius: 8px;
+}
+
+/* Индикация завершенных приемов пищи */
+.meal-tab.completed {
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 8px;
+  position: relative;
+}
+
+.meal-tab.completed::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+  border-radius: 8px;
+  z-index: -1;
+}
+
+.completion-indicator {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  background: #4CAF50;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0px 2px 4px rgba(76, 175, 80, 0.3);
+  animation: pulse 2s infinite;
+  z-index: 10;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Карточка макронутриентов */
+.macronutrients-card {
+  background: #FFFFFF;
+  border-radius: 15px;
+  padding: 26px 14px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+/* Анимация для карточек при смене вкладки */
+.nutrition-content.slide-left .macronutrients-card,
+.nutrition-content.slide-right .macronutrients-card {
+  animation: cardSlide 0.3s ease-out;
+}
+
+@keyframes cardSlide {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.macronutrients-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.macro-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
+}
+
+.macro-value {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 36px;
+  line-height: 110%;
+  color: #000000;
+  text-align: center;
+}
+
+.macro-label {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 110%;
+  color: #000000;
+  text-align: center;
+}
+
+/* Категории продуктов */
+.food-categories {
+  display: flex;
+  gap: 19px;
+  margin-bottom: 20px;
+}
+
+.category-section {
+  flex: 1;
+}
+
+.category-section h3 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 110%;
+  color: #060F30;
+  margin: 0 0 8px 0;
+}
+
+.food-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.food-tag {
+  background: #FFFFFF;
+  border-radius: 15px;
+  padding: 8px 12px;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 110%;
+  color: #000000;
+  border: none;
+  white-space: nowrap;
+}
+
+/* Время приема пищи */
+.meal-time-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.meal-time-section label {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 110%;
+  color: #000000;
+}
+
+.time-input {
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 15px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.05);
+}
+
+.time-select {
+  border: none;
+  background: none;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 110%;
+  color: #000000;
+  width: 58px;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.time-select option {
+  background: #FFFFFF;
+  color: #000000;
+  font-family: 'Manrope';
+  font-size: 16px;
+  padding: 8px;
+}
+
+.time-arrow {
+  color: #6C727F;
+  font-size: 12px;
+  pointer-events: none;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Описание приема пищи */
+.meal-description-section {
+  display: flex;
+  gap: 9px;
+  margin-bottom: 20px;
+}
+
+.photo-upload-container {
+  position: relative;
+  width: 105px;
+  height: 73px;
+}
+
+.add-button {
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  border: none;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-button:hover {
+  background: rgba(18, 68, 217, 0.1);
+  transform: scale(1.05);
+}
+
+.camera-icon {
+  width: 24px;
+  height: 24px;
+  color: #000000;
+  transition: all 0.3s ease;
+}
+
+.add-button:hover .camera-icon {
+  color: #1244D9;
+  transform: scale(1.1);
+}
+
+/* Превью загруженного фото */
+.photo-preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.uploaded-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.remove-photo-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 0, 0, 0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.remove-photo-btn:hover {
+  background: rgba(255, 0, 0, 1);
+  transform: scale(1.1);
+}
+
+.description-input {
+  flex: 1;
+  min-height: 73px;
+  max-height: 200px;
+  background: rgba(255, 255, 255, 0.73);
+  border: none;
+  border-radius: 20px;
+  padding: 16px;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #798294;
+  resize: none;
+  overflow-y: auto;
+  transition: height 0.3s ease;
+}
+
+.description-input::placeholder {
+  color: #798294;
+}
+
+.description-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(18, 68, 217, 0.1);
+}
+
+/* Уровень насыщения */
+.satiety-section {
+  margin-bottom: 20px;
+}
+
+.satiety-buttons {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+
+.satiety-btn {
+  flex: 1;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 110%;
+  color: #000000;
+  background: #FFFFFF;
+  border: none;
+  border-radius: 15px;
+  padding: 12px 8px;
+  cursor: pointer;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.satiety-btn:hover {
+  background: rgba(18, 68, 217, 0.1);
+  transform: translateY(-2px);
+}
+
+.satiety-btn.active {
+  background: #1244D9;
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 8px rgba(18, 68, 217, 0.3);
+}
+
+/* Оценка состояния */
+.state-rating-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.state-label {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 110%;
+  color: #000000;
+}
+
+.rating-numbers {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.rating-number {
+  flex: 1;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 110%;
+  color: #000000;
+  background: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.rating-number:hover {
+  background: rgba(18, 68, 217, 0.1);
+  transform: translateY(-2px);
+}
+
+.rating-number.active {
+  background: #1244D9;
+  color: #FFFFFF;
+  box-shadow: 0px 4px 8px rgba(18, 68, 217, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Кнопка завершения */
+.complete-meal-btn {
+  position: fixed;
+  bottom: 30px;
+  left: 35px;
+  right: 35px;
+  height: 75px;
+  background: #1254FF;
+  border: none;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(18, 84, 255, 0.2);
+  z-index: 100;
+  transition: all 0.3s ease;
+  color: #FFFFFF;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.complete-meal-btn:hover {
+  box-shadow: 0px 4px 8px rgba(18, 84, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.complete-meal-btn span {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 36px;
+  color: #FFFFFF !important;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 480px) {
+  .nutrition-container {
+    border-radius: 0;
+    border: none;
+  }
+
+  .nutrition-content {
+    padding: 0 20px;
+  }
+
+  .meal-navigation {
+    width: 100%;
+  }
+
+  .meal-tab {
+    font-size: 16px;
+    padding: 10px 4px;
+  }
+
+  .nutrition-header h1 {
+    font-size: 32px;
+  }
+
+  .macro-value {
+    font-size: 28px;
+  }
+
+  .macro-label {
+    font-size: 16px;
+  }
+
+  .food-categories {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .meal-time-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .meal-description-section {
+    flex-direction: column;
+  }
+
+  .add-button {
+    width: 100%;
+    height: 50px;
+  }
+
+  .satiety-buttons {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .satiety-btn {
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+
+  .state-rating-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .rating-numbers {
+    gap: 8px;
+    width: 100%;
+  }
+
+  .rating-number {
+    height: 35px;
+    font-size: 14px;
+  }
+
+  .complete-meal-btn {
+    left: 20px;
+    right: 20px;
   }
 }

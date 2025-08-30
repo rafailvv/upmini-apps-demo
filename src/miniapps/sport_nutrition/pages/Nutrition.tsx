@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles.css';
 
 interface Macronutrients {
@@ -15,7 +15,9 @@ interface FoodCategory {
 
 export const Nutrition: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedMeal, setSelectedMeal] = useState<'завтрак' | 'обед' | 'ужин' | 'перекусы'>('завтрак');
+  const [isFromHistory, setIsFromHistory] = useState(false);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
   const [macronutrients, setMacronutrients] = useState<Macronutrients>({
     proteins: 25,
@@ -69,6 +71,26 @@ export const Nutrition: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [completedMeals, setCompletedMeals] = useState<{[key: string]: boolean}>({});
+  const [showMentorComment, setShowMentorComment] = useState(false);
+  const [mentorComment, setMentorComment] = useState<string | null>(null);
+
+  // Обработка данных из истории
+  useEffect(() => {
+    if (location.state?.fromHistory && location.state?.selectedMeal) {
+      setIsFromHistory(true);
+      
+      // Загружаем данные о приеме пищи из истории
+      const mealData = location.state.selectedMeal;
+      setSelectedMeal(mealData.mealType);
+      setMealTime(mealData.mealTime);
+      setMealDescription(mealData.mealDescription || '');
+      setSatietyLevel(mealData.satietyLevel);
+      setStateRating(mealData.stateRating);
+      setSelectedImage(mealData.selectedImage || null);
+      
+      console.log('Loading meal from history:', mealData);
+    }
+  }, [location.state]);
 
   // Загружаем данные о завершенных приемах пищи при загрузке компонента
   useEffect(() => {
@@ -209,6 +231,16 @@ export const Nutrition: React.FC = () => {
         setMealTime(lastMeal.mealTime || mealData[mealType].time);
       }
     }
+  };
+
+  const handleMentorComment = () => {
+    // Здесь можно добавить логику для получения комментария от наставника
+    // Пока что просто показываем модальное окно
+    setShowMentorComment(true);
+  };
+
+  const closeMentorComment = () => {
+    setShowMentorComment(false);
   };
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -432,12 +464,45 @@ export const Nutrition: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* Кнопка комментария наставника */}
+        <button className="mentor-comment-btn" onClick={handleMentorComment}>
+          <span>💬</span>
+          Посмотреть комментарий наставника
+        </button>
       </div>
 
-      {/* Кнопка завершения */}
-      <button className="complete-meal-btn" onClick={handleCompleteMeal}>
-        Завершить прием пищи: {selectedMeal}
-      </button>
+      {/* Кнопка завершения - скрыта при просмотре из истории */}
+      {!isFromHistory && (
+        <button className="complete-meal-btn" onClick={handleCompleteMeal}>
+          Завершить прием пищи: {selectedMeal}
+        </button>
+      )}
+
+      {/* Модальное окно комментария наставника */}
+      {showMentorComment && (
+        <div className="mentor-modal-overlay" onClick={closeMentorComment}>
+          <div className="mentor-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="mentor-modal-header">
+              <h3>Комментарий наставника</h3>
+              <button className="close-modal-btn" onClick={closeMentorComment}>
+                ×
+              </button>
+            </div>
+            <div className="mentor-modal-content">
+              {mentorComment ? (
+                <p>{mentorComment}</p>
+              ) : (
+                <div className="no-comment">
+                  <span className="no-comment-icon">📝</span>
+                  <p>Комментариев нет</p>
+                  <p className="no-comment-subtitle">Наставник пока не проверил ваш прием пищи</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

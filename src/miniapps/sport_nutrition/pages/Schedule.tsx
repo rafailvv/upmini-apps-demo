@@ -26,6 +26,8 @@ const Schedule: React.FC = () => {
   const [lastCompletedWorkout, setLastCompletedWorkout] = useState<any>(null);
   const [completedWorkouts, setCompletedWorkouts] = useState<CompletedWorkout[]>([]);
   const [plannedDay, setPlannedDay] = useState<number | null>(null); // День, на который планировалась тренировка
+  const [showCompletedWorkouts, setShowCompletedWorkouts] = useState<number | null>(null); // День, для которого показываем выполненные тренировки
+  const [userName, setUserName] = useState<string>('Александр'); // Имя пользователя
 
   // Загружаем информацию о последней завершенной тренировке и всех выполненных тренировках при монтировании компонента
   useEffect(() => {
@@ -62,11 +64,12 @@ const Schedule: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Функция для проверки, выполнена ли тренировка в определенный день
+  // Функция для проверки, выполнена ли тренировка или питание в определенный день
   const isWorkoutCompleted = (day: number): boolean => {
     const currentYear = new Date().getFullYear();
     
-    return completedWorkouts.some(workout => {
+    // Проверяем тренировки
+    const hasWorkouts = completedWorkouts.some(workout => {
       const workoutDate = new Date(workout.date);
       const workoutDay = workoutDate.getDate();
       const workoutMonth = workoutDate.getMonth();
@@ -89,6 +92,26 @@ const Schedule: React.FC = () => {
       
       return false;
     });
+
+    // Проверяем питание
+    const nutritionData = localStorage.getItem('nutritionData');
+    if (nutritionData) {
+      const meals = JSON.parse(nutritionData);
+      const hasMeals = meals.some((meal: any) => {
+        const mealDate = new Date(meal.date);
+        const mealDay = mealDate.getDate();
+        const mealMonth = mealDate.getMonth();
+        const mealYear = mealDate.getFullYear();
+        
+        return mealDay === day && 
+               mealMonth === selectedMonth && 
+               mealYear === currentYear;
+      });
+      
+      if (hasMeals) return true;
+    }
+    
+    return hasWorkouts;
   };
 
   // Функция для проверки, является ли день объединенным (перенесенным)
@@ -122,19 +145,124 @@ const Schedule: React.FC = () => {
   // Дни с запланированными тренировками
   const scheduledWorkouts = [3, 7, 10, 14, 17, 21, 24, 28];
 
+  // Функция для получения выполненных тренировок за определенный день
+  const getCompletedWorkoutsForDay = (day: number): CompletedWorkout[] => {
+    const currentYear = new Date().getFullYear();
+    
+    return completedWorkouts.filter(workout => {
+      const workoutDate = new Date(workout.date);
+      const workoutDay = workoutDate.getDate();
+      const workoutMonth = workoutDate.getMonth();
+      const workoutYear = workoutDate.getFullYear();
+      
+      // Проверяем прямой день
+      if (workoutDay === day && 
+          workoutMonth === selectedMonth && 
+          workoutYear === currentYear) {
+        return true;
+      }
+      
+      // Проверяем объединенные дни (если тренировка была перенесена)
+      if (workout.originalPlannedDay && 
+          workout.originalPlannedDay === day &&
+          workout.originalPlannedMonth === selectedMonth &&
+          workout.originalPlannedYear === currentYear) {
+        return true;
+      }
+      
+      return false;
+    });
+  };
+
+  // Функция для получения всех выполненных задач за определенный день (тренировки + питание)
+  const getCompletedTasksForDay = (day: number): any[] => {
+    const currentYear = new Date().getFullYear();
+    const tasks: any[] = [];
+    
+    // Добавляем тренировки
+    const workouts = completedWorkouts.filter(workout => {
+      const workoutDate = new Date(workout.date);
+      const workoutDay = workoutDate.getDate();
+      const workoutMonth = workoutDate.getMonth();
+      const workoutYear = workoutDate.getFullYear();
+      
+      // Проверяем прямой день
+      if (workoutDay === day && 
+          workoutMonth === selectedMonth && 
+          workoutYear === currentYear) {
+        return true;
+      }
+      
+      // Проверяем объединенные дни (если тренировка была перенесена)
+      if (workout.originalPlannedDay && 
+          workout.originalPlannedDay === day &&
+          workout.originalPlannedMonth === selectedMonth &&
+          workout.originalPlannedYear === currentYear) {
+        return true;
+      }
+      
+      return false;
+    });
+    
+    workouts.forEach(workout => {
+      tasks.push({
+        ...workout,
+        type: 'workout',
+        displayDate: new Date(workout.date)
+      });
+    });
+    
+    // Добавляем питание
+    const nutritionData = localStorage.getItem('nutritionData');
+    if (nutritionData) {
+      const meals = JSON.parse(nutritionData);
+      
+      const dayMeals = meals.filter((meal: any) => {
+        const mealDate = new Date(meal.date);
+        const mealDay = mealDate.getDate();
+        const mealMonth = mealDate.getMonth();
+        const mealYear = mealDate.getFullYear();
+        
+        return mealDay === day && 
+               mealMonth === selectedMonth && 
+               mealYear === currentYear;
+      });
+      
+             dayMeals.forEach((meal: any) => {
+         tasks.push({
+           ...meal,
+           type: 'meal',
+           displayDate: new Date(meal.date)
+         });
+       });
+    }
+    
+    // Сортируем по времени выполнения
+    return tasks.sort((a, b) => a.displayDate.getTime() - b.displayDate.getTime());
+  };
+
   const handleDateClick = (day: number) => {
     // Проверяем, есть ли тренировка в этот день в выбранном месяце
     const currentYear = new Date().getFullYear();
     const lastDayOfMonth = new Date(currentYear, selectedMonth + 1, 0);
     const daysInMonth = lastDayOfMonth.getDate();
     
-    // Проверяем, что день входит в диапазон месяца и есть запланированная тренировка
-    if (day >= 1 && day <= daysInMonth && scheduledWorkouts.includes(day)) {
-      setSelectedDay(selectedDay === day ? null : day);
-      // Сохраняем запланированный день при выборе
-      if (selectedDay !== day) {
-        setPlannedDay(day);
-      } else {
+    // Проверяем, что день входит в диапазон месяца
+    if (day >= 1 && day <= daysInMonth) {
+      if (scheduledWorkouts.includes(day)) {
+        // Если есть запланированная тренировка
+        setSelectedDay(selectedDay === day ? null : day);
+        setShowCompletedWorkouts(null);
+        // Сохраняем запланированный день при выборе
+        if (selectedDay !== day) {
+          setPlannedDay(day);
+        } else {
+          setPlannedDay(null);
+        }
+      } else if (isWorkoutCompleted(day)) {
+        // Если нет запланированной тренировки, но есть выполненная
+        setShowCompletedWorkouts(showCompletedWorkouts === day ? null : day);
+        setSelectedDay(null);
         setPlannedDay(null);
       }
     }
@@ -154,6 +282,10 @@ const Schedule: React.FC = () => {
     } else if (planType === 'nutrition') {
       navigate('nutrition');
     }
+  };
+
+  const handleProfileClick = () => {
+    navigate('/miniapp/sport-nutrition/profile');
   };
 
   const plans: DayPlan[] = [
@@ -193,6 +325,26 @@ const Schedule: React.FC = () => {
   return (
     <div className="schedule-container">
       <main className="main-content">
+        {/* Блок с информацией о пользователе */}
+        <div className="user-profile-section" onClick={handleProfileClick}>
+          <div className="user-profile-content">
+            <div className="user-avatar">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+              </svg>
+            </div>
+            <div className="user-info">
+              <span className="user-greeting">Привет,</span>
+              <span className="user-name">{userName}</span>
+            </div>
+            <div className="profile-arrow">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
         {/* Заголовок и навигация */}
         <header className="header-section">
           <div className="title-container">
@@ -200,27 +352,7 @@ const Schedule: React.FC = () => {
             <h1>расписание</h1>
           </div>
           
-          {/* Информация о последней завершенной тренировке */}
-          {lastCompletedWorkout && (
-            <div className="last-workout-info">
-              <div className="workout-badge">
-                <span className="workout-icon">💪</span>
-                <span className="workout-text">Последняя тренировка</span>
-                <span className="workout-date">
-                  {new Date(lastCompletedWorkout.date).toLocaleDateString('ru-RU', {
-                    day: 'numeric',
-                    month: 'short'
-                  })}
-                </span>
-              </div>
-              <div className="workout-stats">
-                <span className="stats-text">Выполнено:</span>
-                <span className="completed-exercises">{lastCompletedWorkout.completedCount}</span>
-                <span className="total-exercises">/{lastCompletedWorkout.totalCount}</span>
-                <span className="percentage">({lastCompletedWorkout.percentage}%)</span>
-              </div>
-            </div>
-          )}
+
 
           <nav className="month-navigation">
             {months.map((month, index) => (
@@ -239,6 +371,8 @@ const Schedule: React.FC = () => {
             ))}
           </nav>
         </header>
+
+
 
         {/* Календарь */}
         <section className="calendar-section">
@@ -265,8 +399,7 @@ const Schedule: React.FC = () => {
                   key={day}
                   data-day={day}
                   onClick={() => handleDateClick(day)}
-                  className={`calendar-day ${selectedDay === day && scheduledWorkouts.includes(day) ? 'selected' : ''} ${scheduledWorkouts.includes(day) ? 'has-workout' : ''} ${isCompleted ? 'completed' : ''} ${isMoved ? 'moved' : ''}`}
-                  disabled={!scheduledWorkouts.includes(day)}
+                  className={`calendar-day ${selectedDay === day && scheduledWorkouts.includes(day) ? 'selected' : ''} ${scheduledWorkouts.includes(day) ? 'has-workout' : ''} ${isCompleted ? 'completed' : ''} ${isMoved ? 'moved' : ''} ${showCompletedWorkouts === day ? 'selected' : ''}`}
                 >
                   {day}
                   {isCompleted && <span className="completion-check">✓</span>}
@@ -302,6 +435,94 @@ const Schedule: React.FC = () => {
           </div>
         </>
       )}
+
+      {/* Выполненные тренировки и питание - показываем при выборе даты без запланированной тренировки */}
+      {showCompletedWorkouts && !scheduledWorkouts.includes(showCompletedWorkouts) && (
+        <>
+          <section className="plans-section">
+            <h2>Выполненные задачи {showCompletedWorkouts} {months[selectedMonth].toLowerCase()}</h2>
+          </section>
+          
+          <div className="plans-list">
+            {getCompletedTasksForDay(showCompletedWorkouts).map((task, index) => (
+              <div
+                key={`task-${index}`}
+                className={`plan-card ${task.type === 'workout' ? 'completed-workout' : 'completed-meal'}`}
+              >
+                <div className="plan-info">
+                  {task.type === 'workout' ? (
+                    <>
+                      <h3>Тренировка #{index + 1}</h3>
+                      <p className="plan-time">
+                        {task.displayDate.toLocaleDateString('ru-RU', {
+                          day: 'numeric',
+                          month: 'short',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </p>
+                      <p className="workout-stats">
+                        Выполнено: {task.completedCount}/{task.totalCount} ({task.percentage}%)
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h3>Прием пищи: {task.mealType}</h3>
+                      <p className="plan-time">
+                        {task.displayDate.toLocaleDateString('ru-RU', {
+                          day: 'numeric',
+                          month: 'short',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </p>
+                      <p className="meal-stats">
+                        Время: {task.mealTime} • Уровень насыщения: {task.satietyLevel}
+                      </p>
+                    </>
+                  )}
+                </div>
+                <div className="completion-badge">
+                  {task.type === 'workout' ? '💪' : '🍽️'}
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* Блок "История" - всегда отображается внизу */}
+      <section className="history-section">
+        <h2>История</h2>
+        <div className="history-links">
+          <button 
+            className="history-link-btn workout-link"
+            onClick={() => navigate('workout-history')}
+          >
+            <span className="history-link-icon">💪</span>
+            <span className="history-link-text">Проведенные тренировки</span>
+            <span className="history-link-count">{completedWorkouts.length}</span>
+          </button>
+          
+          <button 
+            className="history-link-btn nutrition-link"
+            onClick={() => navigate('nutrition-history')}
+          >
+            <span className="history-link-icon">🍽️</span>
+            <span className="history-link-text">Заполненные приемы питания</span>
+            <span className="history-link-count">
+              {(() => {
+                const nutritionData = localStorage.getItem('nutritionData');
+                if (nutritionData) {
+                  const meals = JSON.parse(nutritionData);
+                  return meals.length;
+                }
+                return 0;
+              })()}
+            </span>
+          </button>
+        </div>
+      </section>
     </div>
   );
 };

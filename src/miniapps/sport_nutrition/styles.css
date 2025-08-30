@@ -23,6 +23,489 @@ body {
   min-height: 100vh;
 }
 
+/* Блок с информацией о пользователе */
+.user-profile-section {
+  margin-bottom: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-profile-section:hover {
+  transform: translateY(-2px);
+}
+
+.user-profile-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(18, 84, 255, 0.05) 0%, rgba(18, 84, 255, 0.1) 100%);
+  border: 1px solid rgba(18, 84, 255, 0.2);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.user-profile-section:hover .user-profile-content {
+  background: linear-gradient(135deg, rgba(18, 84, 255, 0.1) 0%, rgba(18, 84, 255, 0.15) 100%);
+  border-color: rgba(18, 84, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(18, 84, 255, 0.15);
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(18, 84, 255, 0.1);
+  border-radius: 12px;
+  color: #1254FF;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.user-greeting {
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 400;
+  color: #6B7280;
+  line-height: 1.2;
+}
+
+.user-name {
+  font-family: 'Manrope';
+  font-size: 18px;
+  font-weight: 600;
+  color: #1F2937;
+  line-height: 1.2;
+}
+
+.profile-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: #6B7280;
+  transition: all 0.3s ease;
+}
+
+.user-profile-section:hover .profile-arrow {
+  color: #1254FF;
+  transform: translateX(4px);
+}
+
+/* ===== СТРАНИЦА ПРОФИЛЯ ===== */
+
+.profile-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.profile-main {
+  position: relative;
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0;
+  padding: clamp(60px, 15vw, 80px) clamp(16px, 4vw, 24px) clamp(20px, 5vw, 30px);
+  min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.profile-header h1 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: clamp(24px, 6vw, 32px);
+  line-height: 110%;
+  color: #1F2937;
+  margin: 0;
+}
+
+.profile-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row-four {
+  display: flex;
+  gap: 12px;
+}
+
+.form-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-field-compact {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 80px;
+}
+
+.form-field label {
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-field-compact label {
+  font-family: 'Manrope';
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-input {
+  padding: 12px 16px;
+  border: 1px solid #D1D5DB;
+  border-radius: 12px;
+  font-family: 'Manrope';
+  font-size: 16px;
+  color: #1F2937;
+  background: #FFFFFF;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #1254FF;
+  box-shadow: 0 0 0 3px rgba(18, 84, 255, 0.1);
+}
+
+.form-input-compact {
+  padding: 8px 8px;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  color: #1F2937;
+  background: #FFFFFF;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-input-compact:focus {
+  outline: none;
+  border-color: #1254FF;
+  box-shadow: 0 0 0 2px rgba(18, 84, 255, 0.1);
+}
+
+.gender-display {
+  padding: 12px 16px;
+  border: 1px solid #D1D5DB;
+  border-radius: 12px;
+  font-family: 'Manrope';
+  font-size: 16px;
+  color: #1F2937;
+  background: #F9FAFB;
+}
+
+.section-label {
+  font-family: 'Manrope';
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 8px;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.form-field .button-group {
+  gap: 6px;
+}
+
+.button-group-compact {
+  display: flex;
+  gap: 2px;
+  width: 100%;
+}
+
+.selection-btn {
+  padding: 12px 20px;
+  border: 1px solid #D1D5DB;
+  border-radius: 12px;
+  background: #FFFFFF;
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 500;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px;
+  text-align: center;
+}
+
+.form-field .selection-btn {
+  padding: 8px 12px;
+  font-size: 13px;
+  min-width: 80px;
+}
+
+.selection-btn-compact {
+  padding: 6px 4px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  background: #FFFFFF;
+  font-family: 'Manrope';
+  font-size: 12px;
+  font-weight: 500;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 24px;
+  text-align: center;
+  flex: 1;
+}
+
+.selection-btn-compact:hover {
+  border-color: #1254FF;
+  color: #1254FF;
+  background: rgba(18, 84, 255, 0.05);
+}
+
+.selection-btn-compact.active {
+  background: #1254FF;
+  border-color: #1254FF;
+  color: #FFFFFF;
+}
+
+.selection-btn:hover {
+  border-color: #1254FF;
+  color: #1254FF;
+  background: rgba(18, 84, 255, 0.05);
+}
+
+.selection-btn.active {
+  background: #1254FF;
+  border-color: #1254FF;
+  color: #FFFFFF;
+}
+
+.profile-actions {
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.next-btn {
+  width: 100%;
+  padding: 16px 24px;
+  background: #1254FF;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Manrope';
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(18, 84, 255, 0.3);
+}
+
+.next-btn:hover {
+  background: #0D47A1;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(18, 84, 255, 0.4);
+}
+
+.next-btn:active {
+  transform: translateY(0);
+}
+
+/* ===== СТРАНИЦА ЗДОРОВЬЯ ===== */
+
+.health-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0;
+  background: #FFFFFF;
+  border-radius: 0;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.health-main {
+  position: relative;
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0;
+  padding: clamp(60px, 15vw, 80px) clamp(16px, 4vw, 24px) clamp(20px, 5vw, 30px);
+  min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+}
+
+.health-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.health-header h1 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: clamp(24px, 6vw, 32px);
+  line-height: 110%;
+  color: #1F2937;
+  margin: 0;
+}
+
+.health-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 16px;
+}
+
+.health-actions {
+  margin-top: auto;
+  padding-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.health-actions .next-btn {
+  width: 100%;
+  max-width: 100%;
+  padding: 16px 24px;
+  background: #007AFF !important;
+  border: none !important;
+  border-radius: 16px !important;
+  font-family: 'Manrope' !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: #FFFFFF !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3) !important;
+}
+
+.health-actions .next-btn:hover {
+  background: #0056CC !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(0, 122, 255, 0.4) !important;
+}
+
+.health-actions .next-btn:active {
+  transform: translateY(0) !important;
+}
+
+.health-header .back-button {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #1F2937;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.health-header .back-button:hover {
+  background-color: #F3F4F6;
+}
+
+/* Стили для кнопок выбора на странице здоровья */
+.health-form .button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.health-form .selection-btn {
+  padding: 8px 16px;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  border-radius: 20px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.health-form .selection-btn:hover {
+  background: #E5E7EB;
+  border-color: #D1D5DB;
+}
+
+.health-form .selection-btn.active {
+  background: #007AFF;
+  border-color: #007AFF;
+  color: #FFFFFF;
+}
+
+.health-form .section-label {
+  font-family: 'Manrope';
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.health-form .form-section {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+}
+
 /* Контейнер расписания */
 .schedule-container {
   position: relative;
@@ -345,7 +828,9 @@ body {
 /* Секция планов */
 .plans-section {
   margin-top: clamp(20px, 5vw, 30px);
-  width: 100%;
+  margin-left: clamp(16px, 4vw, 24px);
+  margin-right: clamp(16px, 4vw, 24px);
+  width: calc(100% - clamp(32px, 8vw, 48px));
 }
 
 .plans-section h2 {
@@ -361,7 +846,9 @@ body {
 /* Список планов */
 .plans-list {
   margin-top: clamp(16px, 4vw, 20px);
-  width: 100%;
+  margin-left: clamp(16px, 4vw, 24px);
+  margin-right: clamp(16px, 4vw, 24px);
+  width: calc(100% - clamp(32px, 8vw, 48px));
 }
 
 .plan-card {
@@ -414,6 +901,787 @@ body {
   align-items: center;
   text-align: center;
   margin-left: clamp(12px, 3vw, 15px);
+}
+
+/* Стили для блока "История" */
+.history-section {
+  margin-top: 40px;
+  padding: 0 clamp(16px, 4vw, 24px);
+  padding-bottom: 40px;
+}
+
+.history-section h2 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: clamp(20px, 5vw, 24px);
+  line-height: 120%;
+  color: #1F2937;
+  margin: 0 0 20px 0;
+  text-align: left;
+}
+
+.history-links {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.history-link-btn {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background: #FFFFFF;
+  border: 2px solid #E5E7EB;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.history-link-btn:hover {
+  border-color: #1254FF;
+  box-shadow: 0 4px 8px rgba(18, 84, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.history-link-icon {
+  font-size: 24px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.history-link-text {
+  flex: 1;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 120%;
+  color: #1F2937;
+  text-align: left;
+}
+
+.history-link-count {
+  background: #1254FF;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 100%;
+  min-width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.history-link-btn.workout-link:hover {
+  border-color: #1254FF;
+  background: linear-gradient(135deg, rgba(18, 84, 255, 0.05) 0%, rgba(13, 71, 161, 0.05) 100%);
+}
+
+.history-link-btn.nutrition-link:hover {
+  border-color: rgba(18, 84, 255, 0.7);
+  background: linear-gradient(135deg, rgba(18, 84, 255, 0.03) 0%, rgba(13, 71, 161, 0.03) 100%);
+}
+
+/* Адаптивные стили для блока "История" */
+@media (max-width: 480px) {
+  .history-section {
+    margin-top: 30px;
+    padding: 0 clamp(12px, 3vw, 16px);
+    padding-bottom: 30px;
+  }
+  
+  .history-section h2 {
+    font-size: clamp(18px, 4.5vw, 22px);
+    margin: 0 0 16px 0;
+  }
+  
+  .history-link-btn {
+    padding: 14px 16px;
+  }
+  
+  .history-link-icon {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  
+  .history-link-text {
+    font-size: 14px;
+  }
+  
+  .history-link-count {
+    font-size: 12px;
+    padding: 3px 6px;
+    min-width: 20px;
+  }
+}
+
+/* Стили для страниц истории */
+.workout-history-container,
+.nutrition-history-container {
+  min-height: 100vh;
+  background: #FFFFFF;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 24px);
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E7EB;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.back-button {
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 8px 12px;
+  color: #374151;
+  font-family: 'Manrope';
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: absolute;
+  left: clamp(16px, 4vw, 24px);
+  z-index: 10;
+}
+
+.back-button:hover {
+  background: #E5E7EB;
+  transform: translateY(-1px);
+}
+
+.history-header h1 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(24px, 6vw, 32px);
+  line-height: 120%;
+  color: #1F2937;
+  margin: 0;
+  text-align: center;
+  flex: 1;
+}
+
+.history-main {
+  padding: clamp(16px, 4vw, 24px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: calc(100vh - 80px);
+  width: 100%;
+}
+
+/* Стили для пустой истории */
+.empty-history {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  color: #6B7280;
+  flex: 1;
+  min-height: 400px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  opacity: 0.8;
+}
+
+.empty-history h2 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: clamp(20px, 5vw, 24px);
+  line-height: 120%;
+  margin: 0 0 12px 0;
+  color: #1F2937;
+}
+
+.empty-history p {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(14px, 3.5vw, 16px);
+  line-height: 140%;
+  margin: 0 0 32px 0;
+  opacity: 0.8;
+}
+
+.start-workout-btn,
+.start-nutrition-btn {
+  background: #1254FF;
+  border: none;
+  border-radius: 16px;
+  padding: 16px 32px;
+  color: white;
+  font-family: 'Manrope';
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(18, 84, 255, 0.3);
+}
+
+.start-workout-btn:hover,
+.start-nutrition-btn:hover {
+  background: #0D47A1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(18, 84, 255, 0.4);
+}
+
+/* Стили для списков истории - адаптивные квадратные кнопки */
+.workout-history-list,
+.nutrition-history-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 0;
+  justify-content: center;
+  max-width: 1200px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+
+
+.workout-history-item,
+.nutrition-history-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  width: 180px;
+  min-height: 180px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.workout-history-item:hover,
+.nutrition-history-item:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.workout-history-item.moved {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(18, 84, 255, 0.05) 100%);
+  border: 2px solid rgba(18, 84, 255, 0.2);
+}
+
+.workout-history-item.moved::before {
+  content: "↔";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(18, 84, 255, 0.9);
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.workout-history-info,
+.nutrition-history-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.workout-history-header,
+.nutrition-history-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.workout-history-header h3,
+.nutrition-history-header h3 {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 120%;
+  color: #1F2937;
+  margin: 0 0 6px 0;
+  text-align: center;
+}
+
+.workout-date,
+.meal-date {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 120%;
+  color: #6B7280;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* Стили для статистики тренировок */
+.workout-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.stat-label {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 120%;
+  color: #6B7280;
+}
+
+.stat-value {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 120%;
+  color: #1F2937;
+}
+
+/* Стили для деталей питания */
+.meal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.detail-label {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 120%;
+  color: #6B7280;
+}
+
+.detail-value {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 120%;
+  color: #1F2937;
+}
+
+/* Стили для описания и фото - скрыты в квадратных кнопках */
+.meal-description,
+.meal-photo {
+  display: none;
+}
+
+.description-label,
+.photo-label {
+  display: none;
+}
+
+.description-text {
+  display: none;
+}
+
+.photo-preview {
+  display: none;
+}
+
+.meal-image {
+  display: none;
+}
+
+/* Стили для индикаторов - скрыты в квадратных кнопках */
+.moved-indicator {
+  display: none;
+}
+
+.moved-icon {
+  display: none;
+}
+
+.moved-text {
+  display: none;
+}
+
+/* Стили для бейджей */
+.workout-badge,
+.nutrition-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.workout-badge {
+  background: linear-gradient(135deg, #1254FF 0%, #0D47A1 100%);
+}
+
+.nutrition-badge {
+  background: linear-gradient(135deg, rgba(18, 84, 255, 0.7) 0%, rgba(13, 71, 161, 0.7) 100%);
+}
+
+.badge-icon {
+  font-size: 20px;
+  color: white;
+}
+
+/* Адаптивные стили для страниц истории */
+@media (max-width: 768px) {
+  .workout-history-list,
+  .nutrition-history-list {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .workout-history-item,
+  .nutrition-history-item {
+    width: 100%;
+    height: auto;
+    min-height: 80px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px;
+  }
+  
+  .workout-history-info,
+  .nutrition-history-info {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    flex: 1;
+  }
+  
+  .workout-history-header,
+  .nutrition-history-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0;
+    margin-right: 16px;
+  }
+  
+  .workout-history-header h3,
+  .nutrition-history-header h3 {
+    font-size: clamp(14px, 3.5vw, 16px);
+    margin: 0;
+  }
+  
+  .workout-date,
+  .meal-date {
+    font-size: clamp(11px, 2.5vw, 13px);
+    text-align: right;
+  }
+  
+  .workout-stats {
+    flex-direction: row;
+    gap: 16px;
+    margin-bottom: 0;
+    width: auto;
+  }
+  
+  .meal-details {
+    flex-direction: row;
+    gap: 16px;
+    margin-bottom: 0;
+    width: auto;
+  }
+  
+  .stat-item,
+  .detail-item {
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .stat-label,
+  .stat-value,
+  .detail-label,
+  .detail-value {
+    font-size: clamp(10px, 2.5vw, 12px);
+  }
+  
+  .workout-badge,
+  .nutrition-badge {
+    width: 40px;
+    height: 40px;
+    margin-top: 0;
+    margin-left: 16px;
+  }
+  
+  .badge-icon {
+    font-size: 16px;
+  }
+}
+
+
+
+/* Стили для планшетов - промежуточное состояние */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .history-header h1 {
+    font-size: clamp(22px, 5.5vw, 28px);
+  }
+  .workout-history-list,
+  .nutrition-history-list {
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 900px;
+  }
+  
+  .workout-history-item {
+    width: 140px;
+    height: 140px;
+    padding: 14px;
+  }
+  
+  .nutrition-history-item {
+    width: 150px;
+    min-height: 150px;
+    padding: 16px;
+  }
+  
+  .workout-history-header h3 {
+    font-size: clamp(12px, 2.8vw, 14px);
+    margin-bottom: 5px;
+  }
+  
+  .nutrition-history-header h3 {
+    font-size: clamp(12px, 2.8vw, 14px);
+    margin-bottom: 4px;
+  }
+  
+  .workout-date,
+  .meal-date {
+    font-size: clamp(9px, 2.2vw, 11px);
+    margin-bottom: 4px;
+  }
+  
+  .stat-label,
+  .stat-value,
+  .detail-label,
+  .detail-value {
+    font-size: clamp(8px, 2vw, 10px);
+  }
+  
+  .workout-stats,
+  .meal-details {
+    gap: 2px;
+    margin-bottom: 4px;
+  }
+  
+  .workout-badge {
+    width: 32px;
+    height: 32px;
+    margin-top: 4px;
+  }
+  
+  .nutrition-badge {
+    width: 36px;
+    height: 36px;
+    margin-top: 6px;
+  }
+  
+  .badge-icon {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .history-header {
+    padding: clamp(12px, 3vw, 16px);
+  }
+  
+  .history-header h1 {
+    font-size: clamp(20px, 5vw, 24px);
+  }
+  
+  .back-button {
+    left: clamp(12px, 3vw, 16px);
+  }
+  
+  .history-main {
+    padding: clamp(12px, 3vw, 16px);
+    min-height: calc(100vh - 60px);
+  }
+  
+  .workout-history-list,
+  .nutrition-history-list {
+    gap: 12px;
+  }
+  
+  .workout-history-item,
+  .nutrition-history-item {
+    padding: 12px;
+    min-height: 140px;
+  }
+  
+  .workout-history-header h3,
+  .nutrition-history-header h3 {
+    font-size: clamp(11px, 2.5vw, 13px);
+  }
+  
+  .workout-date,
+  .meal-date {
+    font-size: clamp(8px, 2vw, 10px);
+  }
+  
+  .stat-label,
+  .stat-value,
+  .detail-label,
+  .detail-value {
+    font-size: clamp(7px, 1.8vw, 9px);
+  }
+  
+  .workout-badge,
+  .nutrition-badge {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .badge-icon {
+    font-size: 14px;
+  }
+}
+
+
+
+
+
+
+
+/* Стили для выполненных задач (единый синий цвет с разной насыщенностью) */
+.completed-workout {
+  background: linear-gradient(135deg, #1254FF 0%, #0D47A1 100%);
+  color: white;
+}
+
+.completed-workout .plan-info h3 {
+  color: white;
+}
+
+.completed-workout .plan-time {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.completed-workout .workout-stats {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(12px, 3vw, 14px);
+  line-height: 110%;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  margin-top: clamp(4px, 1vw, 6px);
+}
+
+.completion-badge {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(24px, 6vw, 32px);
+  line-height: 110%;
+  color: white;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-left: clamp(12px, 3vw, 15px);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: clamp(32px, 8vw, 40px);
+  height: clamp(32px, 8vw, 40px);
+  justify-content: center;
+}
+
+/* Стили для выполненных приемов пищи (менее насыщенный синий) */
+.completed-meal {
+  background: linear-gradient(135deg, rgba(18, 84, 255, 0.7) 0%, rgba(13, 71, 161, 0.7) 100%);
+  color: white;
+}
+
+.completed-meal .plan-info h3 {
+  color: white;
+}
+
+.completed-meal .plan-time {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.completed-meal .meal-stats {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(12px, 3vw, 14px);
+  line-height: 110%;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  margin-top: clamp(4px, 1vw, 6px);
 }
 
 /* Мобильная адаптация */
@@ -495,13 +1763,15 @@ body {
   }
 
   .plans-section {
-    width: 100%;
-    padding: 0 clamp(12px, 3vw, 16px);
+    width: calc(100% - clamp(24px, 6vw, 32px));
+    margin-left: clamp(12px, 3vw, 16px);
+    margin-right: clamp(12px, 3vw, 16px);
   }
 
   .plans-list {
-    width: 100%;
-    padding: 0 clamp(12px, 3vw, 16px);
+    width: calc(100% - clamp(24px, 6vw, 32px));
+    margin-left: clamp(12px, 3vw, 16px);
+    margin-right: clamp(12px, 3vw, 16px);
   }
 
   .plan-card {
@@ -569,13 +1839,15 @@ body {
   }
 
   .plans-section {
-    width: 100%;
-    padding: 0 clamp(20px, 5vw, 28px);
+    width: calc(100% - clamp(40px, 10vw, 56px));
+    margin-left: clamp(20px, 5vw, 28px);
+    margin-right: clamp(20px, 5vw, 28px);
   }
 
   .plans-list {
-    width: 100%;
-    padding: 0 clamp(20px, 5vw, 28px);
+    width: calc(100% - clamp(40px, 10vw, 56px));
+    margin-left: clamp(20px, 5vw, 28px);
+    margin-right: clamp(20px, 5vw, 28px);
   }
 
   .plan-card {
@@ -655,13 +1927,15 @@ body {
   }
 
   .plans-section {
-    width: 100%;
-    padding: 0 clamp(24px, 6vw, 36px);
+    width: calc(100% - clamp(48px, 12vw, 72px));
+    margin-left: clamp(24px, 6vw, 36px);
+    margin-right: clamp(24px, 6vw, 36px);
   }
 
   .plans-list {
-    width: 100%;
-    padding: 0 clamp(24px, 6vw, 36px);
+    width: calc(100% - clamp(48px, 12vw, 72px));
+    margin-left: clamp(24px, 6vw, 36px);
+    margin-right: clamp(24px, 6vw, 36px);
   }
 
   .plan-card {
@@ -915,8 +2189,8 @@ body {
   margin: 0;
 }
 
-/* Индикатор выполнения */
-.completion-indicator {
+/* Индикатор выполнения для тренировок */
+.workouts-container .completion-indicator {
   position: absolute;
   width: clamp(18px, 4vw, 20px);
   height: clamp(18px, 4vw, 20px);
@@ -926,7 +2200,7 @@ body {
   border-radius: 5px;
 }
 
-.completion-indicator.completed {
+.workouts-container .completion-indicator.completed {
   background: #1244D9;
 }
 
@@ -961,6 +2235,129 @@ body {
 
 .comment-field input::placeholder {
   color: #798294;
+}
+
+/* Стили для загрузки видео */
+.video-upload-section {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.video-upload-area {
+  display: block;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.video-upload-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(18, 84, 255, 0.05) 0%, rgba(18, 84, 255, 0.1) 100%);
+  border: 2px dashed rgba(18, 84, 255, 0.3);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.video-upload-area:hover .video-upload-content {
+  background: linear-gradient(135deg, rgba(18, 84, 255, 0.1) 0%, rgba(18, 84, 255, 0.15) 100%);
+  border-color: rgba(18, 84, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(18, 84, 255, 0.15);
+}
+
+.video-upload-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(18, 84, 255, 0.1);
+  border-radius: 12px;
+  color: #1254FF;
+}
+
+.video-upload-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.video-upload-title {
+  font-family: 'Manrope';
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F2937;
+  line-height: 1.2;
+}
+
+.video-upload-subtitle {
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 400;
+  color: #6B7280;
+  line-height: 1.2;
+}
+
+.video-preview-container {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.video-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #F9FAFB;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.video-preview-title {
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.remove-video-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #6B7280;
+}
+
+.remove-video-btn:hover {
+  background: #FEF2F2;
+  border-color: #FCA5A5;
+  color: #DC2626;
+  transform: scale(1.05);
+}
+
+.video-preview {
+  padding: 16px;
+}
+
+.uploaded-video {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Кнопка завершения тренировки */
@@ -2370,8 +3767,8 @@ body {
 .complete-meal-btn {
   position: fixed;
   bottom: 30px;
-  left: 35px;
-  right: 35px;
+  left: 30px;
+  right: 30px;
   height: 75px;
   background: #1254FF;
   border: none;
@@ -2486,4 +3883,172 @@ body {
     left: 20px;
     right: 20px;
   }
+
+  .mentor-comment-btn {
+    height: 50px;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .mentor-modal {
+    width: 95%;
+    margin: 20px;
+  }
+
+  .mentor-modal-header {
+    padding: 15px 20px;
+  }
+
+  .mentor-modal-header h3 {
+    font-size: 18px;
+  }
+
+  .mentor-modal-content {
+    padding: 20px;
+  }
+}
+
+/* Кнопка комментария наставника */
+.mentor-comment-btn {
+  width: 100%;
+  height: 60px;
+  background: #FFFFFF;
+  border: 2px solid #1254FF;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(18, 84, 255, 0.1);
+  transition: all 0.3s ease;
+  color: #1254FF;
+  font-family: 'Manrope';
+  font-size: 18px;
+  font-weight: 400;
+  gap: 8px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.mentor-comment-btn:hover {
+  background: rgba(18, 84, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 8px rgba(18, 84, 255, 0.2);
+}
+
+.mentor-comment-btn span {
+  font-size: 20px;
+}
+
+/* Модальное окно комментария наставника */
+.mentor-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.mentor-modal {
+  background: #FFFFFF;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.mentor-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #E9ECEF;
+  background: linear-gradient(135deg, #1254FF 0%, #007AFF 100%);
+  color: white;
+}
+
+.mentor-modal-header h3 {
+  margin: 0;
+  font-family: 'Manrope';
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-modal-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.mentor-modal-content {
+  padding: 25px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.mentor-modal-content p {
+  margin: 0 0 15px 0;
+  font-family: 'Manrope';
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.no-comment {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.no-comment-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.no-comment p {
+  margin: 0 0 10px 0;
+  font-family: 'Manrope';
+  font-size: 18px;
+  font-weight: 500;
+  color: #666;
+}
+
+.no-comment-subtitle {
+  font-size: 14px !important;
+  color: #999 !important;
+  font-weight: 300 !important;
 }

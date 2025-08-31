@@ -842,6 +842,21 @@ body {
   box-shadow: 0px 6px 16px rgba(18, 84, 255, 0.3);
 }
 
+/* Стили для дней с запланированной и выполненной тренировкой - разделенный цвет */
+.calendar-day.scheduled-and-moved {
+  color: var(--white);
+  background: linear-gradient(90deg, rgba(18, 84, 255, 0.7) 0%, rgba(13, 71, 161, 0.7) 50%, #000000 50%, #000000 100%);
+  border-radius: clamp(14px, 4vw, 18px);
+  font-weight: 600;
+  position: relative;
+  box-shadow: 0px 4px 12px rgba(18, 84, 255, 0.3);
+}
+
+.calendar-day.scheduled-and-moved:hover {
+  background: linear-gradient(90deg, rgba(18, 84, 255, 0.8) 0%, rgba(13, 71, 161, 0.8) 50%, #333333 50%, #333333 100%);
+  box-shadow: 0px 6px 16px rgba(18, 84, 255, 0.4);
+}
+
 .calendar-day.moved::before {
   content: '';
   position: absolute;
@@ -1385,11 +1400,6 @@ body {
 }
 
 .meal-image {
-  display: none;
-}
-
-/* Стили для индикаторов - скрыты в квадратных кнопках */
-.moved-indicator {
   display: none;
 }
 

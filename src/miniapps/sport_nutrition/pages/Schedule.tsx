@@ -90,10 +90,6 @@ const Schedule: React.FC = () => {
   const getWorkoutCompletionType = (day: number): 'completed' | 'moved' | 'none' => {
     const currentYear = new Date().getFullYear();
     
-    // Формируем дату для проверки
-    const checkDate = `${currentYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const isScheduledDay = scheduledWorkouts.includes(checkDate);
-    
     // Проверяем тренировки
     const workout = completedWorkouts.find(workout => {
       const workoutDate = new Date(workout.date);
@@ -107,11 +103,22 @@ const Schedule: React.FC = () => {
     });
 
     if (workout) {
-      // Если день запланирован И тренировка выполнена в этот день - это completed
-      if (isScheduledDay) {
-        return 'completed';
+      // Проверяем, была ли тренировка запланирована на этот день
+      if (workout.originalPlannedDay && 
+          workout.originalPlannedMonth !== undefined && 
+          workout.originalPlannedYear !== undefined) {
+        
+        // Если тренировка была запланирована на этот же день - completed
+        if (workout.originalPlannedDay === day && 
+            workout.originalPlannedMonth === selectedMonth && 
+            workout.originalPlannedYear === currentYear) {
+          return 'completed';
+        }
+        // Если тренировка была запланирована на другой день - moved
+        return 'moved';
       }
-      // Если день не запланирован, но тренировка выполнена - это перенесенная
+      
+      // Если нет информации о запланированной дате, считаем как moved
       return 'moved';
     }
     
@@ -152,13 +159,51 @@ const Schedule: React.FC = () => {
   const weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
   
   // Дни с запланированными тренировками (конкретные даты)
-  const scheduledWorkouts = ["2025-08-03", "2025-08-07", "2025-08-10", "2025-08-14", "2025-08-17", "2025-08-21", "2025-08-24", "2025-08-28"];
+  const scheduledWorkouts = [
+    "2025-08-03", "2025-08-07", "2025-08-10", "2025-08-14", "2025-08-17", "2025-08-21", "2025-08-24", "2025-08-28","2025-08-31",
+    "2025-09-02", "2025-09-05", "2025-09-09", "2025-09-12", "2025-09-16", "2025-09-19", "2025-09-23", "2025-09-26", "2025-09-30"
+  ];
 
   // Вспомогательная функция для проверки, является ли день запланированным
   const isScheduledWorkoutDay = (day: number): boolean => {
     const currentYear = new Date().getFullYear();
     const checkDate = `${currentYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     return scheduledWorkouts.includes(checkDate);
+  };
+
+  // Функция для проверки, была ли выполнена тренировка на запланированном дне
+  const hasScheduledWorkoutCompleted = (day: number): boolean => {
+    const currentYear = new Date().getFullYear();
+    
+    // Проверяем все выполненные тренировки
+    return completedWorkouts.some(workout => {
+      const workoutDate = new Date(workout.date);
+      const workoutDay = workoutDate.getDate();
+      const workoutMonth = workoutDate.getMonth();
+      const workoutYear = workoutDate.getFullYear();
+      
+      // Проверяем, есть ли информация о запланированной дате
+      if (workout.originalPlannedDay && 
+          workout.originalPlannedMonth !== undefined && 
+          workout.originalPlannedYear !== undefined) {
+        
+        // Если тренировка была запланирована на этот день (неважно, в какой день выполнена)
+        if (workout.originalPlannedDay === day && 
+            workout.originalPlannedMonth === selectedMonth && 
+            workout.originalPlannedYear === currentYear) {
+          return true;
+        }
+      }
+      
+      // Если тренировка была выполнена именно в этот день
+      if (workoutDay === day && 
+          workoutMonth === selectedMonth && 
+          workoutYear === currentYear) {
+        return true;
+      }
+      
+      return false;
+    });
   };
 
   // Функция для получения выполненных тренировок за определенный день
@@ -417,10 +462,12 @@ const Schedule: React.FC = () => {
                   key={day}
                   data-day={day}
                   onClick={() => handleDateClick(day)}
-                  className={`calendar-day ${selectedDay === day && isScheduledWorkoutDay(day) ? 'selected' : ''} ${isScheduledWorkoutDay(day) ? 'has-workout' : ''} ${completionType === 'completed' ? 'completed' : ''} ${completionType === 'moved' ? 'moved' : ''} ${showCompletedWorkouts === day ? 'selected' : ''} ${isToday ? 'today' : ''}`}
+                  className={`calendar-day ${selectedDay === day && isScheduledWorkoutDay(day) ? 'selected' : ''} ${isScheduledWorkoutDay(day) ? 'has-workout' : ''} ${completionType === 'completed' ? 'completed' : ''} ${completionType === 'moved' ? 'moved' : ''} ${completionType === 'moved' && isScheduledWorkoutDay(day) && hasScheduledWorkoutCompleted(day) ? 'scheduled-and-moved' : ''} ${showCompletedWorkouts === day ? 'selected' : ''} ${isToday ? 'today' : ''}`}
                 >
                   {day}
-                  {completionType === 'completed' && <span className="completion-check">✓</span>}
+                  {/* Показываем галочку на запланированных днях, если была выполнена тренировка, запланированная на этот день */}
+                  {isScheduledWorkoutDay(day) && hasScheduledWorkoutCompleted(day) && <span className="completion-check">✓</span>}
+                  {/* Показываем индикатор перенесенных тренировок */}
                   {completionType === 'moved' && <span className="moved-indicator">↔</span>}
                 </button>
               );

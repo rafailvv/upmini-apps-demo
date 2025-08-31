@@ -23,7 +23,7 @@ const Schedule: React.FC = () => {
   const navigate = useNavigate();
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
-  const [lastCompletedWorkout, setLastCompletedWorkout] = useState<any>(null);
+  // const [lastCompletedWorkout, setLastCompletedWorkout] = useState<any>(null);
   const [completedWorkouts, setCompletedWorkouts] = useState<CompletedWorkout[]>([]);
   const [plannedDay, setPlannedDay] = useState<number | null>(null); // День, на который планировалась тренировка
   const [showCompletedWorkouts, setShowCompletedWorkouts] = useState<number | null>(null); // День, для которого показываем выполненные тренировки
@@ -31,10 +31,10 @@ const Schedule: React.FC = () => {
 
   // Загружаем информацию о последней завершенной тренировке и всех выполненных тренировках при монтировании компонента
   useEffect(() => {
-    const savedWorkout = localStorage.getItem('lastCompletedWorkout');
-    if (savedWorkout) {
-      setLastCompletedWorkout(JSON.parse(savedWorkout));
-    }
+    // const savedWorkout = localStorage.getItem('lastCompletedWorkout');
+    // if (savedWorkout) {
+    //   setLastCompletedWorkout(JSON.parse(savedWorkout));
+    // }
 
     // Загружаем все выполненные тренировки
     const savedCompletedWorkouts = localStorage.getItem('completedWorkouts');
@@ -168,33 +168,33 @@ const Schedule: React.FC = () => {
   const scheduledWorkouts = [3, 7, 10, 14, 17, 21, 24, 28];
 
   // Функция для получения выполненных тренировок за определенный день
-  const getCompletedWorkoutsForDay = (day: number): CompletedWorkout[] => {
-    const currentYear = new Date().getFullYear();
-    
-    return completedWorkouts.filter(workout => {
-      const workoutDate = new Date(workout.date);
-      const workoutDay = workoutDate.getDate();
-      const workoutMonth = workoutDate.getMonth();
-      const workoutYear = workoutDate.getFullYear();
-      
-      // Проверяем прямой день
-      if (workoutDay === day && 
-          workoutMonth === selectedMonth && 
-          workoutYear === currentYear) {
-        return true;
-      }
-      
-      // Проверяем объединенные дни (если тренировка была перенесена)
-      if (workout.originalPlannedDay && 
-          workout.originalPlannedDay === day &&
-          workout.originalPlannedMonth === selectedMonth &&
-          workout.originalPlannedYear === currentYear) {
-        return true;
-      }
-      
-      return false;
-    });
-  };
+  // const getCompletedWorkoutsForDay = (day: number): CompletedWorkout[] => {
+  //   const currentYear = new Date().getFullYear();
+  //   
+  //   return completedWorkouts.filter(workout => {
+  //     const workoutDate = new Date(workout.date);
+  //     const workoutDay = workoutDate.getDate();
+  //     const workoutMonth = workoutDate.getMonth();
+  //     const workoutYear = workoutDate.getFullYear();
+  //     
+  //     // Проверяем прямой день
+  //     if (workoutDay === day && 
+  //         workoutMonth === selectedMonth && 
+  //         workoutYear === currentYear) {
+  //       return true;
+  //     }
+  //     
+  //     // Проверяем объединенные дни (если тренировка была перенесена)
+  //     if (workout.originalPlannedDay && 
+  //         workout.originalPlannedDay === day &&
+  //         workout.originalPlannedMonth === selectedMonth &&
+  //         workout.originalPlannedYear === currentYear) {
+  //       return true;
+  //     }
+  //     
+  //     return false;
+  //   });
+  // };
 
   // Функция для получения всех выполненных задач за определенный день (тренировки + питание)
   const getCompletedTasksForDay = (day: number): any[] => {
@@ -350,7 +350,7 @@ const Schedule: React.FC = () => {
             }
             
             body { 
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+              font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
               margin: 0; 
               padding: 40px 40px 0 40px;
               line-height: 1.6;
@@ -529,7 +529,7 @@ const Schedule: React.FC = () => {
             }
             
             body { 
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+              font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
               margin: 0; 
               padding: 40px 40px 0 40px;
               line-height: 1.6;
@@ -883,19 +883,19 @@ const Schedule: React.FC = () => {
         <div className="history-links">
           <button 
             className="history-link-btn workout-link"
-            onClick={handleDownloadWorkoutHistory}
+            onClick={() => navigate('/miniapp/sport-nutrition/workout-history')}
           >
-            <span className="history-link-icon">📥</span>
-            <span className="history-link-text">Скачать историю тренировок</span>
+            <span className="history-link-icon">💪</span>
+            <span className="history-link-text">История тренировок</span>
             <span className="history-link-count">{completedWorkouts.length}</span>
           </button>
           
           <button 
             className="history-link-btn nutrition-link"
-            onClick={handleDownloadNutritionHistory}
+            onClick={() => navigate('/miniapp/sport-nutrition/nutrition-history')}
           >
-            <span className="history-link-icon">📥</span>
-            <span className="history-link-text">Скачать историю питания</span>
+            <span className="history-link-icon">🍽️</span>
+            <span className="history-link-text">История питания</span>
             <span className="history-link-count">
               {(() => {
                 const nutritionData = localStorage.getItem('nutritionData');

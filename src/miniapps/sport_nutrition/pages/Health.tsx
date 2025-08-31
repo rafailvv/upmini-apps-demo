@@ -32,12 +32,12 @@ export const Health: React.FC<HealthProps> = () => {
     }
   }, []);
 
-  const handleInputChange = (field: keyof HealthData, value: any) => {
-    setHealthData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
+  // const handleInputChange = (field: keyof HealthData, value: any) => {
+  //   setHealthData(prev => ({
+  //     ...prev,
+  //     [field]: value
+  //   }));
+  // };
 
   const handleArrayToggle = (field: keyof HealthData, item: string) => {
     setHealthData(prev => ({
@@ -63,7 +63,7 @@ export const Health: React.FC<HealthProps> = () => {
       padding: '20px', 
       background: '#FFFFFF', 
       minHeight: '100vh',
-      fontFamily: 'Arial, sans-serif',
+              fontFamily: 'Manrope, -apple-system, BlinkMacSystemFont, sans-serif',
       position: 'relative',
       zIndex: 1
     }}>

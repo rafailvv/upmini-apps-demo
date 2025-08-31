@@ -360,7 +360,7 @@ export const Profile: React.FC = () => {
     });
   };
 
-  const handleArrayOtherInput = (field: keyof UserData, otherField: keyof UserData, value: string) => {
+  const handleArrayOtherInput = (_field: keyof UserData, otherField: keyof UserData, value: string) => {
     setUserData(prev => {
       const newData = {
         ...prev,
@@ -408,7 +408,7 @@ export const Profile: React.FC = () => {
             }
             
             body { 
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+              font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
               margin: 0; 
               padding: 40px 40px 0 40px;
               line-height: 1.6;
@@ -2942,7 +2942,8 @@ export const Profile: React.FC = () => {
                       pullUps: '',
                       running: '',
                       pulse: '',
-                      photoFile: null
+                      photoFile: null,
+                      photoFileName: ''
                     });
                   }}
                   style={{

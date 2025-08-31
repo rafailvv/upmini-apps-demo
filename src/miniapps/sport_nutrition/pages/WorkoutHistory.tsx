@@ -70,10 +70,224 @@ const WorkoutHistory: React.FC = () => {
            workout.originalPlannedYear !== undefined;
   };
 
+  const handleDownloadPDF = () => {
+    if (completedWorkouts.length === 0) {
+      alert('История тренировок пуста');
+      return;
+    }
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="ru">
+        <head>
+          <meta charset="UTF-8">
+          <title>История тренировок</title>
+          <style>
+            @page {
+              margin: 2cm;
+              size: A4;
+            }
+            
+            @media print {
+              body {
+                padding: 0 20px;
+              }
+            }
+            
+            body { 
+              font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+              margin: 0; 
+              padding: 40px 40px 0 40px;
+              line-height: 1.6;
+              color: #1F2937;
+              background: white;
+            }
+            
+            .header {
+              text-align: center;
+              margin-bottom: 40px;
+              padding-bottom: 20px;
+              border-bottom: 3px solid #1E40AF;
+            }
+            
+            h1 { 
+              color: #1E40AF; 
+              font-size: 28px;
+              font-weight: 700;
+              margin: 0 0 10px 0;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            }
+            
+            .subtitle {
+              color: #6B7280;
+              font-size: 16px;
+              font-weight: 400;
+              margin: 0;
+            }
+            
+            h2 { 
+              color: #1E40AF; 
+              font-size: 20px;
+              font-weight: 600;
+              margin: 30px 0 20px 0;
+              padding: 10px 0;
+              border-bottom: 2px solid #E5E7EB;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+            
+            .section { 
+              margin-bottom: 30px;
+              page-break-inside: avoid;
+            }
+            
+            .workout-item {
+              margin: 15px 0; 
+              padding: 20px; 
+              border: 2px solid #E5E7EB; 
+              border-radius: 12px;
+              background: #F9FAFB;
+              page-break-inside: avoid;
+            }
+            
+            .workout-header {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 15px;
+              padding-bottom: 10px;
+              border-bottom: 1px solid #E5E7EB;
+            }
+            
+            .workout-date {
+              font-size: 18px;
+              font-weight: 600;
+              color: #1E40AF;
+            }
+            
+            .workout-number {
+              background: #1E40AF;
+              color: white;
+              padding: 4px 12px;
+              border-radius: 20px;
+              font-size: 14px;
+              font-weight: 600;
+            }
+            
+            .workout-stats {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+              gap: 15px;
+              margin-top: 15px;
+            }
+            
+            .stat-item {
+              text-align: center;
+              padding: 15px;
+              background: white;
+              border-radius: 8px;
+              border: 1px solid #E5E7EB;
+            }
+            
+            .stat-label {
+              font-size: 12px;
+              color: #6B7280;
+              text-transform: uppercase;
+              font-weight: 600;
+              margin-bottom: 5px;
+            }
+            
+            .stat-value {
+              font-size: 24px;
+              font-weight: 700;
+              color: #1E40AF;
+            }
+            
+            .footer {
+              margin-top: 40px;
+              padding-top: 20px;
+              border-top: 2px solid #E5E7EB;
+              text-align: center;
+              color: #6B7280;
+              font-size: 14px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>История тренировок</h1>
+            <p class="subtitle">Отчет о выполненных тренировках</p>
+          </div>
+          
+          <div class="section">
+            <h2>Выполненные тренировки</h2>
+            ${completedWorkouts.map((workout, index) => {
+              const date = new Date(workout.date);
+              const formattedDate = date.toLocaleDateString('ru-RU', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              });
+              
+              return `
+                <div class="workout-item">
+                  <div class="workout-header">
+                    <div class="workout-date">${formattedDate}</div>
+                    <div class="workout-number">Тренировка #${index + 1}</div>
+                  </div>
+                  <div class="workout-stats">
+                    <div class="stat-item">
+                      <div class="stat-label">Выполнено</div>
+                      <div class="stat-value">${workout.completedCount}</div>
+                    </div>
+                    <div class="stat-item">
+                      <div class="stat-label">Всего</div>
+                      <div class="stat-value">${workout.totalCount}</div>
+                    </div>
+                    <div class="stat-item">
+                      <div class="stat-label">Процент</div>
+                      <div class="stat-value">${workout.percentage}%</div>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+          
+          <div class="footer">
+            <p>Отчет сгенерирован ${new Date().toLocaleDateString('ru-RU')}</p>
+          </div>
+        </body>
+      </html>
+    `;
+
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `История_тренировок_${new Date().toLocaleDateString('ru-RU').replace(/\./g, '-')}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="workout-history-container">
       <header className="history-header">
         <h1>История тренировок</h1>
+        {completedWorkouts.length > 0 && (
+          <button 
+            className="download-pdf-btn"
+            onClick={handleDownloadPDF}
+          >
+            <span className="download-icon">📥</span>
+            <span className="download-text">Скачать PDF</span>
+          </button>
+        )}
       </header>
 
       <main className="history-main">

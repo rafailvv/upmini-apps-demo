@@ -9,7 +9,7 @@ export const TestHealth: React.FC = () => {
       padding: '20px', 
       background: '#f0f0f0', 
       minHeight: '100vh',
-      fontFamily: 'Arial, sans-serif'
+      fontFamily: 'Manrope, -apple-system, BlinkMacSystemFont, sans-serif'
     }}>
       <h1 style={{ color: '#333' }}>Тестовая страница здоровья</h1>
       <p>Если вы видите эту страницу, значит роутинг работает!</p>

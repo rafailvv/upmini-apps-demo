@@ -72,7 +72,7 @@ export const Nutrition: React.FC = () => {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [completedMeals, setCompletedMeals] = useState<{[key: string]: boolean}>({});
   const [showMentorComment, setShowMentorComment] = useState(false);
-  const [mentorComment, setMentorComment] = useState<string | null>(null);
+  const [mentorComment] = useState<string | null>(null);
 
   // Обработка данных из истории
   useEffect(() => {
@@ -228,7 +228,7 @@ export const Nutrition: React.FC = () => {
         setSelectedImage(lastMeal.image || null);
         setSatietyLevel(lastMeal.satietyLevel || 'недоедание');
         setStateRating(lastMeal.stateRating || 3);
-        setMealTime(lastMeal.mealTime || mealData[mealType].time);
+        setMealTime(lastMeal.mealTime || mealData[mealType as keyof typeof mealData].time);
       }
     }
   };

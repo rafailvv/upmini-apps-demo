@@ -9,9 +9,9 @@ export const SimpleHealth: React.FC = () => {
       padding: '20px', 
       background: '#f0f0f0', 
       minHeight: '100vh',
-      fontFamily: 'Arial, sans-serif'
+      fontFamily: 'Manrope, -apple-system, BlinkMacSystemFont, sans-serif'
     }}>
-      <h1 style={{ color: '#333', fontSize: '28px', textAlign: 'center' }}>
+              <h1 style={{ fontFamily: 'Manrope', color: '#333', fontSize: '28px', textAlign: 'center' }}>
         Страница здоровья
       </h1>
       

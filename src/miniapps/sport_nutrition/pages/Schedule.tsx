@@ -151,14 +151,9 @@ const Schedule: React.FC = () => {
   // Функция для проверки, была ли выполнена тренировка на запланированном дне
   const hasScheduledWorkoutCompleted = (day: number): boolean => {
     const currentYear = new Date().getFullYear();
-    
+    console.log(completedWorkouts);
     // Проверяем все выполненные тренировки
     return completedWorkouts.some(workout => {
-      const workoutDate = new Date(workout.date);
-      const workoutDay = workoutDate.getDate();
-      const workoutMonth = workoutDate.getMonth();
-      const workoutYear = workoutDate.getFullYear();
-      
       // Проверяем, есть ли информация о запланированной дате
       if (workout.originalPlannedDay && 
           workout.originalPlannedMonth !== undefined && 
@@ -171,14 +166,6 @@ const Schedule: React.FC = () => {
           return true;
         }
       }
-      
-      // Если тренировка была выполнена именно в этот день
-      if (workoutDay === day && 
-          workoutMonth === selectedMonth && 
-          workoutYear === currentYear) {
-        return true;
-      }
-      
       return false;
     });
   };

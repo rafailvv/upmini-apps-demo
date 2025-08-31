@@ -102,13 +102,7 @@ export const Workouts: React.FC = () => {
     }));
   };
 
-  const handleExerciseDataChange = (exerciseId: number, field: string, value: string) => {
-    setExercises(prev => prev.map(exercise => 
-      exercise.id === exerciseId 
-        ? { ...exercise, [field]: value }
-        : exercise
-    ));
-  };
+
 
   const handleSetDataChange = (exerciseId: number, setId: string, field: string, value: string) => {
     setExercises(prev => prev.map(exercise => {

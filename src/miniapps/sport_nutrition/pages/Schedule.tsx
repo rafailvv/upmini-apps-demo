@@ -130,30 +130,7 @@ const Schedule: React.FC = () => {
     return getWorkoutCompletionType(day) !== 'none';
   };
 
-  // Функция для проверки, является ли день объединенным (перенесенным)
-  const isWorkoutMoved = (day: number): boolean => {
-    const currentYear = new Date().getFullYear();
-    
-    return completedWorkouts.some(workout => {
-      const workoutDate = new Date(workout.date);
-      const workoutDay = workoutDate.getDate();
-      const workoutMonth = workoutDate.getMonth();
-      const workoutYear = workoutDate.getFullYear();
-      
-      // Проверяем, что тренировка была выполнена в этот день, но изначально планировалась на другой день
-      if (workoutDay === day && 
-          workoutMonth === selectedMonth && 
-          workoutYear === currentYear &&
-          workout.originalPlannedDay &&
-          (workout.originalPlannedDay !== day || 
-           workout.originalPlannedMonth !== selectedMonth ||
-           workout.originalPlannedYear !== currentYear)) {
-        return true;
-      }
-      
-      return false;
-    });
-  };
+
 
   const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
   const weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];

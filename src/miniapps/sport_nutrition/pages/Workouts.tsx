@@ -11,6 +11,17 @@ interface Exercise {
   muscleGroup: string;
   image: string;
   completed: boolean;
+  setsData?: SetData[];
+  notes?: string;
+}
+
+interface SetData {
+  id: string;
+  weight: string;
+  reps: string;
+  difficulty: string;
+  energy: string;
+  completed: boolean;
 }
 
 interface CommentData {
@@ -58,6 +69,7 @@ export const Workouts: React.FC = () => {
   ]);
 
   const [comments, setComments] = useState<{ [key: number]: CommentData }>({});
+  const [expandedExercise, setExpandedExercise] = useState<number | null>(null);
 
   // Обработка данных из истории
   useEffect(() => {
@@ -87,6 +99,70 @@ export const Workouts: React.FC = () => {
         video: prev[exerciseId]?.video
       }
     }));
+  };
+
+  const handleExerciseDataChange = (exerciseId: number, field: string, value: string) => {
+    setExercises(prev => prev.map(exercise => 
+      exercise.id === exerciseId 
+        ? { ...exercise, [field]: value }
+        : exercise
+    ));
+  };
+
+  const handleSetDataChange = (exerciseId: number, setId: string, field: string, value: string) => {
+    setExercises(prev => prev.map(exercise => {
+      if (exercise.id === exerciseId) {
+        const updatedSetsData = exercise.setsData?.map(set => 
+          set.id === setId ? { ...set, [field]: value } : set
+        ) || [];
+        return { ...exercise, setsData: updatedSetsData };
+      }
+      return exercise;
+    }));
+  };
+
+  const addSet = (exerciseId: number) => {
+    setExercises(prev => prev.map(exercise => {
+      if (exercise.id === exerciseId) {
+        const newSet: SetData = {
+          id: Date.now().toString(),
+          weight: '',
+          reps: '',
+          difficulty: '',
+          energy: '',
+          completed: false
+        };
+        const updatedSetsData = [...(exercise.setsData || []), newSet];
+        return { ...exercise, setsData: updatedSetsData };
+      }
+      return exercise;
+    }));
+  };
+
+  const removeSet = (exerciseId: number, setId: string) => {
+    setExercises(prev => prev.map(exercise => {
+      if (exercise.id === exerciseId) {
+        const updatedSetsData = exercise.setsData?.filter(set => set.id !== setId) || [];
+        return { ...exercise, setsData: updatedSetsData };
+      }
+      return exercise;
+    }));
+  };
+
+  const toggleSetCompletion = (exerciseId: number, setId: string) => {
+    setExercises(prev => prev.map(exercise => {
+      if (exercise.id === exerciseId) {
+        const updatedSetsData = exercise.setsData?.map(set => 
+          set.id === setId ? { ...set, completed: !set.completed } : set
+        ) || [];
+        return { ...exercise, setsData: updatedSetsData };
+      }
+      return exercise;
+    }));
+  };
+
+  const toggleExerciseExpansion = (exerciseId: number) => {
+    setExpandedExercise(expandedExercise === exerciseId ? null : exerciseId);
   };
 
   const handleVideoUpload = (exerciseId: number, event: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,7 +274,7 @@ export const Workouts: React.FC = () => {
         {exercises.map((exercise) => (
           <div key={exercise.id} className="exercise-section">
             {/* Карточка упражнения */}
-            <div className="exercise-card" onClick={() => toggleExerciseCompletion(exercise.id)}>
+            <div className="exercise-card">
               {/* Изображение упражнения */}
               <div className="exercise-image">
                 <div className="play-button">▶</div>
@@ -211,15 +287,130 @@ export const Workouts: React.FC = () => {
                   {exercise.sets} подхода {exercise.reps}
                 </div>
                 <div className="exercise-info">
-                  Вес: {exercise.weight} {exercise.muscleGroup}
+                  <div>Вес: {exercise.weight}</div>
+                  <div>{exercise.muscleGroup}</div>
                 </div>
               </div>
 
               {/* Индикатор выполнения */}
               <div 
                 className={`completion-indicator ${exercise.completed ? 'completed' : ''}`}
+                onClick={() => toggleExerciseCompletion(exercise.id)}
               ></div>
+
+              {/* Кнопка раскрытия формы */}
+              <button 
+                className="expand-exercise-btn"
+                onClick={() => toggleExerciseExpansion(exercise.id)}
+              >
+                {expandedExercise === exercise.id ? '−' : '+'}
+              </button>
             </div>
+
+            {/* Форма для ввода данных о тренировке */}
+            {expandedExercise === exercise.id && (
+              <div className="exercise-data-form">
+                <div className="form-header">
+                  <h4>Данные о тренировке</h4>
+                  <button 
+                    className="add-set-btn"
+                    onClick={() => addSet(exercise.id)}
+                  >
+                    + Добавить подход
+                  </button>
+                </div>
+                
+                {/* Список подходов */}
+                <div className="sets-list">
+                  {exercise.setsData?.map((set, index) => (
+                    <div key={set.id} className="set-item">
+                      <div className="set-header">
+                        <span className="set-number">Подход {index + 1}</span>
+                        <div className="set-actions">
+                          <button 
+                            className={`set-completion-btn ${set.completed ? 'completed' : ''}`}
+                            onClick={() => toggleSetCompletion(exercise.id, set.id)}
+                          >
+                            {set.completed ? '✓' : '○'}
+                          </button>
+                          <button 
+                            className="remove-set-btn"
+                            onClick={() => removeSet(exercise.id, set.id)}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      </div>
+                      <div className="set-fields">
+                        <div className="set-field">
+                          <label>Вес (кг):</label>
+                          <input
+                            type="text"
+                            placeholder="Вес"
+                            value={set.weight}
+                            onChange={(e) => handleSetDataChange(exercise.id, set.id, 'weight', e.target.value)}
+                          />
+                        </div>
+                        <div className="set-field">
+                          <label>Повторения:</label>
+                          <input
+                            type="text"
+                            placeholder="Количество"
+                            value={set.reps}
+                            onChange={(e) => handleSetDataChange(exercise.id, set.id, 'reps', e.target.value)}
+                          />
+                        </div>
+                        <div className="set-field">
+                          <label>Сложность (1-5):</label>
+                          <select
+                            value={set.difficulty}
+                            onChange={(e) => handleSetDataChange(exercise.id, set.id, 'difficulty', e.target.value)}
+                          >
+                            <option value="">Выберите</option>
+                            <option value="1">1 - Очень легко</option>
+                            <option value="2">2 - Легко</option>
+                            <option value="3">3 - Средне</option>
+                            <option value="4">4 - Тяжело</option>
+                            <option value="5">5 - Очень тяжело</option>
+                          </select>
+                        </div>
+                        <div className="set-field">
+                          <label>Энергия (1-5):</label>
+                          <select
+                            value={set.energy}
+                            onChange={(e) => handleSetDataChange(exercise.id, set.id, 'energy', e.target.value)}
+                          >
+                            <option value="">Выберите</option>
+                            <option value="1">1 - Минимальная</option>
+                            <option value="2">2 - Низкая</option>
+                            <option value="3">3 - Средняя</option>
+                            <option value="4">4 - Высокая</option>
+                            <option value="5">5 - Максимальная</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {(!exercise.setsData || exercise.setsData.length === 0) && (
+                    <div className="no-sets-message">
+                      Нажмите "Добавить подход" чтобы начать записывать данные
+                    </div>
+                  )}
+                </div>
+
+                {/* Заметки */}
+                <div className="notes-section">
+                  <label>Заметки:</label>
+                  <input
+                    type="text"
+                    placeholder="Дополнительные заметки"
+                    value={exercise.notes || ''}
+                    onChange={(e) => handleExerciseDataChange(exercise.id, 'notes', e.target.value)}
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Загрузка видео */}
             <div className="video-upload-section">

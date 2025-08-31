@@ -27,7 +27,7 @@ const Schedule: React.FC = () => {
   const [completedWorkouts, setCompletedWorkouts] = useState<CompletedWorkout[]>([]);
   const [plannedDay, setPlannedDay] = useState<number | null>(null); // День, на который планировалась тренировка
   const [showCompletedWorkouts, setShowCompletedWorkouts] = useState<number | null>(null); // День, для которого показываем выполненные тренировки
-  const [userName, setUserName] = useState<string>('Александр'); // Имя пользователя
+  const [userName, setUserName] = useState<string>(''); // Имя пользователя
 
   // Загружаем информацию о последней завершенной тренировке и всех выполненных тренировках при монтировании компонента
   useEffect(() => {
@@ -41,11 +41,33 @@ const Schedule: React.FC = () => {
     if (savedCompletedWorkouts) {
       setCompletedWorkouts(JSON.parse(savedCompletedWorkouts));
     }
+
+    // Загружаем имя пользователя из localStorage
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+      try {
+        const parsedUserData = JSON.parse(userData);
+        if (parsedUserData.firstName || parsedUserData.lastName) {
+          const fullName = `${parsedUserData.firstName || ''} ${parsedUserData.lastName || ''}`.trim();
+          setUserName(fullName || 'Пользователь');
+        } else {
+          setUserName('Пользователь');
+        }
+      } catch (error) {
+        console.error('Ошибка при загрузке данных пользователя:', error);
+        setUserName('Пользователь');
+      }
+    } else {
+      setUserName('Пользователь');
+    }
   }, []);
 
   // Автоматическая прокрутка к текущему месяцу при загрузке
   useEffect(() => {
     const currentMonth = new Date().getMonth();
+    
+    // Устанавливаем текущий месяц как выбранный
+    setSelectedMonth(currentMonth);
     
     // Небольшая задержка для гарантии, что DOM полностью загружен
     const timer = setTimeout(() => {
@@ -288,6 +310,369 @@ const Schedule: React.FC = () => {
     navigate('/miniapp/sport-nutrition/profile');
   };
 
+  // Функция для скачивания PDF истории тренировок
+  const handleDownloadWorkoutHistory = () => {
+    console.log('Нажата кнопка скачивания истории тренировок');
+    
+    const workoutHistoryData = localStorage.getItem('completedWorkouts');
+    const lastWorkoutData = localStorage.getItem('lastCompletedWorkout');
+    
+    console.log('Данные тренировок из localStorage:', workoutHistoryData);
+    console.log('Последняя тренировка из localStorage:', lastWorkoutData);
+    
+    if (!workoutHistoryData && !lastWorkoutData) {
+      alert('История тренировок пуста');
+      return;
+    }
+
+    const workouts = workoutHistoryData ? JSON.parse(workoutHistoryData) : [];
+    const lastWorkout = lastWorkoutData ? JSON.parse(lastWorkoutData) : null;
+    
+    console.log('Парсированные тренировки:', workouts);
+    console.log('Последняя тренировка:', lastWorkout);
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="ru">
+        <head>
+          <meta charset="UTF-8">
+          <title>История тренировок</title>
+          <style>
+            @page {
+              margin: 2cm;
+              size: A4;
+            }
+            
+            @media print {
+              body {
+                padding: 0 20px;
+              }
+            }
+            
+            body { 
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+              margin: 0; 
+              padding: 40px 40px 0 40px;
+              line-height: 1.6;
+              color: #1F2937;
+              background: white;
+            }
+            
+            .header {
+              text-align: center;
+              margin-bottom: 40px;
+              padding-bottom: 20px;
+              border-bottom: 3px solid #1E40AF;
+            }
+            
+            h1 { 
+              color: #1E40AF; 
+              font-size: 28px;
+              font-weight: 700;
+              margin: 0 0 10px 0;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            }
+            
+            .subtitle {
+              color: #6B7280;
+              font-size: 16px;
+              font-weight: 400;
+              margin: 0;
+            }
+            
+            h2 { 
+              color: #1E40AF; 
+              font-size: 20px;
+              font-weight: 600;
+              margin: 30px 0 20px 0;
+              padding: 10px 0;
+              border-bottom: 2px solid #E5E7EB;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+            
+            .section { 
+              margin-bottom: 30px;
+              page-break-inside: avoid;
+            }
+            
+            .workout-item {
+              margin: 15px 0; 
+              padding: 20px; 
+              border: 2px solid #E5E7EB; 
+              border-radius: 12px;
+              background: #F9FAFB;
+              page-break-inside: avoid;
+            }
+            
+            .workout-header {
+              font-weight: 600;
+              color: #1E40AF;
+              font-size: 16px;
+              margin-bottom: 15px;
+              padding-bottom: 8px;
+              border-bottom: 1px solid #E5E7EB;
+            }
+            
+            .workout-stats {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+              gap: 10px;
+              margin: 15px 0;
+            }
+            
+            .stat-item {
+              background: white;
+              padding: 8px 12px;
+              border-radius: 6px;
+              border: 1px solid #E5E7EB;
+            }
+            
+            .footer {
+              margin-top: 40px;
+              padding-top: 20px;
+              border-top: 1px solid #E5E7EB;
+              text-align: center;
+              color: #6B7280;
+              font-size: 12px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>История тренировок</h1>
+            <p class="subtitle">Отчет о выполненных тренировках</p>
+          </div>
+          
+          <div class="section">
+            <h2>Общая статистика</h2>
+            <div class="workout-stats">
+              <div class="stat-item">Всего тренировок: ${workouts.length}</div>
+              <div class="stat-item">Последняя тренировка: ${workouts.length > 0 ? new Date(workouts[workouts.length - 1].date).toLocaleDateString('ru-RU') : 'Нет данных'}</div>
+            </div>
+          </div>
+          
+          <div class="section">
+            <h2>Детальная история</h2>
+            ${workouts.map((workout: any, index: number) => `
+              <div class="workout-item">
+                <div class="workout-header">Тренировка #${workouts.length - index}</div>
+                <div class="workout-stats">
+                  <div class="stat-item">Дата: ${new Date(workout.date).toLocaleDateString('ru-RU')}</div>
+                  <div class="stat-item">Выполнено: ${workout.completedCount}/${workout.totalCount}</div>
+                  <div class="stat-item">Процент: ${workout.percentage}%</div>
+                  ${workout.originalPlannedDay ? `<div class="stat-item">Перенесена с: ${workout.originalPlannedDay}.${workout.originalPlannedMonth + 1}.${workout.originalPlannedYear}</div>` : ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          
+          <div class="footer">
+            <p>Отчет сгенерирован автоматически</p>
+            <p>Дата создания: ${new Date().toLocaleDateString('ru-RU')}</p>
+          </div>
+        </body>
+      </html>
+    `;
+
+    console.log('Создаем HTML контент для скачивания');
+    
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `История_тренировок_${new Date().toLocaleDateString('ru-RU').replace(/\./g, '-')}.html`;
+    
+    console.log('Скачиваем файл:', a.download);
+    
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    console.log('Скачивание завершено');
+  };
+
+  // Функция для скачивания PDF истории питания
+  const handleDownloadNutritionHistory = () => {
+    console.log('Нажата кнопка скачивания истории питания');
+    
+    const nutritionData = localStorage.getItem('nutritionData');
+    
+    console.log('Данные питания из localStorage:', nutritionData);
+    
+    if (!nutritionData) {
+      alert('История питания пуста');
+      return;
+    }
+
+    const meals = JSON.parse(nutritionData);
+    console.log('Парсированные приемы пищи:', meals);
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html lang="ru">
+        <head>
+          <meta charset="UTF-8">
+          <title>История питания</title>
+          <style>
+            @page {
+              margin: 2cm;
+              size: A4;
+            }
+            
+            @media print {
+              body {
+                padding: 0 20px;
+              }
+            }
+            
+            body { 
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+              margin: 0; 
+              padding: 40px 40px 0 40px;
+              line-height: 1.6;
+              color: #1F2937;
+              background: white;
+            }
+            
+            .header {
+              text-align: center;
+              margin-bottom: 40px;
+              padding-bottom: 20px;
+              border-bottom: 3px solid #1E40AF;
+            }
+            
+            h1 { 
+              color: #1E40AF; 
+              font-size: 28px;
+              font-weight: 700;
+              margin: 0 0 10px 0;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            }
+            
+            .subtitle {
+              color: #6B7280;
+              font-size: 16px;
+              font-weight: 400;
+              margin: 0;
+            }
+            
+            h2 { 
+              color: #1E40AF; 
+              font-size: 20px;
+              font-weight: 600;
+              margin: 30px 0 20px 0;
+              padding: 10px 0;
+              border-bottom: 2px solid #E5E7EB;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+            
+            .section { 
+              margin-bottom: 30px;
+              page-break-inside: avoid;
+            }
+            
+            .meal-item {
+              margin: 15px 0; 
+              padding: 20px; 
+              border: 2px solid #E5E7EB; 
+              border-radius: 12px;
+              background: #F9FAFB;
+              page-break-inside: avoid;
+            }
+            
+            .meal-header {
+              font-weight: 600;
+              color: #1E40AF;
+              font-size: 16px;
+              margin-bottom: 15px;
+              padding-bottom: 8px;
+              border-bottom: 1px solid #E5E7EB;
+            }
+            
+            .meal-stats {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+              gap: 10px;
+              margin: 15px 0;
+            }
+            
+            .stat-item {
+              background: white;
+              padding: 8px 12px;
+              border-radius: 6px;
+              border: 1px solid #E5E7EB;
+            }
+            
+            .footer {
+              margin-top: 40px;
+              padding-top: 20px;
+              border-top: 1px solid #E5E7EB;
+              text-align: center;
+              color: #6B7280;
+              font-size: 12px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>История питания</h1>
+            <p class="subtitle">Отчет о приемах пищи</p>
+          </div>
+          
+          <div class="section">
+            <h2>Общая статистика</h2>
+            <div class="meal-stats">
+              <div class="stat-item">Всего приемов пищи: ${meals.length}</div>
+              <div class="stat-item">Последний прием: ${meals.length > 0 ? new Date(meals[meals.length - 1].date).toLocaleDateString('ru-RU') : 'Нет данных'}</div>
+            </div>
+          </div>
+          
+          <div class="section">
+            <h2>Детальная история</h2>
+            ${meals.map((meal: any, index: number) => `
+              <div class="meal-item">
+                <div class="meal-header">Прием пищи #${meals.length - index}</div>
+                <div class="meal-stats">
+                  <div class="stat-item">Дата: ${new Date(meal.date).toLocaleDateString('ru-RU')}</div>
+                  <div class="stat-item">Тип: ${meal.mealType}</div>
+                  <div class="stat-item">Время: ${meal.mealTime || 'Не указано'}</div>
+                  <div class="stat-item">Насыщение: ${meal.satietyLevel || 'Не указано'}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          
+          <div class="footer">
+            <p>Отчет сгенерирован автоматически</p>
+            <p>Дата создания: ${new Date().toLocaleDateString('ru-RU')}</p>
+          </div>
+        </body>
+      </html>
+    `;
+
+    console.log('Создаем HTML контент для скачивания питания');
+    
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `История_питания_${new Date().toLocaleDateString('ru-RU').replace(/\./g, '-')}.html`;
+    
+    console.log('Скачиваем файл питания:', a.download);
+    
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    console.log('Скачивание питания завершено');
+  };
+
   const plans: DayPlan[] = [
     { id: 1, title: 'Тренировки', type: 'workout', time: '09:00' },
     { id: 2, title: 'Питание', type: 'nutrition', time: '10:00' }
@@ -394,12 +779,13 @@ const Schedule: React.FC = () => {
               
               const isCompleted = isWorkoutCompleted(day);
               const isMoved = isWorkoutMoved(day);
+              const isToday = day === new Date().getDate() && selectedMonth === new Date().getMonth();
               return (
                 <button
                   key={day}
                   data-day={day}
                   onClick={() => handleDateClick(day)}
-                  className={`calendar-day ${selectedDay === day && scheduledWorkouts.includes(day) ? 'selected' : ''} ${scheduledWorkouts.includes(day) ? 'has-workout' : ''} ${isCompleted ? 'completed' : ''} ${isMoved ? 'moved' : ''} ${showCompletedWorkouts === day ? 'selected' : ''}`}
+                  className={`calendar-day ${selectedDay === day && scheduledWorkouts.includes(day) ? 'selected' : ''} ${scheduledWorkouts.includes(day) ? 'has-workout' : ''} ${isCompleted ? 'completed' : ''} ${isMoved ? 'moved' : ''} ${showCompletedWorkouts === day ? 'selected' : ''} ${isToday ? 'today' : ''}`}
                 >
                   {day}
                   {isCompleted && <span className="completion-check">✓</span>}
@@ -497,19 +883,19 @@ const Schedule: React.FC = () => {
         <div className="history-links">
           <button 
             className="history-link-btn workout-link"
-            onClick={() => navigate('workout-history')}
+            onClick={handleDownloadWorkoutHistory}
           >
-            <span className="history-link-icon">💪</span>
-            <span className="history-link-text">Проведенные тренировки</span>
+            <span className="history-link-icon">📥</span>
+            <span className="history-link-text">Скачать историю тренировок</span>
             <span className="history-link-count">{completedWorkouts.length}</span>
           </button>
           
           <button 
             className="history-link-btn nutrition-link"
-            onClick={() => navigate('nutrition-history')}
+            onClick={handleDownloadNutritionHistory}
           >
-            <span className="history-link-icon">🍽️</span>
-            <span className="history-link-text">Заполненные приемы питания</span>
+            <span className="history-link-icon">📥</span>
+            <span className="history-link-text">Скачать историю питания</span>
             <span className="history-link-count">
               {(() => {
                 const nutritionData = localStorage.getItem('nutritionData');

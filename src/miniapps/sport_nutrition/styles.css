@@ -760,6 +760,33 @@ body {
   box-shadow: 0px 6px 16px rgba(76, 175, 80, 0.4);
 }
 
+/* Сегодняшний день - черная обводка */
+.calendar-day.today {
+  border: 2px solid #000000;
+  border-radius: clamp(14px, 4vw, 18px);
+  position: relative;
+}
+
+.calendar-day.today:hover {
+  background: linear-gradient(135deg, #F7931E 0%, #E67E22 100%);
+  box-shadow: 0px 6px 16px rgba(255, 107, 53, 0.4);
+}
+
+/* Сегодняшний день с тренировкой - комбинированный стиль */
+.calendar-day.today.has-workout {
+  border: 2px solid #000000;
+}
+
+/* Сегодняшний день выполненный - комбинированный стиль */
+.calendar-day.today.completed {
+  border: 2px solid #000000;
+}
+
+/* Сегодняшний день выбранный - комбинированный стиль */
+.calendar-day.today.selected {
+  border: 2px solid #000000;
+}
+
 /* Галочка выполнения */
 .completion-check {
   position: absolute;
@@ -827,7 +854,7 @@ body {
 
 /* Секция планов */
 .plans-section {
-  margin-top: clamp(20px, 5vw, 30px);
+  margin-top: clamp(10px, 2.5vw, 15px);
   margin-left: clamp(16px, 4vw, 24px);
   margin-right: clamp(16px, 4vw, 24px);
   width: calc(100% - clamp(32px, 8vw, 48px));
@@ -905,7 +932,7 @@ body {
 
 /* Стили для блока "История" */
 .history-section {
-  margin-top: 40px;
+  margin-top: 20px;
   padding: 0 clamp(16px, 4vw, 24px);
   padding-bottom: 40px;
 }
@@ -913,7 +940,7 @@ body {
 .history-section h2 {
   font-family: 'Manrope';
   font-style: normal;
-  font-weight: 600;
+  font-weight: 300;
   font-size: clamp(20px, 5vw, 24px);
   line-height: 120%;
   color: #1F2937;
@@ -1980,7 +2007,7 @@ body {
   width: 100vw;
   min-height: 100vh;
   margin: 0;
-  padding: 0;
+  padding: 0 0 120px 0;
   background: transparent;
   border-radius: 0;
   font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -2166,7 +2193,7 @@ body {
   font-size: clamp(16px, 4vw, 20px);
   line-height: 110%;
   color: #000000;
-  margin: 0 0 clamp(6px, 1.5vw, 10px) 0;
+  margin: 0 0 8px 0;
 }
 
 .exercise-stats {
@@ -2176,7 +2203,7 @@ body {
   font-size: clamp(12px, 3vw, 16px);
   line-height: 110%;
   color: #000000;
-  margin: 0 0 clamp(6px, 1.5vw, 10px) 0;
+  margin: 0 0 8px 0;
 }
 
 .exercise-info {
@@ -2187,6 +2214,9 @@ body {
   line-height: 110%;
   color: #000000;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 /* Индикатор выполнения для тренировок */
@@ -2202,6 +2232,286 @@ body {
 
 .workouts-container .completion-indicator.completed {
   background: #1244D9;
+}
+
+/* Кнопка раскрытия формы упражнения */
+.expand-exercise-btn {
+  position: absolute;
+  right: 50px;
+  top: 12px;
+  width: 32px;
+  height: 20px;
+  background: #1254FF;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.expand-exercise-btn:hover {
+  background: #0056CC;
+  transform: scale(1.05);
+}
+
+/* Форма данных о тренировке */
+.exercise-data-form {
+  background: linear-gradient(135deg, rgba(18, 84, 255, 0.05) 0%, rgba(18, 84, 255, 0.1) 100%);
+  border: 1px solid rgba(18, 84, 255, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 16px;
+  animation: slideDown 0.3s ease;
+  box-shadow: 0 4px 12px rgba(18, 84, 255, 0.1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(18, 84, 255, 0.2);
+}
+
+.form-header h4 {
+  font-family: 'Manrope';
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F2937;
+  margin: 0;
+}
+
+.add-set-btn {
+  background: linear-gradient(135deg, #1254FF 0%, #0056CC 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-family: 'Manrope';
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(18, 84, 255, 0.2);
+}
+
+.add-set-btn:hover {
+  background: linear-gradient(135deg, #0056CC 0%, #0047A3 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(18, 84, 255, 0.3);
+}
+
+/* Список подходов */
+.sets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.set-item {
+  background: white;
+  border: 1px solid rgba(18, 84, 255, 0.15);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.set-item:hover {
+  border-color: rgba(18, 84, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(18, 84, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.set-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.set-number {
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 600;
+  color: #1F2937;
+  background: linear-gradient(135deg, rgba(18, 84, 255, 0.1) 0%, rgba(18, 84, 255, 0.05) 100%);
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.set-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.set-completion-btn {
+  width: 32px;
+  height: 20px;
+  border: 1px solid #E5E7EB;
+  border-radius: 20px;
+  background: white;
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.set-completion-btn:hover {
+  border-color: #D1D5DB;
+  transform: scale(1.05);
+}
+
+.set-completion-btn.completed {
+  background: white;
+  color: #10B981;
+  border-color: #10B981;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.2);
+}
+
+.remove-set-btn {
+  width: 32px;
+  height: 20px;
+  border: 1px solid #E5E7EB;
+  border-radius: 20px;
+  background: white;
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.remove-set-btn:hover {
+  border-color: #D1D5DB;
+  transform: scale(1.05);
+}
+
+.set-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.set-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.set-field label {
+  font-family: 'Manrope';
+  font-size: 11px;
+  font-weight: 500;
+  color: #6B7280;
+}
+
+.set-field input,
+.set-field select {
+  padding: 8px 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  background: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.set-field input:focus,
+.set-field select:focus {
+  outline: none;
+  border-color: #1254FF;
+  box-shadow: 0 0 0 3px rgba(18, 84, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.set-field input::placeholder {
+  color: #9CA3AF;
+}
+
+.set-field select {
+  cursor: pointer;
+}
+
+.set-field select option {
+  font-family: 'Manrope';
+  font-size: 13px;
+}
+
+.no-sets-message {
+  text-align: center;
+  color: #6B7280;
+  font-family: 'Manrope';
+  font-size: 14px;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(18, 84, 255, 0.05) 0%, rgba(18, 84, 255, 0.02) 100%);
+  border: 2px dashed rgba(18, 84, 255, 0.3);
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.notes-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.notes-section label {
+  font-family: 'Manrope';
+  font-size: 12px;
+  font-weight: 500;
+  color: #6B7280;
+}
+
+.notes-section input {
+  padding: 8px 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  background: white;
+  transition: border-color 0.3s ease;
+}
+
+.notes-section input:focus {
+  outline: none;
+  border-color: #1254FF;
+  box-shadow: 0 0 0 3px rgba(18, 84, 255, 0.1);
+}
+
+.notes-section input::placeholder {
+  color: #9CA3AF;
 }
 
 /* Поле комментария */
@@ -2380,7 +2690,6 @@ body {
   cursor: pointer;
   z-index: 1000;
   transition: all 0.3s ease;
-  position: absolute;
   overflow: hidden;
   margin: 0 clamp(16px, 3vw, 20px) 0 clamp(16px, 3vw, 20px);
 }

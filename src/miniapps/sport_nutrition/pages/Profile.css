@@ -1,0 +1,701 @@
+/* Адаптивные стили для личного кабинета */
+
+/* Стили для заголовка */
+.profile-title {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 110%;
+  color: #060F30;
+  margin: 0 0 24px 0;
+}
+
+/* Стили для кнопки скачивания PDF */
+.download-pdf-btn {
+  background: #1E40AF;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.download-pdf-btn:hover {
+  background: #1E3A8A;
+}
+
+/* Стили для заголовков секций */
+.section-label {
+  font-family: 'Manrope';
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 8px;
+}
+
+/* Стили для полей формы */
+.form-field label {
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-field-compact label {
+  font-family: 'Manrope';
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-input {
+  padding: 16px 20px;
+  border: 1px solid #D1D5DB;
+  border-radius: 12px;
+  font-family: 'Manrope';
+  font-size: 18px;
+  color: #1F2937;
+  background: #FFFFFF;
+  transition: all 0.3s ease;
+  min-height: 50px;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #1254FF;
+  box-shadow: 0 0 0 3px rgba(18, 84, 255, 0.1);
+}
+
+.form-input-compact {
+  padding: 12px 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-family: 'Manrope';
+  font-size: 16px;
+  color: #1F2937;
+  background: #FFFFFF;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 40px;
+}
+
+.form-input-compact:focus {
+  outline: none;
+  border-color: #1254FF;
+  box-shadow: 0 0 0 2px rgba(18, 84, 255, 0.1);
+}
+
+/* Стили для кнопок выбора */
+.selection-btn {
+  padding: 16px 20px;
+  border: 1px solid #D1D5DB;
+  border-radius: 12px;
+  font-family: 'Manrope';
+  font-size: 18px;
+  color: #6B7280;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 50px;
+  flex: 0 1 auto !important;
+  min-width: fit-content !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
+
+.selection-btn:hover {
+  border-color: #1254FF;
+  color: #1254FF;
+}
+
+.selection-btn.active {
+  border-color: #1254FF;
+  background: #1254FF;
+  color: #FFFFFF;
+}
+
+.selection-btn-compact {
+  padding: 12px 16px;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-family: 'Manrope';
+  font-size: 16px;
+  color: #6B7280;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 40px;
+  flex: 0 1 auto !important;
+  min-width: fit-content !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
+
+.selection-btn-compact:hover {
+  border-color: #1254FF;
+  color: #1254FF;
+}
+
+.selection-btn-compact.active {
+  border-color: #1254FF;
+  background: #1254FF;
+  color: #FFFFFF;
+}
+
+/* Стили для текстовых областей */
+.textarea-field {
+  padding: 16px 20px;
+  border: 1px solid #D1D5DB;
+  border-radius: 12px;
+  font-family: 'Manrope';
+  font-size: 18px;
+  color: #1F2937;
+  background: #FFFFFF;
+  resize: vertical;
+  min-height: 120px;
+  transition: all 0.3s ease;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.textarea-field:focus {
+  outline: none;
+  border-color: #1254FF;
+  box-shadow: 0 0 0 3px rgba(18, 84, 255, 0.1);
+}
+
+/* Стили для метрик */
+.metric-label {
+  font-family: 'Manrope';
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.metric-input {
+  font-family: 'Manrope';
+  font-size: 14px;
+  color: #1F2937;
+}
+
+.metric-unit {
+  font-family: 'Manrope';
+  font-size: 14px;
+  color: #6B7280;
+}
+
+.no-button {
+  padding: 4px 8px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-family: 'Manrope';
+  font-size: 12px;
+  color: #6B7280;
+  background: #F9FAFB;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.no-button:hover {
+  border-color: #1254FF;
+  color: #1254FF;
+}
+
+.no-button.active {
+  border-color: #1254FF;
+  background: #1254FF;
+  color: #FFFFFF;
+}
+
+/* Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 10px !important;
+  }
+  
+  .profile-main {
+    max-width: 100% !important;
+    border-radius: 8px !important;
+  }
+  
+  .profile-header {
+    padding: 16px !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+  }
+  
+  .profile-title {
+    font-size: 28px !important;
+    text-align: left !important;
+    flex: 1 !important;
+  }
+  
+  .download-pdf-btn {
+    width: auto !important;
+    justify-content: center !important;
+    padding: 10px 16px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+  }
+  
+  .profile-form {
+    padding: 20px !important;
+  }
+  
+  .form-row-four {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+  
+  .button-group {
+    width: 100% !important;
+    gap: 6px !important;
+  }
+  
+  .button-group-compact {
+    width: 100% !important;
+    gap: 3px !important;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+    gap: 8px !important;
+  }
+  
+  .section-label {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .form-field label {
+    font-size: 13px;
+  }
+  
+  .form-field-compact label {
+    font-size: 11px;
+  }
+  
+  .form-input {
+    padding: 14px 16px;
+    font-size: 16px;
+    min-height: 45px;
+  }
+  
+  .form-input-compact {
+    padding: 10px 12px;
+    font-size: 14px;
+    min-height: 35px;
+  }
+  
+  .selection-btn {
+    padding: 14px 16px;
+    font-size: 16px;
+    min-height: 45px;
+  }
+  
+  .selection-btn-compact {
+    padding: 10px 12px;
+    font-size: 14px;
+    min-height: 35px;
+  }
+  
+  .textarea-field {
+    padding: 14px 16px;
+    font-size: 16px;
+    min-height: 100px;
+  }
+  
+  .metric-label {
+    font-size: 13px;
+  }
+  
+  .metric-input {
+    font-size: 12px;
+  }
+  
+  .metric-unit {
+    font-size: 12px;
+  }
+  
+  .no-button {
+    padding: 3px 6px;
+    font-size: 11px;
+  }
+}
+
+/* Очень маленькие экраны (до 480px) */
+@media (max-width: 480px) {
+  .profile-container {
+    padding: 5px !important;
+  }
+  
+  .profile-main {
+    max-width: 100% !important;
+    border-radius: 8px !important;
+  }
+  
+  .profile-header {
+    padding: 12px !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+  }
+  
+  .profile-title {
+    font-size: 24px !important;
+    text-align: left !important;
+    flex: 1 !important;
+  }
+  
+  .download-pdf-btn {
+    width: auto !important;
+    justify-content: center !important;
+    padding: 8px 12px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+  }
+  
+  .profile-form {
+    padding: 12px !important;
+  }
+  
+  .form-row-four {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  
+  .form-field-compact {
+    width: 100% !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .button-group {
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    justify-content: flex-start !important;
+  }
+  
+  .button-group-compact {
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+    justify-content: flex-start !important;
+  }
+  
+  .selection-btn {
+    flex: 1 !important;
+    min-width: 80px !important;
+    padding: 10px 8px !important;
+    font-size: 12px !important;
+  }
+  
+  .selection-btn-compact {
+    flex: 1 !important;
+    min-width: 60px !important;
+    padding: 8px 6px !important;
+    font-size: 11px !important;
+  }
+  
+  .metrics-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  
+  .metric-item {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    width: 100% !important;
+  }
+  
+  .metric-input {
+    width: 100% !important;
+    padding: 8px !important;
+    font-size: 12px !important;
+  }
+  
+  .profile-header {
+    padding: 12px;
+  }
+  
+  .profile-title {
+    font-size: 28px;
+  }
+  
+  .download-pdf-btn {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+  
+  .section-label {
+    font-size: 13px;
+  }
+  
+  .form-field label {
+    font-size: 12px;
+  }
+  
+  .form-field-compact label {
+    font-size: 10px;
+  }
+  
+  .form-input {
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+    min-height: 40px !important;
+  }
+  
+  .form-input-compact {
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+    min-height: 35px !important;
+  }
+  
+  .textarea-field {
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+    min-height: 80px !important;
+  }
+  
+  .section-label {
+    font-size: 14px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .form-field label {
+    font-size: 12px !important;
+  }
+  
+  .form-field-compact label {
+    font-size: 11px !important;
+  }
+  
+  .selection-btn {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  
+  .selection-btn-compact {
+    padding: 5px 6px;
+    font-size: 11px;
+  }
+  
+  .textarea-field {
+    padding: 8px 10px;
+    font-size: 13px;
+    min-height: 70px;
+  }
+  
+  .metric-label {
+    font-size: 12px;
+  }
+  
+  .metric-input {
+    font-size: 11px;
+  }
+  
+  .metric-unit {
+    font-size: 11px;
+  }
+  
+  .no-button {
+    padding: 2px 4px;
+    font-size: 10px;
+  }
+}
+
+/* Планшеты (768px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .profile-main {
+    max-width: 90% !important;
+  }
+  
+  .profile-form {
+    padding: 24px !important;
+  }
+  
+  .form-row-four {
+    gap: 10px !important;
+  }
+  
+  .button-group {
+    gap: 8px !important;
+  }
+  
+  .button-group-compact {
+    gap: 6px !important;
+  }
+  
+  .selection-btn {
+    padding: 12px 14px !important;
+    font-size: 14px !important;
+  }
+  
+  .selection-btn-compact {
+    padding: 8px 10px !important;
+    font-size: 12px !important;
+  }
+  
+  .form-input {
+    padding: 12px 14px !important;
+    font-size: 15px !important;
+  }
+  
+  .form-input-compact {
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+  }
+}
+
+/* Большие экраны (от 1200px) */
+@media (min-width: 1200px) {
+  .profile-main {
+    max-width: 1000px;
+  }
+  
+  .profile-form {
+    padding: 40px;
+  }
+  
+  .form-section {
+    margin-bottom: 40px;
+  }
+  
+  .section-label {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+}
+
+/* Уменьшение расстояния между 8 блоками */
+.form-section {
+  margin-bottom: 8px !important;
+  padding: 20px !important;
+  border-radius: 16px !important;
+  background: #F9FAFB !important;
+  border: 1px solid #E5E7EB !important;
+  width: 100% !important;
+}
+
+/* Растягивание контента на весь блок */
+.form-field {
+  width: 100% !important;
+}
+
+.form-field-compact {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.form-row {
+  width: 100% !important;
+}
+
+.form-row-four {
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
+
+.button-group {
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
+
+.button-group-compact {
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 4px !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
+
+.metrics-grid {
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
+
+@media (max-width: 768px) {
+  .form-section {
+    margin-bottom: 6px !important;
+    padding: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-section {
+    margin-bottom: 4px !important;
+    padding: 12px !important;
+  }
+  
+  /* Стили для модального окна на мобильных */
+  .modal-overlay {
+    padding: 10px !important;
+  }
+  
+  .modal-content {
+    width: 95% !important;
+    max-width: none !important;
+    padding: 16px !important;
+    border-radius: 12px !important;
+  }
+  
+  .modal-title {
+    font-size: 18px !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .modal-buttons {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+  
+  .modal-btn {
+    width: 100% !important;
+    padding: 12px !important;
+    font-size: 14px !important;
+  }
+  
+  /* Стили для кнопки навигации на мобильных */
+  .navigation-btn {
+    width: 100% !important;
+    padding: 14px 16px !important;
+    font-size: 16px !important;
+    margin-top: 20px !important;
+  }
+  
+  /* Стили для информационного сообщения на мобильных */
+  .info-message {
+    padding: 12px !important;
+    font-size: 13px !important;
+    margin-top: 16px !important;
+  }
+}

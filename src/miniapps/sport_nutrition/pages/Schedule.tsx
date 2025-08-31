@@ -86,54 +86,41 @@ const Schedule: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Функция для проверки, выполнена ли тренировка или питание в определенный день
-  const isWorkoutCompleted = (day: number): boolean => {
+  // Функция для проверки типа выполнения тренировки в определенный день
+  const getWorkoutCompletionType = (day: number): 'completed' | 'moved' | 'none' => {
     const currentYear = new Date().getFullYear();
     
+    // Формируем дату для проверки
+    const checkDate = `${currentYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const isScheduledDay = scheduledWorkouts.includes(checkDate);
+    
     // Проверяем тренировки
-    const hasWorkouts = completedWorkouts.some(workout => {
+    const workout = completedWorkouts.find(workout => {
       const workoutDate = new Date(workout.date);
       const workoutDay = workoutDate.getDate();
       const workoutMonth = workoutDate.getMonth();
       const workoutYear = workoutDate.getFullYear();
       
-      // Проверяем прямой день
-      if (workoutDay === day && 
-          workoutMonth === selectedMonth && 
-          workoutYear === currentYear) {
-        return true;
-      }
-      
-      // Проверяем объединенные дни (если тренировка была перенесена)
-      if (workout.originalPlannedDay && 
-          workout.originalPlannedDay === day &&
-          workout.originalPlannedMonth === selectedMonth &&
-          workout.originalPlannedYear === currentYear) {
-        return true;
-      }
-      
-      return false;
+      return workoutDay === day && 
+             workoutMonth === selectedMonth && 
+             workoutYear === currentYear;
     });
 
-    // Проверяем питание
-    const nutritionData = localStorage.getItem('nutritionData');
-    if (nutritionData) {
-      const meals = JSON.parse(nutritionData);
-      const hasMeals = meals.some((meal: any) => {
-        const mealDate = new Date(meal.date);
-        const mealDay = mealDate.getDate();
-        const mealMonth = mealDate.getMonth();
-        const mealYear = mealDate.getFullYear();
-        
-        return mealDay === day && 
-               mealMonth === selectedMonth && 
-               mealYear === currentYear;
-      });
-      
-      if (hasMeals) return true;
+    if (workout) {
+      // Если день запланирован И тренировка выполнена в этот день - это completed
+      if (isScheduledDay) {
+        return 'completed';
+      }
+      // Если день не запланирован, но тренировка выполнена - это перенесенная
+      return 'moved';
     }
     
-    return hasWorkouts;
+    return 'none';
+  };
+
+  // Функция для проверки, выполнена ли тренировка или питание в определенный день (для обратной совместимости)
+  const isWorkoutCompleted = (day: number): boolean => {
+    return getWorkoutCompletionType(day) !== 'none';
   };
 
   // Функция для проверки, является ли день объединенным (перенесенным)
@@ -164,8 +151,15 @@ const Schedule: React.FC = () => {
   const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
   const weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
   
-  // Дни с запланированными тренировками
-  const scheduledWorkouts = [3, 7, 10, 14, 17, 21, 24, 28];
+  // Дни с запланированными тренировками (конкретные даты)
+  const scheduledWorkouts = ["2025-08-03", "2025-08-07", "2025-08-10", "2025-08-14", "2025-08-17", "2025-08-21", "2025-08-24", "2025-08-28"];
+
+  // Вспомогательная функция для проверки, является ли день запланированным
+  const isScheduledWorkoutDay = (day: number): boolean => {
+    const currentYear = new Date().getFullYear();
+    const checkDate = `${currentYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return scheduledWorkouts.includes(checkDate);
+  };
 
   // Функция для получения выполненных тренировок за определенный день
   // const getCompletedWorkoutsForDay = (day: number): CompletedWorkout[] => {
@@ -271,7 +265,7 @@ const Schedule: React.FC = () => {
     
     // Проверяем, что день входит в диапазон месяца
     if (day >= 1 && day <= daysInMonth) {
-      if (scheduledWorkouts.includes(day)) {
+      if (isScheduledWorkoutDay(day)) {
         // Если есть запланированная тренировка
         setSelectedDay(selectedDay === day ? null : day);
         setShowCompletedWorkouts(null);
@@ -416,19 +410,18 @@ const Schedule: React.FC = () => {
                 return <div key={`empty-${index}`} className="calendar-day empty"></div>;
               }
               
-              const isCompleted = isWorkoutCompleted(day);
-              const isMoved = isWorkoutMoved(day);
+              const completionType = getWorkoutCompletionType(day);
               const isToday = day === new Date().getDate() && selectedMonth === new Date().getMonth();
               return (
                 <button
                   key={day}
                   data-day={day}
                   onClick={() => handleDateClick(day)}
-                  className={`calendar-day ${selectedDay === day && scheduledWorkouts.includes(day) ? 'selected' : ''} ${scheduledWorkouts.includes(day) ? 'has-workout' : ''} ${isCompleted ? 'completed' : ''} ${isMoved ? 'moved' : ''} ${showCompletedWorkouts === day ? 'selected' : ''} ${isToday ? 'today' : ''}`}
+                  className={`calendar-day ${selectedDay === day && isScheduledWorkoutDay(day) ? 'selected' : ''} ${isScheduledWorkoutDay(day) ? 'has-workout' : ''} ${completionType === 'completed' ? 'completed' : ''} ${completionType === 'moved' ? 'moved' : ''} ${showCompletedWorkouts === day ? 'selected' : ''} ${isToday ? 'today' : ''}`}
                 >
                   {day}
-                  {isCompleted && <span className="completion-check">✓</span>}
-                  {isMoved && <span className="moved-indicator">↔</span>}
+                  {completionType === 'completed' && <span className="completion-check">✓</span>}
+                  {completionType === 'moved' && <span className="moved-indicator">↔</span>}
                 </button>
               );
             })}
@@ -437,7 +430,7 @@ const Schedule: React.FC = () => {
       </main>
 
       {/* Планы - показываем только при выборе даты с тренировкой */}
-      {selectedDay && scheduledWorkouts.includes(selectedDay) && (
+      {selectedDay && isScheduledWorkoutDay(selectedDay) && (
         <>
           <section className="plans-section">
             <h2>Планы на {selectedDay} {months[selectedMonth].toLowerCase()}</h2>
@@ -462,7 +455,7 @@ const Schedule: React.FC = () => {
       )}
 
       {/* Выполненные тренировки и питание - показываем при выборе даты без запланированной тренировки */}
-      {showCompletedWorkouts && !scheduledWorkouts.includes(showCompletedWorkouts) && (
+      {showCompletedWorkouts && !isScheduledWorkoutDay(showCompletedWorkouts) && (
         <>
           <section className="plans-section">
             <h2>Выполненные задачи {showCompletedWorkouts} {months[selectedMonth].toLowerCase()}</h2>

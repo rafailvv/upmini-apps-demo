@@ -22,6 +22,7 @@ interface SetData {
   difficulty: string;
   energy: string;
   completed: boolean;
+  notes?: string;
 }
 
 interface CommentData {
@@ -130,7 +131,8 @@ export const Workouts: React.FC = () => {
           reps: '',
           difficulty: '',
           energy: '',
-          completed: false
+          completed: false,
+          notes: ''
         };
         const updatedSetsData = [...(exercise.setsData || []), newSet];
         return { ...exercise, setsData: updatedSetsData };
@@ -343,10 +345,10 @@ export const Workouts: React.FC = () => {
                       </div>
                       <div className="set-fields">
                         <div className="set-field">
-                          <label>Вес (кг):</label>
+                          <label>Вес (кг) / Расстояние (км):</label>
                           <input
                             type="text"
-                            placeholder="Вес"
+                            placeholder="Вес или расстояние"
                             value={set.weight}
                             onChange={(e) => handleSetDataChange(exercise.id, set.id, 'weight', e.target.value)}
                           />
@@ -361,33 +363,45 @@ export const Workouts: React.FC = () => {
                           />
                         </div>
                         <div className="set-field">
-                          <label>Сложность (1-5):</label>
-                          <select
-                            value={set.difficulty}
-                            onChange={(e) => handleSetDataChange(exercise.id, set.id, 'difficulty', e.target.value)}
-                          >
-                            <option value="">Выберите</option>
-                            <option value="1">1 - Очень легко</option>
-                            <option value="2">2 - Легко</option>
-                            <option value="3">3 - Средне</option>
-                            <option value="4">4 - Тяжело</option>
-                            <option value="5">5 - Очень тяжело</option>
-                          </select>
+                          <label>Сложность:</label>
+                          <div className="rating-selector">
+                            {[1, 2, 3, 4, 5].map((value) => (
+                              <button
+                                key={value}
+                                type="button"
+                                className={`rating-btn ${set.difficulty === value.toString() ? 'active' : ''}`}
+                                onClick={() => handleSetDataChange(exercise.id, set.id, 'difficulty', value.toString())}
+                              >
+                                {value}
+                              </button>
+                            ))}
+                          </div>
                         </div>
                         <div className="set-field">
-                          <label>Энергия (1-5):</label>
-                          <select
-                            value={set.energy}
-                            onChange={(e) => handleSetDataChange(exercise.id, set.id, 'energy', e.target.value)}
-                          >
-                            <option value="">Выберите</option>
-                            <option value="1">1 - Минимальная</option>
-                            <option value="2">2 - Низкая</option>
-                            <option value="3">3 - Средняя</option>
-                            <option value="4">4 - Высокая</option>
-                            <option value="5">5 - Максимальная</option>
-                          </select>
+                          <label>Энергия:</label>
+                          <div className="rating-selector">
+                            {[1, 2, 3, 4, 5].map((value) => (
+                              <button
+                                key={value}
+                                type="button"
+                                className={`rating-btn ${set.energy === value.toString() ? 'active' : ''}`}
+                                onClick={() => handleSetDataChange(exercise.id, set.id, 'energy', value.toString())}
+                              >
+                                {value}
+                              </button>
+                            ))}
+                          </div>
                         </div>
+                        <div className="set-field">
+                          <label>Дополнительные заметки:</label>
+                          <input
+                            type="text"
+                            placeholder="Заметки к подходу"
+                            value={set.notes || ''}
+                            onChange={(e) => handleSetDataChange(exercise.id, set.id, 'notes', e.target.value)}
+                          />
+                        </div>
+
                       </div>
                     </div>
                   ))}
@@ -399,16 +413,7 @@ export const Workouts: React.FC = () => {
                   )}
                 </div>
 
-                {/* Заметки */}
-                <div className="notes-section">
-                  <label>Заметки:</label>
-                  <input
-                    type="text"
-                    placeholder="Дополнительные заметки"
-                    value={exercise.notes || ''}
-                    onChange={(e) => handleExerciseDataChange(exercise.id, 'notes', e.target.value)}
-                  />
-                </div>
+
               </div>
             )}
 

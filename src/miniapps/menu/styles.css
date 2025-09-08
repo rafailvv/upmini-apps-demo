@@ -1976,7 +1976,7 @@
   right: 0;
   height: 90px;
   background: white;
-  z-index: 1002;
+  z-index: 1001;
 }
 
 /* Стили для обычного браузера (не Telegram) */
@@ -2027,7 +2027,7 @@
 
 .sidebar.open {
     transform: translateX(0);
-    z-index: 1002;
+    z-index: 1003;
 }
 
 .sidebar.closed {

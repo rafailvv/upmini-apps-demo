@@ -1528,6 +1528,8 @@
   max-height: 48px;
   padding: 0;
   line-height: 1;
+  z-index: 1000;
+  position: relative;
 }
 
 .bottom-action-bar .quantity-btn:hover {
@@ -1608,6 +1610,7 @@
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
+  font-feature-settings: 'liga';
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }

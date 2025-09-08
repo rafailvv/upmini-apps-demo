@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-        "lint": "eslint .",
+    "lint": "eslint .",
     "preview": "vite preview --port 3000"
   },
   "dependencies": {
+    "@twa-dev/sdk": "^8.0.2",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "react": "^19.1.0",

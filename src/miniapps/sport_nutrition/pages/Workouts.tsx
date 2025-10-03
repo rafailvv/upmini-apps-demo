@@ -46,6 +46,20 @@ export const Workouts: React.FC = () => {
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [workoutCompleted, setWorkoutCompleted] = useState(false);
   const [isFromHistory, setIsFromHistory] = useState(false);
+
+  // Функция для преобразования значений энергии в читаемый текст
+  const getEnergyLabel = (energyValue: string): string => {
+    switch (energyValue) {
+      case 'normal':
+        return 'нормально';
+      case 'half-failure':
+        return 'полуотказ';
+      case 'failure':
+        return 'отказ';
+      default:
+        return energyValue;
+    }
+  };
   const [exercises, setExercises] = useState<Exercise[]>([
     {
       id: 1,
@@ -116,6 +130,7 @@ export const Workouts: React.FC = () => {
     }));
   };
 
+
   const addSet = (exerciseId: number) => {
     setExercises(prev => prev.map(exercise => {
       if (exercise.id === exerciseId) {
@@ -145,17 +160,6 @@ export const Workouts: React.FC = () => {
     }));
   };
 
-  const toggleSetCompletion = (exerciseId: number, setId: string) => {
-    setExercises(prev => prev.map(exercise => {
-      if (exercise.id === exerciseId) {
-        const updatedSetsData = exercise.setsData?.map(set => 
-          set.id === setId ? { ...set, completed: !set.completed } : set
-        ) || [];
-        return { ...exercise, setsData: updatedSetsData };
-      }
-      return exercise;
-    }));
-  };
 
   const toggleExerciseExpansion = (exerciseId: number) => {
     setExpandedExercise(expandedExercise === exerciseId ? null : exerciseId);
@@ -321,14 +325,19 @@ export const Workouts: React.FC = () => {
                   {exercise.setsData?.map((set, index) => (
                     <div key={set.id} className="set-item">
                       <div className="set-header">
-                        <span className="set-number">Подход {index + 1}</span>
+                        <div className="set-info" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          <span className="set-number">Подход {index + 1}</span>
+                          {set.energy && (
+                            <span className="set-energy" style={{ 
+                              fontSize: '12px', 
+                              color: '#6b7280', 
+                              fontStyle: 'italic' 
+                            }}>
+                              Энергия: {getEnergyLabel(set.energy)}
+                            </span>
+                          )}
+                        </div>
                         <div className="set-actions">
-                          <button 
-                            className={`set-completion-btn ${set.completed ? 'completed' : ''}`}
-                            onClick={() => toggleSetCompletion(exercise.id, set.id)}
-                          >
-                            {set.completed ? '✓' : '○'}
-                          </button>
                           <button 
                             className="remove-set-btn"
                             onClick={() => removeSet(exercise.id, set.id)}
@@ -373,29 +382,52 @@ export const Workouts: React.FC = () => {
                         </div>
                         <div className="set-field">
                           <label>Энергия:</label>
-                          <div className="rating-selector">
-                            {[1, 2, 3, 4, 5].map((value) => (
+                          <div className="rating-selector" style={{ 
+                            display: 'grid', 
+                            gridTemplateColumns: '1fr 1fr 1fr',
+                            gap: '3px',
+                            width: '100%',
+                            boxSizing: 'border-box'
+                          }}>
+                            {[
+                              { value: 'normal', label: 'норм' },
+                              { value: 'half-failure', label: 'полуотказ' },
+                              { value: 'failure', label: 'отказ' }
+                            ].map((option) => (
                               <button
-                                key={value}
+                                key={option.value}
                                 type="button"
-                                className={`rating-btn ${set.energy === value.toString() ? 'active' : ''}`}
-                                onClick={() => handleSetDataChange(exercise.id, set.id, 'energy', value.toString())}
+                                className={`rating-btn ${set.energy === option.value ? 'active' : ''}`}
+                                onClick={() => handleSetDataChange(exercise.id, set.id, 'energy', option.value)}
+                                style={{
+                                  padding: '12px 6px',
+                                  fontSize: '14px',
+                                  whiteSpace: 'nowrap',
+                                  textAlign: 'center',
+                                  borderRadius: '8px',
+                                  lineHeight: '1.3',
+                                  boxSizing: 'border-box',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  minWidth: '0',
+                                  width: '100%'
+                                }}
                               >
-                                {value}
+                                {option.label}
                               </button>
                             ))}
                           </div>
                         </div>
-                        <div className="set-field">
-                          <label>Дополнительные заметки:</label>
-                          <input
-                            type="text"
-                            placeholder="Заметки к подходу"
-                            value={set.notes || ''}
-                            onChange={(e) => handleSetDataChange(exercise.id, set.id, 'notes', e.target.value)}
-                          />
-                        </div>
-
+                      </div>
+                      
+                      <div className="set-notes-field">
+                        <label>Дополнительные заметки:</label>
+                        <input
+                          type="text"
+                          placeholder="Заметки к подходу"
+                          value={set.notes || ''}
+                          onChange={(e) => handleSetDataChange(exercise.id, set.id, 'notes', e.target.value)}
+                        />
                       </div>
                     </div>
                   ))}

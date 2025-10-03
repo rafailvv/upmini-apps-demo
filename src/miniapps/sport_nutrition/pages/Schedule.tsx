@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles.css';
+import './Schedule.css';
 
-interface DayPlan {
-  id: number;
-  title: string;
-  type: 'workout' | 'nutrition';
-  time: string;
-}
+
 
 interface CompletedWorkout {
   date: string;
@@ -28,6 +24,7 @@ const Schedule: React.FC = () => {
   const [plannedDay, setPlannedDay] = useState<number | null>(null); // День, на который планировалась тренировка
   const [showCompletedWorkouts, setShowCompletedWorkouts] = useState<number | null>(null); // День, для которого показываем выполненные тренировки
   const [userName, setUserName] = useState<string>(''); // Имя пользователя
+  const [activeFilter, setActiveFilter] = useState<'all' | 'workouts' | 'nutrition'>('all');
 
   // Загружаем информацию о последней завершенной тренировке и всех выполненных тренировках при монтировании компонента
   useEffect(() => {
@@ -209,6 +206,52 @@ const Schedule: React.FC = () => {
   //   });
   // };
 
+  // Функция для получения перенесенных тренировок за определенный день
+  const getMovedWorkoutsForDay = (day: number): CompletedWorkout[] => {
+    const currentYear = new Date().getFullYear();
+    
+    // Для тестирования добавляем перенесенные тренировки на 13 и 14 сентября
+    if (selectedMonth === 8 && (day === 13 || day === 14)) { // Сентябрь = 8 (0-based)
+      return [
+        {
+          date: `${currentYear}-09-${String(day).padStart(2, '0')}T10:00:00.000Z`,
+          completedCount: 1,
+          totalCount: 1,
+          percentage: 100,
+          originalPlannedDay: 10,
+          originalPlannedMonth: 8,
+          originalPlannedYear: currentYear
+        }
+      ];
+    }
+    
+    return completedWorkouts.filter(workout => {
+      const workoutDate = new Date(workout.date);
+      const workoutDay = workoutDate.getDate();
+      const workoutMonth = workoutDate.getMonth();
+      const workoutYear = workoutDate.getFullYear();
+      
+      // Проверяем, что тренировка выполнена в этот день
+      if (workoutDay === day && 
+          workoutMonth === selectedMonth && 
+          workoutYear === currentYear) {
+        
+        // Проверяем, что тренировка была перенесена (запланирована на другой день)
+        if (workout.originalPlannedDay && 
+            workout.originalPlannedMonth !== undefined && 
+            workout.originalPlannedYear !== undefined) {
+          
+          const originalDate = `${workout.originalPlannedYear}-${String(workout.originalPlannedMonth + 1).padStart(2, '0')}-${String(workout.originalPlannedDay).padStart(2, '0')}`;
+          const currentDate = `${currentYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          
+          // Если запланированная дата отличается от текущей - это перенесенная тренировка
+          return originalDate !== currentDate;
+        }
+      }
+      return false;
+    });
+  };
+
   // Функция для получения всех выполненных задач за определенный день (тренировки + питание)
   const getCompletedTasksForDay = (day: number): any[] => {
     const currentYear = new Date().getFullYear();
@@ -277,58 +320,43 @@ const Schedule: React.FC = () => {
   };
 
   const handleDateClick = (day: number) => {
-    // Проверяем, есть ли тренировка в этот день в выбранном месяце
+    // Проверяем, что день входит в диапазон месяца
     const currentYear = new Date().getFullYear();
     const lastDayOfMonth = new Date(currentYear, selectedMonth + 1, 0);
     const daysInMonth = lastDayOfMonth.getDate();
     
-    // Проверяем, что день входит в диапазон месяца
     if (day >= 1 && day <= daysInMonth) {
-      if (isScheduledWorkoutDay(day)) {
-        // Если есть запланированная тренировка
-        setSelectedDay(selectedDay === day ? null : day);
-        setShowCompletedWorkouts(null);
-        // Сохраняем запланированный день при выборе
-        if (selectedDay !== day) {
-          setPlannedDay(day);
-        } else {
-          setPlannedDay(null);
-        }
-      } else if (isWorkoutCompleted(day)) {
-        // Если нет запланированной тренировки, но есть выполненная
-        setShowCompletedWorkouts(showCompletedWorkouts === day ? null : day);
+      // Открываем планы для любой даты
+      if (selectedDay === day) {
+        // Если кликаем на уже выбранный день - закрываем
         setSelectedDay(null);
+        setShowCompletedWorkouts(null);
         setPlannedDay(null);
+      } else {
+        // Если кликаем на новый день - открываем планы
+        setSelectedDay(day);
+        setShowCompletedWorkouts(null);
+        setPlannedDay(day);
       }
     }
   };
 
-  const handlePlanClick = (planType: string) => {
-    if (planType === 'workout') {
-      // Передаем информацию о запланированном дне через localStorage
-      if (plannedDay) {
-        localStorage.setItem('plannedWorkoutDay', JSON.stringify({
-          day: plannedDay,
-          month: selectedMonth,
-          year: new Date().getFullYear()
-        }));
-      }
-      navigate('workouts');
-    } else if (planType === 'nutrition') {
-      navigate('nutrition');
-    }
-  };
+
 
   const handleProfileClick = () => {
     navigate('/miniapp/sport-nutrition/profile');
   };
 
+  // Функция для обработки изменения фильтра
+  const handleFilterChange = (filter: 'all' | 'workouts' | 'nutrition') => {
+    setActiveFilter(filter);
+    setSelectedDay(null);
+    setShowCompletedWorkouts(null);
+  };
 
 
-  const plans: DayPlan[] = [
-    { id: 1, title: 'Тренировки', type: 'workout', time: '09:00' },
-    { id: 2, title: 'Питание', type: 'nutrition', time: '10:00' }
-  ];
+
+
 
   // Генерация календаря для выбранного месяца
   const generateCalendar = () => {
@@ -382,6 +410,26 @@ const Schedule: React.FC = () => {
           </div>
         </div>
 
+        {/* Кнопка "Метрики контроля" */}
+        <div className="metrics-control-section" onClick={() => navigate('metrics-control')}>
+          <div className="metrics-control-content">
+            <div className="metrics-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 19C9 20.1 8.1 21 7 21S5 20.1 5 19 5.9 17 7 17 9 17.9 9 19ZM19 7C19 8.1 18.1 9 17 9S15 8.1 15 7 15.9 5 17 5 19 5.9 19 7ZM7 13C5.9 13 5 12.1 5 11S5.9 9 7 9 9 9.9 9 11 8.1 13 7 13ZM17 15C15.9 15 15 14.1 15 13S15.9 11 17 11 19 11.9 19 13 18.1 15 17 15ZM7 5C5.9 5 5 5.9 5 7S5.9 9 7 9 9 8.1 9 7 8.1 5 7 5ZM17 19C15.9 19 15 18.1 15 17S15.9 15 17 15 19 15.9 19 17 18.1 19 17 19Z" fill="currentColor"/>
+              </svg>
+            </div>
+            <div className="metrics-info">
+              <span className="metrics-title">Метрики контроля</span>
+              <span className="metrics-subtitle">Отслеживание прогресса</span>
+            </div>
+            <div className="metrics-arrow">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
         {/* Заголовок и навигация */}
         <header className="header-section">
           <div className="title-container">
@@ -409,7 +457,29 @@ const Schedule: React.FC = () => {
           </nav>
         </header>
 
-
+        {/* Кнопки фильтрации */}
+        <div className="filter-buttons-section">
+          <div className="filter-buttons">
+            <button 
+              className={`filter-button ${activeFilter === 'all' ? 'active' : ''}`}
+              onClick={() => handleFilterChange('all')}
+            >
+              Все
+            </button>
+            <button 
+              className={`filter-button ${activeFilter === 'workouts' ? 'active' : ''}`}
+              onClick={() => handleFilterChange('workouts')}
+            >
+              Тренировки
+            </button>
+            <button 
+              className={`filter-button ${activeFilter === 'nutrition' ? 'active' : ''}`}
+              onClick={() => handleFilterChange('nutrition')}
+            >
+              Питание
+            </button>
+          </div>
+        </div>
 
         {/* Календарь */}
         <section className="calendar-section">
@@ -436,7 +506,7 @@ const Schedule: React.FC = () => {
                   key={day}
                   data-day={day}
                   onClick={() => handleDateClick(day)}
-                  className={`calendar-day ${selectedDay === day && isScheduledWorkoutDay(day) ? 'selected' : ''} ${isScheduledWorkoutDay(day) ? 'has-workout' : ''} ${completionType === 'completed' ? 'completed' : ''} ${completionType === 'moved' ? 'moved' : ''} ${completionType === 'moved' && isScheduledWorkoutDay(day) && hasScheduledWorkoutCompleted(day) ? 'scheduled-and-moved' : ''} ${showCompletedWorkouts === day ? 'selected' : ''} ${isToday ? 'today' : ''}`}
+                  className={`calendar-day ${selectedDay === day && isScheduledWorkoutDay(day) ? 'selected' : ''} ${isScheduledWorkoutDay(day) ? 'has-workout' : ''} ${completionType === 'completed' ? 'completed' : ''} ${completionType === 'moved' ? 'moved' : ''} ${completionType === 'moved' && isScheduledWorkoutDay(day) ? 'scheduled-and-moved' : ''} ${showCompletedWorkouts === day ? 'selected' : ''} ${isToday ? 'today' : ''}`}
                 >
                   {day}
                   {/* Показываем галочку на запланированных днях, если была выполнена тренировка, запланированная на этот день */}
@@ -448,27 +518,86 @@ const Schedule: React.FC = () => {
             })}
           </div>
         </section>
+        
+        {/* Легенда календаря */}
+        <div className="calendar-legend">
+          <div className="legend-item">
+            <div className="legend-dot scheduled"></div>
+            <span>Запланировано</span>
+          </div>
+          <div className="legend-item">
+            <div className="legend-dot completed">✓</div>
+            <span>Выполнено</span>
+          </div>
+          <div className="legend-item">
+            <div className="legend-dot moved">↔</div>
+            <span>Перенесено</span>
+          </div>
+        </div>
       </main>
 
-      {/* Планы - показываем только при выборе даты с тренировкой */}
+      {/* Планы на выбранный день - показываем для запланированных дней */}
       {selectedDay && isScheduledWorkoutDay(selectedDay) && (
         <>
           <section className="plans-section">
             <h2>Планы на {selectedDay} {months[selectedMonth].toLowerCase()}</h2>
+            <p className="plans-subtitle">Зависят от выбранной даты в календаре</p>
           </section>
           
           <div className="plans-list">
-            {plans.map((plan) => (
+            <div className="plan-card clickable workout" onClick={() => navigate('workouts')}>
+              <div className="plan-info">
+                <h3>Тренировки</h3>
+                <p className="plan-time">09:00</p>
+              </div>
+              <div className="plan-arrow">›</div>
+            </div>
+            
+            <div className="plan-card clickable nutrition" onClick={() => navigate('nutrition')}>
+              <div className="plan-info">
+                <h3>Питание</h3>
+                <p className="plan-time">10:00</p>
+              </div>
+              <div className="plan-arrow">›</div>
+            </div>
+          </div>
+        </>
+      )}
+
+
+      {/* Перенесенные тренировки - показываем при выборе любой даты */}
+      {selectedDay && getMovedWorkoutsForDay(selectedDay).length > 0 && (
+        <>
+          <section className="plans-section">
+            <h2>{isScheduledWorkoutDay(selectedDay) ? 'Перенесенные тренировки' : 'Тренировки'} {selectedDay} {months[selectedMonth].toLowerCase()}</h2>
+          </section>
+          
+          <div className="plans-list">
+            {getMovedWorkoutsForDay(selectedDay).map((workout, index) => (
               <div
-                key={plan.id}
-                className={`plan-card clickable ${plan.type === 'workout' ? 'workout' : 'nutrition'}`}
-                onClick={() => handlePlanClick(plan.type)}
+                key={`moved-workout-${index}`}
+                className="plan-card moved-workout"
               >
                 <div className="plan-info">
-                  <h3>{plan.title}</h3>
-                  <p className="plan-time">{plan.time}</p>
+                  <h3>Перенесенная тренировка #{index + 1}</h3>
+                  <p className="plan-time">
+                    Выполнено: {new Date(workout.date).toLocaleDateString('ru-RU', {
+                      day: 'numeric',
+                      month: 'short',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </p>
+                  <p className="workout-stats">
+                    Запланировано на: {workout.originalPlannedDay} {months[workout.originalPlannedMonth || 0].toLowerCase()}
+                  </p>
+                  <p className="workout-stats">
+                    Выполнено: {workout.completedCount}/{workout.totalCount} ({workout.percentage}%)
+                  </p>
                 </div>
-                <div className="plan-arrow">›</div>
+                <div className="completion-badge moved">
+                  ↔
+                </div>
               </div>
             ))}
           </div>
@@ -533,6 +662,7 @@ const Schedule: React.FC = () => {
       {/* Блок "История" - всегда отображается внизу */}
       <section className="history-section">
         <h2>История</h2>
+        <p className="history-subtitle">Общая история тренировок и питания</p>
         <div className="history-links">
           <button 
             className="history-link-btn workout-link"

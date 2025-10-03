@@ -1,0 +1,551 @@
+/* Schedule.css - Стили для кнопок фильтрации и календаря */
+
+/* Кнопки фильтрации */
+.filter-buttons-section {
+  margin: 24px 0;
+  padding: 0 16px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.filter-button {
+  padding: 14px 24px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  color: #6B7280;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
+  min-width: 120px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.filter-button:hover {
+  color: #1F2937;
+  border-color: rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.filter-button.active {
+  background: #1254FF;
+  color: white;
+  border-color: #1254FF;
+  box-shadow: 0px 4px 16px rgba(18, 84, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .filter-buttons {
+    flex-direction: row;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+  
+  .filter-button {
+    min-width: auto;
+    width: auto;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+  
+  .filter-buttons-section {
+    padding: 0 8px;
+  }
+}
+
+/* Красивые заголовки дней недели - как на изображении */
+.schedule-container .calendar-header {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 8px !important;
+  margin-bottom: 4px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.schedule-container .day-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  transition: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  height: auto !important;
+  line-height: normal !important;
+}
+
+.schedule-container .day-header:hover {
+  background: transparent !important;
+  color: #6b7280 !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.schedule-container .day-header:nth-child(1) { /* Понедельник */
+  background: transparent !important;
+  color: #6b7280 !important;
+  border-color: transparent !important;
+}
+
+.schedule-container .day-header:nth-child(6) { /* Суббота */
+  background: transparent !important;
+  color: #6b7280 !important;
+  border-color: transparent !important;
+}
+
+.schedule-container .day-header:nth-child(7) { /* Воскресенье */
+  background: transparent !important;
+  color: #6b7280 !important;
+  border-color: transparent !important;
+}
+
+/* Адаптивность для заголовков дней */
+@media (max-width: 768px) {
+  .schedule-container .calendar-header {
+    padding: 0 !important;
+    gap: clamp(1px, 0.5vw, 2px) !important;
+  }
+  
+  .schedule-container .day-header {
+    padding: clamp(5px, 1.5vw, 7px) 0 !important;
+    font-size: clamp(13px, 3.5vw, 15px) !important;
+    border-radius: clamp(14px, 4vw, 18px) !important;
+  }
+}
+
+/* Красивая календарная сетка с синим заблюренным фоном */
+.schedule-container .calendar-section {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.2) 100%) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-radius: 20px !important;
+  padding: 20px !important;
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15) !important;
+  border: 1px solid rgba(59, 130, 246, 0.1) !important;
+}
+
+.schedule-container .calendar-grid {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+.schedule-container .calendar-day {
+  aspect-ratio: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 16px !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  border: none !important;
+  background: #ffffff !important;
+  color: #333333 !important;
+}
+
+/* Только запланированные дни кликабельны */
+.schedule-container .calendar-day.has-workout {
+  cursor: pointer !important;
+}
+
+.schedule-container .calendar-day.has-workout:hover {
+  opacity: 0.8 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Обычные дни не кликабельны */
+.schedule-container .calendar-day:not(.has-workout) {
+  cursor: default !important;
+}
+
+.schedule-container .calendar-day:not(.has-workout):hover {
+  transform: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.schedule-container .calendar-day:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+}
+
+.schedule-container .calendar-day.empty {
+  background: transparent !important;
+  color: transparent !important;
+  cursor: default !important;
+  box-shadow: none !important;
+}
+
+.schedule-container .calendar-day.empty:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Обычные дни (без тренировок) - серые числа */
+.schedule-container .calendar-day {
+  color: #6b7280 !important;
+  font-weight: 400 !important;
+}
+
+/* Дни с тренировками - темные ячейки */
+.schedule-container .calendar-day.has-workout {
+  background: #2d3748 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+.schedule-container .calendar-day.has-workout:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Дни только с запланированными тренировками (без перенесенных) */
+.schedule-container .calendar-day.has-workout:not(.scheduled-and-moved) {
+  background: #2d3748 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Дни с запланированной и перенесенной тренировкой - левая половина для перенесенной, правая для запланированной */
+.schedule-container .calendar-day.scheduled-and-moved {
+  background: linear-gradient(to right, #f7fafc 50%, #2d3748 50%) !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.8) !important;
+  position: relative !important;
+  cursor: pointer !important;
+}
+
+.schedule-container .calendar-day.scheduled-and-moved:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Приоритет для дней с запланированной и перенесенной тренировкой */
+.schedule-container .calendar-day.scheduled-and-moved.has-workout {
+  background: linear-gradient(to right, #f7fafc 50%, #2d3748 50%) !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+.schedule-container .calendar-day.scheduled-and-moved .moved-indicator {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+/* Выбранные дни */
+.schedule-container .calendar-day.selected {
+  background: #1a202c !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  transform: scale(1.05) !important;
+}
+
+/* Сегодняшний день - выделение */
+.schedule-container .calendar-day.today {
+  border: 3px solid #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Выполненные тренировки - полосатые ячейки */
+.schedule-container .calendar-day.completed {
+  background: repeating-linear-gradient(
+    45deg,
+    #f5f5dc,
+    #f5f5dc 4px,
+    #e6d7c3 4px,
+    #e6d7c3 8px
+  ) !important;
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+}
+
+/* Перенесенные тренировки - черные числа на светло-сером фоне */
+.schedule-container .calendar-day.moved {
+  background: #f7fafc !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+.schedule-container .calendar-day.moved:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Дни из других месяцев - неактивные */
+.schedule-container .calendar-day.inactive {
+  background: transparent !important;
+  color: #cbd5e0 !important;
+  cursor: default !important;
+  box-shadow: none !important;
+}
+
+.schedule-container .calendar-day.inactive:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Адаптивность для календаря */
+@media (max-width: 768px) {
+  .schedule-container .calendar-section {
+    padding: 16px !important;
+  }
+  
+  .schedule-container .calendar-grid {
+    gap: 6px !important;
+  }
+  
+  .schedule-container .calendar-day {
+    font-size: 14px !important;
+    border-radius: 12px !important;
+  }
+}
+
+/* Стили для блока планов */
+.schedule-container .plans-section {
+  margin: 24px 0 16px 0 !important;
+  padding: 0 16px !important;
+}
+
+.schedule-container .plans-section h2 {
+  font-family: 'Manrope' !important;
+  font-style: normal !important;
+  font-weight: 300 !important;
+  font-size: clamp(20px, 5vw, 24px) !important;
+  line-height: 120% !important;
+  color: #1F2937 !important;
+  margin: 0 0 20px 0 !important;
+  text-align: left !important;
+  padding-left: clamp(16px, 4vw, 24px) !important;
+}
+
+.schedule-container .plans-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  padding: 0 16px !important;
+}
+
+.schedule-container .plan-card {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 16px 20px !important;
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s ease !important;
+}
+
+.schedule-container .plan-card.clickable {
+  cursor: pointer !important;
+}
+
+.schedule-container .plan-card.clickable:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+.schedule-container .plan-card.workout {
+  border-left: 4px solid #3b82f6 !important;
+}
+
+.schedule-container .plan-card.nutrition {
+  border-left: 4px solid #10b981 !important;
+}
+
+.schedule-container .plan-info h3 {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #1f2937 !important;
+  margin: 0 0 4px 0 !important;
+}
+
+.schedule-container .plan-time {
+  font-size: 14px !important;
+  color: #6b7280 !important;
+  margin: 0 !important;
+}
+
+.schedule-container .plan-arrow {
+  font-size: 18px !important;
+  color: #9ca3af !important;
+  font-weight: 600 !important;
+}
+
+/* Адаптивность для планов */
+@media (max-width: 768px) {
+  .schedule-container .plans-section {
+    padding: 0 8px !important;
+  }
+  
+  .schedule-container .plans-list {
+    padding: 0 8px !important;
+  }
+  
+  .schedule-container .plan-card {
+    padding: 14px 16px !important;
+  }
+}
+
+/* Адаптивные стили для заголовка планов как у истории */
+@media (max-width: 480px) {
+  .schedule-container .plans-section h2 {
+    font-size: clamp(18px, 4.5vw, 22px) !important;
+    margin: 0 0 16px 0 !important;
+  }
+}
+
+/* Легенда календаря */
+.schedule-container .calendar-legend {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 16px !important;
+  padding: 12px 16px !important;
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  margin: 20px 16px !important;
+  flex-wrap: wrap !important;
+}
+
+.schedule-container .legend-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 13px !important;
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  white-space: nowrap !important;
+}
+
+.schedule-container .legend-dot {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: white !important;
+  font-size: 8px !important;
+  font-weight: bold !important;
+  flex-shrink: 0 !important;
+}
+
+.schedule-container .legend-dot.scheduled {
+  background: #2d3748 !important;
+  box-shadow: 0 0 8px rgba(45, 55, 72, 0.4) !important;
+}
+
+.schedule-container .legend-dot.completed {
+  background: #10b981 !important;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4) !important;
+  color: white !important;
+  font-size: 10px !important;
+}
+
+.schedule-container .legend-dot.moved {
+  background: #3b82f6 !important;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4) !important;
+  color: white !important;
+  font-size: 10px !important;
+}
+
+.schedule-container .legend-dot.scheduled-and-moved {
+  background: linear-gradient(to right, #f7fafc 50%, #2d3748 50%) !important;
+  box-shadow: 0 0 8px rgba(45, 55, 72, 0.4) !important;
+  color: #333333 !important;
+  font-size: 10px !important;
+}
+
+/* Адаптивность для легенды */
+@media (max-width: 768px) {
+  .schedule-container .calendar-legend {
+    margin: 16px 8px !important;
+    padding: 10px 12px !important;
+    gap: 12px !important;
+  }
+  
+  .schedule-container .legend-item {
+    font-size: 12px !important;
+    gap: 4px !important;
+  }
+  
+  .schedule-container .legend-dot {
+    width: 8px !important;
+    height: 8px !important;
+    font-size: 6px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .schedule-container .calendar-legend {
+    margin: 12px 4px !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
+  }
+  
+  .schedule-container .legend-item {
+    font-size: 11px !important;
+    gap: 3px !important;
+  }
+  
+  .schedule-container .legend-dot {
+    width: 7px !important;
+    height: 7px !important;
+    font-size: 5px !important;
+  }
+}
+
+/* Стили для перенесенных тренировок */
+.schedule-container .plan-card.moved-workout {
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%) !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.schedule-container .plan-card.moved-workout .completion-badge.moved {
+  background: #3b82f6 !important;
+  color: #ffffff !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+}
+
+

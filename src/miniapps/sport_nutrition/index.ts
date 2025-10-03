@@ -7,6 +7,7 @@ import { Profile } from './pages/Profile';
 import { Health } from './pages/Health';
 import { TestHealth } from './pages/TestHealth';
 import { SimpleHealth } from './pages/SimpleHealth';
+import { MetricsControl } from './pages/MetricsControl';
 import type { MiniappConfig } from '../../types/miniapp';
 
 export const sportNutritionAppConfig: MiniappConfig = {
@@ -60,6 +61,11 @@ export const sportNutritionAppConfig: MiniappConfig = {
       path: 'simple-health',
       title: 'Простое здоровье',
       component: SimpleHealth,
+    },
+    {
+      path: 'metrics-control',
+      title: 'Метрики контроля',
+      component: MetricsControl,
     },
   ],
 };

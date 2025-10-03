@@ -96,19 +96,11 @@ export const MetricsControl: React.FC = () => {
     localStorage.setItem('userData', JSON.stringify(newData));
   };
 
-  const handleBackClick = () => {
-    navigate('/miniapp/sport-nutrition');
-  };
 
   return (
     <div className="metrics-container">
       {/* Заголовок */}
       <div className="metrics-header">
-        <button className="back-button" onClick={handleBackClick}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
         <h1>Метрики контроля</h1>
       </div>
 

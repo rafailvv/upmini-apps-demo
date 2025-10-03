@@ -12,10 +12,6 @@ export const MiniappLayout: React.FC<MiniappLayoutProps> = ({ miniapp, children 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleBack = () => {
-    navigate('/');
-  };
-
   const handlePageChange = (path: string) => {
     if (path === '') {
       navigate(`/miniapp/${miniapp.name}`);
@@ -30,9 +26,6 @@ export const MiniappLayout: React.FC<MiniappLayoutProps> = ({ miniapp, children 
       {/* Header */}
       <header className="miniapp-header">
         <div className="header-content">
-          <button onClick={handleBack} className="back-button">
-            ← Назад
-          </button>
           <div className="miniapp-info">
             <h1>{miniapp.title}</h1>
             <p>{miniapp.description}</p>

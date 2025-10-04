@@ -84,6 +84,43 @@ export function setupTelegramBackButton(): void {
   }
 }
 
+// Сохранение данных пользователя из Telegram в localStorage
+export function saveTelegramUserData(): void {
+  console.log('=== SAVE TELEGRAM USER DATA ===');
+  console.log('isTelegramMiniApp():', isTelegramMiniApp());
+  console.log('window.Telegram?.WebApp:', window.Telegram?.WebApp);
+  console.log('window.Telegram?.WebApp?.initDataUnsafe:', window.Telegram?.WebApp?.initDataUnsafe);
+  console.log('window.Telegram?.WebApp?.initDataUnsafe?.user:', window.Telegram?.WebApp?.initDataUnsafe?.user);
+  
+  if (isTelegramMiniApp() && window.Telegram?.WebApp?.initDataUnsafe?.user) {
+    const user = window.Telegram.WebApp.initDataUnsafe.user;
+    console.log('Raw user data from Telegram:', user);
+    
+    const userData = {
+      id: user.id,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      username: user.username,
+      languageCode: user.language_code,
+      photoUrl: user.photo_url,
+      isBot: user.is_bot
+    };
+    
+    console.log('Processed user data:', userData);
+    
+    // Сохраняем данные пользователя в localStorage
+    localStorage.setItem('userData', JSON.stringify(userData));
+    console.log('User data saved to localStorage:', userData);
+    
+    // Проверяем, что данные действительно сохранились
+    const savedData = localStorage.getItem('userData');
+    console.log('Verification - saved data from localStorage:', savedData);
+  } else {
+    console.log('No Telegram user data available');
+  }
+  console.log('================================');
+}
+
 // Инициализация Telegram MiniApp
 export function initTelegramMiniApp(): void {
   console.log('Initializing Telegram MiniApp...');
@@ -95,6 +132,9 @@ export function initTelegramMiniApp(): void {
       // Сообщаем Telegram, что приложение готово
       window.Telegram.WebApp.ready();
       console.log('Telegram WebApp ready called');
+      
+      // Сохраняем данные пользователя
+      saveTelegramUserData();
       
       // Добавляем класс для стилизации
       document.body.classList.add('telegram-miniapp');

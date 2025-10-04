@@ -44,13 +44,20 @@ const Schedule: React.FC = () => {
 
     // Загружаем имя пользователя из localStorage
     const userData = localStorage.getItem('userData');
+    console.log('=== USER DATA DEBUG ===');
+    console.log('Raw userData from localStorage:', userData);
+    
     if (userData) {
       try {
         const parsedUserData = JSON.parse(userData);
+        console.log('Parsed user data:', parsedUserData);
+        
         if (parsedUserData.firstName || parsedUserData.lastName) {
           const fullName = `${parsedUserData.firstName || ''} ${parsedUserData.lastName || ''}`.trim();
+          console.log('Full name constructed:', fullName);
           setUserName(fullName || 'Пользователь');
         } else {
+          console.log('No first name or last name found, using default');
           setUserName('Пользователь');
         }
       } catch (error) {
@@ -58,8 +65,11 @@ const Schedule: React.FC = () => {
         setUserName('Пользователь');
       }
     } else {
+      console.log('No userData found in localStorage');
       setUserName('Пользователь');
     }
+    console.log('Final userName state:', userName);
+    console.log('========================');
   }, []);
 
   // Автоматическая прокрутка к текущему месяцу при загрузке

@@ -21,7 +21,7 @@ const Schedule: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   // const [lastCompletedWorkout, setLastCompletedWorkout] = useState<any>(null);
   const [completedWorkouts, setCompletedWorkouts] = useState<CompletedWorkout[]>([]);
-  const [plannedDay, setPlannedDay] = useState<number | null>(null); // День, на который планировалась тренировка
+  const [, setPlannedDay] = useState<number | null>(null); // День, на который планировалась тренировка
   const [showCompletedWorkouts, setShowCompletedWorkouts] = useState<number | null>(null); // День, для которого показываем выполненные тренировки
   const [userName, setUserName] = useState<string>(''); // Имя пользователя
   const [activeFilter, setActiveFilter] = useState<'all' | 'workouts' | 'nutrition'>('all');
@@ -133,9 +133,9 @@ const Schedule: React.FC = () => {
   };
 
   // Функция для проверки, выполнена ли тренировка или питание в определенный день (для обратной совместимости)
-  const isWorkoutCompleted = (day: number): boolean => {
-    return getWorkoutCompletionType(day) !== 'none';
-  };
+  // const isWorkoutCompleted = (day: number): boolean => {
+  //   return getWorkoutCompletionType(day) !== 'none';
+  // };
 
 
 

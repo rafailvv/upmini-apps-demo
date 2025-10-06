@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import '../styles.css';
 
 interface UserData {
@@ -42,7 +41,6 @@ interface UserData {
 }
 
 export const MetricsControl: React.FC = () => {
-  const navigate = useNavigate();
   const [userData, setUserData] = useState<UserData>({
     hasWeight: false,
     controlWeight: 0,

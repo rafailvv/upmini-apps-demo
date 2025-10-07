@@ -9,7 +9,7 @@ import { runSanityTests } from '../utils/multiSelection';
 import { SectionHeader } from '../components/SectionHeader';
 import { Pill } from '../components/Pill';
 import { QuestionField } from '../components/QuestionField';
-import { isTelegramMiniApp } from '../../../utils/telegramUtils';
+import { isTelegramMiniApp, initTelegramMiniApp, setupSurveyCloseButton } from '../../../utils/telegramUtils';
 import '../styles.css';
 
 export default function Survey() {
@@ -36,6 +36,12 @@ export default function Survey() {
 
   // Telegram WebApp интеграция
   useEffect(() => {
+    // Инициализируем Telegram MiniApp
+    initTelegramMiniApp();
+    
+    // Настраиваем кнопку "Закрыть" для страницы Survey
+    setupSurveyCloseButton();
+    
     const tg = (window as any).Telegram?.WebApp;
     if (tg) {
       tg.ready();
@@ -57,12 +63,8 @@ export default function Survey() {
         });
       }
       
-      }
+    }
       
-      
-      return () => {
-        // Очистка не нужна
-      };
   }, []);
 
   // Данные не сохраняются при обновлении страницы
@@ -220,13 +222,18 @@ export default function Survey() {
 
               {/* Навигация */}
               <div className="flex items-center justify-between mt-8">
-                <button
-                  onClick={handleBack}
-                  disabled={currentStep === 0}
-                  className="flex items-center gap-1 px-4 py-2 text-gray-600 hover:text-gray-800 disabled:cursor-not-allowed border border-gray-300 rounded-lg hover:bg-gray-50"
-                >
-                  ← Назад
-                </button>
+                {!isTelegramMiniApp() && (
+                  <button
+                    onClick={handleBack}
+                    disabled={currentStep === 0}
+                    className="flex items-center gap-1 px-4 py-2 text-gray-600 hover:text-gray-800 disabled:cursor-not-allowed border border-gray-300 rounded-lg hover:bg-gray-50"
+                  >
+                    ← Назад
+                  </button>
+                )}
+                {isTelegramMiniApp() && (
+                  <div className="flex-1"></div>
+                )}
                 {currentStep < totalSteps - 1 ? (
                   <button
                     onClick={handleNext}

@@ -24,6 +24,24 @@ export function isTelegramMiniApp(): boolean {
   return isTelegram && isMobile;
 }
 
+// Настройка кнопки "Закрыть" для страницы Survey
+export function setupSurveyCloseButton(): void {
+  if (isTelegramMiniApp() && window.Telegram?.WebApp) {
+    console.log('Setting up Survey close button');
+    
+    // Показываем кнопку "Закрыть" для страницы Survey
+    window.Telegram.WebApp.BackButton.show();
+    
+    // Обработчик кнопки "Закрыть"
+    window.Telegram.WebApp.BackButton.onClick(() => {
+      console.log('Survey close button clicked - closing MiniApp');
+      if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.close();
+      }
+    });
+  }
+}
+
 // Управление кнопкой "Назад" в Telegram MiniApp
 export function setupTelegramBackButton(): void {
   if (isTelegramMiniApp() && window.Telegram?.WebApp) {
@@ -32,11 +50,20 @@ export function setupTelegramBackButton(): void {
       const currentPath = window.location.pathname;
       console.log('Checking back button state for path:', currentPath);
       
+      // Проверяем, находимся ли мы на странице Survey
+      const isSurveyPage = currentPath.includes('/cust_dev') || currentPath.includes('/survey');
+      
       if (currentPath === '/' || currentPath === '/miniapp/menu') {
         // Если мы на главной странице или в меню, скрываем кнопку "Назад"
         console.log('On main page - hiding back button, showing close button');
         if (window.Telegram?.WebApp) {
           window.Telegram.WebApp.BackButton.hide();
+        }
+      } else if (isSurveyPage) {
+        // На странице Survey показываем кнопку "Закрыть"
+        console.log('On survey page - showing close button');
+        if (window.Telegram?.WebApp) {
+          window.Telegram.WebApp.BackButton.show();
         }
       } else {
         // Иначе показываем кнопку "Назад"
@@ -55,10 +82,11 @@ export function setupTelegramBackButton(): void {
       
       // Проверяем текущий путь
       const currentPath = window.location.pathname;
+      const isSurveyPage = currentPath.includes('/cust_dev') || currentPath.includes('/survey');
       
-      if (currentPath === '/' || currentPath === '/miniapp/menu') {
-        // Если мы на главной странице или в меню, закрываем MiniApp
-        console.log('Closing MiniApp - on main page');
+      if (currentPath === '/' || currentPath === '/miniapp/menu' || isSurveyPage) {
+        // Если мы на главной странице, в меню или на странице Survey, закрываем MiniApp
+        console.log('Closing MiniApp - on main page or survey');
         if (window.Telegram?.WebApp) {
           window.Telegram.WebApp.close();
         }

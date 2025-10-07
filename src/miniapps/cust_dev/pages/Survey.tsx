@@ -26,7 +26,7 @@ export default function Survey() {
     mode: "onChange",
   });
 
-  // Telegram WebApp интеграция (необязательно)
+  // Telegram WebApp интеграция
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
     if (tg) {
@@ -34,8 +34,24 @@ export default function Survey() {
       tg.expand();
       const colorScheme = tg.colorScheme === "dark" ? "dark" : "light";
       setTheme(colorScheme);
-      tg.MainButton?.setParams({ text: "отправить ответы" });
+      
+      // Добавляем класс для стилизации в Telegram
+      document.body.classList.add('telegram-miniapp');
+      
+      // Настраиваем кнопку "Назад"
+      tg.BackButton?.hide();
+      
+      // Настраиваем главную кнопку
+      tg.MainButton?.setParams({ 
+        text: "отправить ответы",
+        color: theme === "dark" ? "#1f2937" : "#f9fafb",
+        text_color: theme === "dark" ? "#ffffff" : "#000000"
+      });
+      tg.MainButton?.show();
       tg.MainButton?.onClick(() => handleSubmit());
+      
+      // Настраиваем кнопку закрытия
+      tg.enableClosingConfirmation();
     }
     return () => {
       try {
@@ -51,6 +67,35 @@ export default function Survey() {
     });
     return () => subscription.unsubscribe();
   }, [form]);
+
+  // Управление кнопкой "Назад" в Telegram
+  useEffect(() => {
+    const tg = (window as any).Telegram?.WebApp;
+    if (tg) {
+      if (currentStep === 0) {
+        tg.BackButton?.hide();
+      } else {
+        tg.BackButton?.show();
+        tg.BackButton?.onClick(() => {
+          if (currentStep > 0) {
+            setCurrentStep(currentStep - 1);
+          }
+        });
+      }
+    }
+  }, [currentStep]);
+
+  // Обновление цветов кнопки при изменении темы
+  useEffect(() => {
+    const tg = (window as any).Telegram?.WebApp;
+    if (tg) {
+      tg.MainButton?.setParams({ 
+        text: "отправить ответы",
+        color: theme === "dark" ? "#1f2937" : "#f9fafb",
+        text_color: theme === "dark" ? "#ffffff" : "#000000"
+      });
+    }
+  }, [theme]);
 
   // Простые тесты логики (не влияют на UI, только в консоль)
   useEffect(() => {
@@ -140,7 +185,7 @@ export default function Survey() {
   const StepView = useMemo(() => steps[currentStep], [steps, currentStep]);
 
   return (
-    <div className={`custdev-survey min-h-screen p-4 sm:p-6 md:p-8 ${theme === "dark" ? "custdev-dark bg-gray-900 text-white" : "bg-gray-50 text-gray-900"}`}>
+    <div className={`custdev-survey min-h-screen p-4 sm:p-6 md:p-8 ${theme === "dark" ? "custdev-dark bg-gray-900 text-white" : "bg-gray-50 text-gray-900"} telegram-miniapp`}>
       {/* Header */}
       <header className="max-w-3xl mx-auto flex items-center gap-3 mb-6">
         <img src={SURVEY_CONFIG.brand.logoUrl} alt={SURVEY_CONFIG.brand.name} className="w-10 h-10 rounded-2xl shadow" />

@@ -4,6 +4,38 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* Отступы для Telegram MiniApp */
+.telegram-miniapp {
+  padding-top: 60px !important;
+  min-height: 100vh;
+}
+
+.telegram-miniapp .custdev-survey {
+  padding-top: 60px !important;
+}
+
+/* Адаптивные отступы для разных устройств */
+@media (max-width: 768px) {
+  .telegram-miniapp {
+    padding-top: 50px !important;
+  }
+  
+  .telegram-miniapp .custdev-survey {
+    padding-top: 50px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .telegram-miniapp {
+    padding-top: 40px !important;
+  }
+  
+  .telegram-miniapp .custdev-survey {
+    padding-top: 40px !important;
+  }
+}
+
+
 /* Переопределяем базовые стили для лучшей совместимости с Tailwind */
 .custdev-survey * {
   box-sizing: border-box;

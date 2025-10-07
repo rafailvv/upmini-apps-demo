@@ -221,14 +221,14 @@ export default function Survey() {
                 <button
                   onClick={handleBack}
                   disabled={currentStep === 0}
-                  className="flex items-center gap-1 px-4 py-2 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="flex items-center gap-1 px-4 py-2 text-gray-600 hover:text-gray-800 disabled:cursor-not-allowed border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
                   ← Назад
                 </button>
                 {currentStep < totalSteps - 1 ? (
                   <button
                     onClick={handleNext}
-                    className="flex items-center gap-1 px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+                    className="flex items-center gap-1 px-6 py-2 bg-white text-black rounded-lg hover:bg-gray-100 transition-colors border border-gray-300"
                   >
                     Далее →
                   </button>

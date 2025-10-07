@@ -318,14 +318,15 @@
 
 /* Темная тема для кнопки отправки */
 .custdev-dark .custdev-submit-button {
-  background: #060F30 !important;
-  color: #F2F2F2 !important;
-  box-shadow: 0 4px 15px rgba(6, 15, 48, 0.3) !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-weight: bold !important;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2) !important;
 }
 
 .custdev-dark .custdev-submit-button:hover {
-  background: #060F30 !important;
-  box-shadow: 0 6px 20px rgba(6, 15, 48, 0.4) !important;
+  background: #f0f0f0 !important;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3) !important;
 }
 
 /* Стили для кнопок навигации в темной теме */
@@ -333,7 +334,7 @@
 .custdev-dark .custdev-survey button:focus {
   outline: none;
   border: none;
-  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+  box-shadow: none;
 }
 
 /* Адаптивные стили для рейтинга */
@@ -401,11 +402,11 @@
 .custdev-survey button:focus {
   outline: none;
   border: none;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  box-shadow: none;
 }
 
 .custdev-survey button:disabled {
-  opacity: 0.5;
+  opacity: 1;
   cursor: not-allowed;
 }
 
@@ -440,6 +441,12 @@
   max-width: 20px !important;
   max-height: 20px !important;
   flex-shrink: 0;
+}
+
+.custdev-survey input[type="checkbox"]:focus,
+.custdev-survey input[type="radio"]:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 /* Фиксированные размеры для элементов опций */
@@ -536,6 +543,17 @@
 
 .custdev-rating-star.selected::before {
   opacity: 0;
+}
+
+.custdev-rating-star:focus,
+.custdev-nps-button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Переопределение bg-black на цвет #060F30 */
+.bg-black {
+  background-color: #060F30 !important;
 }
 
 /* Номер рейтинга */

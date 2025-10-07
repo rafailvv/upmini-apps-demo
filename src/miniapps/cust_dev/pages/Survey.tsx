@@ -43,7 +43,7 @@ export default function Survey() {
       if (isTelegramMiniApp()) {
         const headers = document.querySelectorAll('header');
         headers.forEach(header => {
-          (header as HTMLElement).sty = '100px';
+          (header as HTMLElement).style.marginTop = '100px';
         });
       }
       
@@ -242,7 +242,7 @@ export default function Survey() {
                 {currentStep < totalSteps - 1 ? (
                   <button
                     onClick={handleNext}
-                    className="flex items-center gap-1 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="flex items-center gap-1 px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
                   >
                     далее →
                   </button>
@@ -279,6 +279,34 @@ export default function Survey() {
 
           {/* Доп. панели */}
           <div className="mt-8 flex flex-wrap gap-2 justify-end">
+            <button
+              onClick={() => {
+                const values = form.getValues();
+                const dataStr = JSON.stringify({ draft: values, step: currentStep }, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'custdev-draft.json';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+              }}
+              className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              💾 сохранить черновик
+            </button>
+            <button
+              onClick={() => {
+                clearStorage();
+                form.reset({} as any);
+                setCurrentStep(0);
+              }}
+              className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              ✕ сбросить
+            </button>
             <ThemeToggle theme={theme} setTheme={setTheme} />
           </div>
         </div>

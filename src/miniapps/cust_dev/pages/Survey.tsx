@@ -57,8 +57,12 @@ export default function Survey() {
         });
       }
       
-      // Кнопка "Назад" всегда скрыта в мини-приложении
-      tg.BackButton?.hide();
+      // Настраиваем кнопку "Закрыть" вместо "Назад"
+      tg.BackButton?.setText("Закрыть");
+      tg.BackButton?.show();
+      tg.BackButton?.onClick(() => {
+        tg.close?.();
+      });
       
       // Скрываем встроенную кнопку Telegram
       tg.MainButton?.hide();
@@ -116,17 +120,14 @@ export default function Survey() {
     persistTimingForStep(step.id);
     if (currentStep < totalSteps - 1) {
       setCurrentStep((s) => s + 1);
-      // Прокручиваем наверх страницы
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Прокручиваем наверх страницы с задержкой после обновления состояния
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
     }
   }
 
-  function handleBack() {
-    if (currentStep === 0) return;
-    setCurrentStep((s) => s - 1);
-    // Прокручиваем наверх страницы
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  // Функция handleBack удалена - навигация только вперед
 
   function buildPayload(values: SurveyFormData) {
     return {
@@ -217,14 +218,7 @@ export default function Survey() {
               </div>
 
               {/* Навигация */}
-              <div className="flex items-center justify-between mt-8">
-                <button
-                  onClick={handleBack}
-                  disabled={currentStep === 0}
-                  className="flex items-center gap-1 px-4 py-2 text-gray-600 hover:text-gray-800 disabled:cursor-not-allowed border border-gray-300 rounded-lg hover:bg-gray-50"
-                >
-                  ← Назад
-                </button>
+              <div className="flex items-center justify-end mt-8">
                 {currentStep < totalSteps - 1 ? (
                   <button
                     onClick={handleNext}

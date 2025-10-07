@@ -10,6 +10,7 @@ import { SectionHeader } from '../components/SectionHeader';
 import { Pill } from '../components/Pill';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { QuestionField } from '../components/QuestionField';
+import { isTelegramMiniApp } from '../../../utils/telegramUtils';
 import '../styles.css';
 
 export default function Survey() {
@@ -37,6 +38,14 @@ export default function Survey() {
       
       // Добавляем класс для стилизации в Telegram
       document.body.classList.add('telegram-miniapp');
+      
+      // Добавляем отступ для хедера в Telegram на мобильных устройствах
+      if (isTelegramMiniApp()) {
+        const headers = document.querySelectorAll('header');
+        headers.forEach(header => {
+          (header as HTMLElement).sty = '100px';
+        });
+      }
       
       // Настраиваем кнопку "Назад"
       tg.BackButton?.hide();

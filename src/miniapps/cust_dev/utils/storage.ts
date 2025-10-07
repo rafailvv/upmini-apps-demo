@@ -21,3 +21,56 @@ export function downloadJSON(filename: string, data: any) {
   link.click();
   URL.revokeObjectURL(link.href);
 }
+
+// Фиксированный form_id для анкеты CustDev
+export const CUSTDEV_FORM_ID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
+
+// Получение данных пользователя из Telegram
+export function getTelegramUserData() {
+  const tg = (window as any).Telegram?.WebApp;
+  if (tg && tg.initDataUnsafe?.user) {
+    return {
+      user_id: tg.initDataUnsafe.user.id,
+      username: tg.initDataUnsafe.user.username || `user_${tg.initDataUnsafe.user.id}`
+    };
+  }
+  
+  // Fallback для тестирования вне Telegram
+  return {
+    user_id: 123456789,
+    username: "test_user"
+  };
+}
+
+// Отправка данных на API
+export async function submitToAPI(formData: any) {
+  const userData = getTelegramUserData();
+  
+  const payload = {
+    ...formData,
+    user_id: userData.user_id,
+    username: userData.username,
+    submitted_at: new Date().toISOString()
+  };
+
+  try {
+    const response = await fetch(`https://test.upmini.app/api/forms/${CUSTDEV_FORM_ID}/responses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Данные успешно отправлены:', result);
+    return result;
+  } catch (error) {
+    console.error('Ошибка при отправке данных:', error);
+    throw error;
+  }
+}

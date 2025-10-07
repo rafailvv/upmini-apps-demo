@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SURVEY_CONFIG } from '../utils/surveyConfig';
 import { SurveySchema } from '../utils/validation';
 import type { SurveyFormData } from '../utils/validation';
-import { restoreFromStorage, clearStorage, downloadJSON } from '../utils/storage';
+import { restoreFromStorage, clearStorage, submitToAPI } from '../utils/storage';
 import { runSanityTests } from '../utils/multiSelection';
 import { SectionHeader } from '../components/SectionHeader';
 import { Pill } from '../components/Pill';
@@ -18,6 +18,7 @@ export default function Survey() {
   const [stepStartedAt, setStepStartedAt] = useState(Date.now());
   const [timings, setTimings] = useState<Record<string, number>>({});
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<SurveyFormData>({
     resolver: zodResolver(SurveySchema),
@@ -100,25 +101,40 @@ export default function Survey() {
     };
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
+    if (isSubmitting) return; // Предотвращаем повторную отправку
+    
+    setIsSubmitting(true);
     const values = form.getValues();
     const payload = buildPayload(values);
 
-    // В реальном приложении отправьте на ваш API
-    // fetch("/api/submit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
-    console.log("SUBMIT PAYLOAD", payload);
-
     try {
+      // Отправляем данные на API
+      await submitToAPI(values);
+      
+      // Также отправляем полный payload в Telegram если доступно
       const tg = (window as any).Telegram?.WebApp;
       if (tg) {
         tg.sendData?.(JSON.stringify(payload));
         tg.close?.();
       }
-    } catch {}
 
-    downloadJSON("custdev-answers.json", payload);
-    clearStorage();
-    setCurrentStep(totalSteps); // показать экран завершения
+      // Очищаем localStorage
+      clearStorage();
+      
+      // Показываем экран завершения
+      setCurrentStep(totalSteps);
+      
+    } catch (error) {
+      console.error('Ошибка при отправке формы:', error);
+      
+      // В случае ошибки все равно показываем завершение, но с предупреждением
+      alert('Произошла ошибка при отправке данных. Попробуйте еще раз.');
+      clearStorage();
+      setCurrentStep(totalSteps);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const StepView = useMemo(() => steps[currentStep], [steps, currentStep]);
@@ -179,42 +195,36 @@ export default function Survey() {
                 ) : (
                   <button
                     onClick={handleSubmit}
-                    className="flex items-center gap-1 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                    disabled={isSubmitting}
+                    className={`flex items-center gap-1 px-6 py-2 rounded-lg transition-colors ${
+                      isSubmitting 
+                        ? 'bg-gray-400 cursor-not-allowed' 
+                        : 'bg-green-600 hover:bg-green-700'
+                    }`}
                   >
-                    отправить 📄
+                    {isSubmitting ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        отправка...
+                      </>
+                    ) : (
+                      <>отправить 📄</>
+                    )}
                   </button>
                 )}
               </div>
             </div>
           ) : (
             <div className="text-center py-12">
-              <div className="w-14 h-14 mx-auto mb-4 text-green-600">✓</div>
-              <h3 className="text-xl font-semibold mb-2">спасибо! ответы сохранены</h3>
-              <p className="opacity-80">файл с результатами выгружен в формате JSON. вы можете закрыть окно</p>
+              <div className="w-16 h-16 mx-auto mb-6 text-green-600 text-6xl">🎉</div>
+              <h3 className="text-2xl font-bold mb-4 text-green-600">Спасибо за прохождение анкеты!</h3>
+              <p className="text-lg mb-2">Ваши ответы помогут нам улучшить продукт</p>
+              <p className="opacity-80">Вы можете закрыть это окно</p>
             </div>
           )}
 
           {/* Доп. панели */}
           <div className="mt-8 flex flex-wrap gap-2 justify-end">
-            <button
-              onClick={() => {
-                const values = form.getValues();
-                downloadJSON("custdev-draft.json", { draft: values, step: currentStep });
-              }}
-              className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              💾 сохранить черновик
-            </button>
-            <button
-              onClick={() => {
-                clearStorage();
-                form.reset({} as any);
-                setCurrentStep(0);
-              }}
-              className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              ✕ сбросить
-            </button>
             <ThemeToggle theme={theme} setTheme={setTheme} />
           </div>
         </div>

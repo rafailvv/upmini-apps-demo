@@ -9,7 +9,7 @@ import { runSanityTests } from '../utils/multiSelection';
 import { SectionHeader } from '../components/SectionHeader';
 import { Pill } from '../components/Pill';
 import { QuestionField } from '../components/QuestionField';
-import { isTelegramMiniApp, initTelegramMiniApp, setupSurveyCloseButton } from '../../../utils/telegramUtils';
+import { isTelegramMiniApp, initTelegramMiniApp, setupSurveyCloseButton, hideSurveyCloseButton } from '../../../utils/telegramUtils';
 import '../styles.css';
 
 export default function Survey() {
@@ -64,6 +64,11 @@ export default function Survey() {
       }
       
     }
+    
+    // Cleanup функция для скрытия кнопки при размонтировании компонента
+    return () => {
+      hideSurveyCloseButton();
+    };
       
   }, []);
 
@@ -222,16 +227,15 @@ export default function Survey() {
 
               {/* Навигация */}
               <div className="flex items-center justify-between mt-8">
-                {!isTelegramMiniApp() && (
+                {currentStep > 0 && (
                   <button
                     onClick={handleBack}
-                    disabled={currentStep === 0}
-                    className="flex items-center gap-1 px-4 py-2 text-gray-600 hover:text-gray-800 disabled:cursor-not-allowed border border-gray-300 rounded-lg hover:bg-gray-50"
+                    className="flex items-center gap-1 px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
                   >
                     ← Назад
                   </button>
                 )}
-                {isTelegramMiniApp() && (
+                {currentStep === 0 && (
                   <div className="flex-1"></div>
                 )}
                 {currentStep < totalSteps - 1 ? (

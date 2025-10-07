@@ -29,16 +29,28 @@ export function setupSurveyCloseButton(): void {
   if (isTelegramMiniApp() && window.Telegram?.WebApp) {
     console.log('Setting up Survey close button');
     
-    // Показываем кнопку "Закрыть" для страницы Survey
-    window.Telegram.WebApp.BackButton.show();
+    // Скрываем стандартную кнопку "Назад" Telegram, так как используем свою в UI
+    window.Telegram.WebApp.BackButton.hide();
+    
+    // Настраиваем MainButton как кнопку "Закрыть" (показывается внизу экрана)
+    window.Telegram.WebApp.MainButton.setText('Закрыть');
+    window.Telegram.WebApp.MainButton.show();
     
     // Обработчик кнопки "Закрыть"
-    window.Telegram.WebApp.BackButton.onClick(() => {
+    window.Telegram.WebApp.MainButton.onClick(() => {
       console.log('Survey close button clicked - closing MiniApp');
       if (window.Telegram?.WebApp) {
         window.Telegram.WebApp.close();
       }
     });
+  }
+}
+
+// Скрытие кнопки "Закрыть" при выходе со страницы Survey
+export function hideSurveyCloseButton(): void {
+  if (isTelegramMiniApp() && window.Telegram?.WebApp) {
+    console.log('Hiding Survey close button');
+    window.Telegram.WebApp.MainButton.hide();
   }
 }
 

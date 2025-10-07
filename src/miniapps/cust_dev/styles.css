@@ -6,32 +6,32 @@
 
 /* Отступы для Telegram MiniApp */
 .telegram-miniapp {
-  padding-top: 60px !important;
   min-height: 100vh;
 }
 
 .telegram-miniapp .custdev-survey {
-  padding-top: 60px !important;
+  padding-top: 20px !important;
+}
+
+/* Убираем псевдоэлементы */
+.telegram-miniapp::before,
+.telegram-miniapp::after,
+.telegram-miniapp *::before,
+.telegram-miniapp *::after {
+  display: none !important;
+  content: none !important;
 }
 
 /* Адаптивные отступы для разных устройств */
 @media (max-width: 768px) {
-  .telegram-miniapp {
-    padding-top: 50px !important;
-  }
-  
   .telegram-miniapp .custdev-survey {
-    padding-top: 50px !important;
+    padding-top: 20px !important;
   }
 }
 
 @media (max-width: 480px) {
-  .telegram-miniapp {
-    padding-top: 40px !important;
-  }
-  
   .telegram-miniapp .custdev-survey {
-    padding-top: 40px !important;
+    padding-top: 20px !important;
   }
 }
 

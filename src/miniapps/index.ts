@@ -7,6 +7,7 @@ import { miniappRegistry } from '../utils/miniappRegistry';
 import { clothingStoreAppConfig } from './clothing_store';
 import { booksStoreAppConfig } from './books_store';
 import { sportNutritionAppConfig } from './sport_nutrition';
+import { custDevAppConfig } from './cust_dev';
 
 // Регистрируем все мини-приложения
 miniappRegistry.register(todoAppConfig);
@@ -17,6 +18,7 @@ miniappRegistry.register(menuAppConfig);
 miniappRegistry.register(clothingStoreAppConfig);
 miniappRegistry.register(booksStoreAppConfig);
 miniappRegistry.register(sportNutritionAppConfig);
+miniappRegistry.register(custDevAppConfig);
 
 export {
   todoAppConfig,
@@ -27,4 +29,5 @@ export {
   clothingStoreAppConfig,
   booksStoreAppConfig,
   sportNutritionAppConfig,
+  custDevAppConfig,
 }; 

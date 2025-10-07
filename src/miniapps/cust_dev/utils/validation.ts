@@ -40,7 +40,7 @@ for (const step of SURVEY_CONFIG.steps) {
         break;
       case QuestionType.BOOLEAN:
         schemaShape[q.id] = q.required
-          ? z.boolean().refine((v) => v === true, { message: "нужно согласие" })
+          ? z.boolean().refine((v: boolean) => v === true, { message: "нужно согласие" })
           : z.boolean().optional();
         break;
       default:

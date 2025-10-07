@@ -238,6 +238,39 @@
   color: #9ca3af;
 }
 
+/* Темная тема для плашек и прогресса */
+.custdev-dark .custdev-progress-bar {
+  background: #374151 !important;
+}
+
+.custdev-dark .bg-gray-200 {
+  background-color: #4b5563 !important;
+}
+
+/* Темная тема для плашек */
+.custdev-dark .px-3.py-2.border.border-gray-300.rounded-lg {
+  background-color: #374151 !important;
+  border-color: #6b7280 !important;
+  color: #f9fafb !important;
+}
+
+.custdev-dark .px-3.py-2.border.border-gray-300.rounded-lg:hover {
+  background-color: #4b5563 !important;
+  border-color: #9ca3af !important;
+}
+
+/* Темная тема для заголовков */
+.custdev-dark h1,
+.custdev-dark h2,
+.custdev-dark h3 {
+  color: #ffffff !important;
+}
+
+.custdev-dark .text-sm.opacity-80 {
+  color: #d1d5db !important;
+  opacity: 1 !important;
+}
+
 /* Стили для кнопки отправки */
 .custdev-submit-button {
   background: #060F30 !important;

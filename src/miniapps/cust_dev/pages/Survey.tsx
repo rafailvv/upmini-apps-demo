@@ -60,22 +60,14 @@ export default function Survey() {
       // Настраиваем кнопку "Назад"
       tg.BackButton?.hide();
       
-      // Настраиваем главную кнопку
-      tg.MainButton?.setParams({ 
-        text: "Отправить ответы",
-        color: theme === "dark" ? "#1f2937" : "#f9fafb",
-        text_color: theme === "dark" ? "#ffffff" : "#000000"
-      });
-      tg.MainButton?.show();
-      tg.MainButton?.onClick(() => handleSubmit());
+      // Скрываем встроенную кнопку Telegram
+      tg.MainButton?.hide();
       
       // Настраиваем кнопку закрытия
       tg.enableClosingConfirmation();
     }
     return () => {
-      try {
-        (window as any).Telegram?.WebApp?.MainButton?.offClick?.(handleSubmit);
-      } catch {}
+      // Встроенная кнопка скрыта, обработчики не нужны
     };
   }, []);
 
@@ -98,17 +90,7 @@ export default function Survey() {
     }
   }, [currentStep]);
 
-  // Обновление цветов кнопки при изменении темы
-  useEffect(() => {
-    const tg = (window as any).Telegram?.WebApp;
-    if (tg) {
-      tg.MainButton?.setParams({ 
-        text: "Отправить ответы",
-        color: theme === "dark" ? "#1f2937" : "#f9fafb",
-        text_color: theme === "dark" ? "#ffffff" : "#000000"
-      });
-    }
-  }, [theme]);
+  // Встроенная кнопка Telegram скрыта
 
   // Простые тесты логики (не влияют на UI, только в консоль)
   useEffect(() => {
@@ -147,12 +129,18 @@ export default function Survey() {
     if (!isValid) return;
 
     persistTimingForStep(step.id);
-    if (currentStep < totalSteps - 1) setCurrentStep((s) => s + 1);
+    if (currentStep < totalSteps - 1) {
+      setCurrentStep((s) => s + 1);
+      // Прокручиваем наверх страницы
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   function handleBack() {
     if (currentStep === 0) return;
     setCurrentStep((s) => s - 1);
+    // Прокручиваем наверх страницы
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function buildPayload(values: SurveyFormData) {
@@ -185,7 +173,7 @@ export default function Survey() {
       const tg = (window as any).Telegram?.WebApp;
       if (tg) {
         tg.sendData?.(JSON.stringify(payload));
-        tg.close?.();
+        // Не закрываем мини-приложение автоматически
       }
 
       // Данные не сохраняются, очистка не нужна

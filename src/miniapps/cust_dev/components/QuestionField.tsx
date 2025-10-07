@@ -39,7 +39,6 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                           value={opt}
                           checked={field.value === opt}
                           onChange={() => field.onChange(opt)}
-                          className="w-4 h-4"
                         />
                         {opt}
                       </label>
@@ -53,7 +52,7 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                     onChange={(e) => field.onChange(e.target.value)}
                     className="w-full p-2 border rounded-lg"
                   >
-                    <option value="">выберите вариант</option>
+                    <option value="">Выберите вариант</option>
                     {q.options.map((opt: string) => (
                       <option key={opt} value={opt}>
                         {opt}
@@ -79,7 +78,6 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                             });
                             field.onChange(next);
                           }}
-                          className="w-4 h-4"
                         />
                         {opt}
                       </label>
@@ -122,9 +120,8 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                       type="checkbox"
                       checked={!!field.value}
                       onChange={(e) => field.onChange(e.target.checked)}
-                      className="w-4 h-4"
                     />
-                    <span className="text-sm">{field.value ? "да" : "нет"}</span>
+                    <span className="text-sm">{field.value ? "Да" : "Нет"}</span>
                   </div>
                 );
               default:

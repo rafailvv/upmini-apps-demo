@@ -4,11 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SURVEY_CONFIG } from '../utils/surveyConfig';
 import { SurveySchema } from '../utils/validation';
 import type { SurveyFormData } from '../utils/validation';
-import { restoreFromStorage, clearStorage, submitToAPI } from '../utils/storage';
+import { submitToAPI } from '../utils/storage';
 import { runSanityTests } from '../utils/multiSelection';
 import { SectionHeader } from '../components/SectionHeader';
 import { Pill } from '../components/Pill';
-import { ThemeToggle } from '../components/ThemeToggle';
 import { QuestionField } from '../components/QuestionField';
 import { isTelegramMiniApp } from '../../../utils/telegramUtils';
 import '../styles.css';
@@ -18,12 +17,20 @@ export default function Survey() {
   const [startedAt] = useState(() => Date.now());
   const [stepStartedAt, setStepStartedAt] = useState(Date.now());
   const [timings, setTimings] = useState<Record<string, number>>({});
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    // Автоматическое определение темы
+    if (typeof window !== 'undefined') {
+      // Проверяем системную тему
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return prefersDark ? "dark" : "light";
+    }
+    return "light";
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<SurveyFormData>({
     resolver: zodResolver(SurveySchema),
-    defaultValues: restoreFromStorage(),
+    defaultValues: {},
     mode: "onChange",
   });
 
@@ -33,8 +40,11 @@ export default function Survey() {
     if (tg) {
       tg.ready();
       tg.expand();
-      const colorScheme = tg.colorScheme === "dark" ? "dark" : "light";
-      setTheme(colorScheme);
+      // Используем тему Telegram, если доступна, иначе оставляем автоматически определенную
+      if (tg.colorScheme) {
+        const colorScheme = tg.colorScheme === "dark" ? "dark" : "light";
+        setTheme(colorScheme);
+      }
       
       // Добавляем класс для стилизации в Telegram
       document.body.classList.add('telegram-miniapp');
@@ -52,7 +62,7 @@ export default function Survey() {
       
       // Настраиваем главную кнопку
       tg.MainButton?.setParams({ 
-        text: "отправить ответы",
+        text: "Отправить ответы",
         color: theme === "dark" ? "#1f2937" : "#f9fafb",
         text_color: theme === "dark" ? "#ffffff" : "#000000"
       });
@@ -69,13 +79,7 @@ export default function Survey() {
     };
   }, []);
 
-  // Сохранение в localStorage при изменении
-  useEffect(() => {
-    const subscription = form.watch((values: any) => {
-      localStorage.setItem("custdev_survey_values", JSON.stringify(values));
-    });
-    return () => subscription.unsubscribe();
-  }, [form]);
+  // Данные не сохраняются при обновлении страницы
 
   // Управление кнопкой "Назад" в Telegram
   useEffect(() => {
@@ -99,7 +103,7 @@ export default function Survey() {
     const tg = (window as any).Telegram?.WebApp;
     if (tg) {
       tg.MainButton?.setParams({ 
-        text: "отправить ответы",
+        text: "Отправить ответы",
         color: theme === "dark" ? "#1f2937" : "#f9fafb",
         text_color: theme === "dark" ? "#ffffff" : "#000000"
       });
@@ -109,6 +113,17 @@ export default function Survey() {
   // Простые тесты логики (не влияют на UI, только в консоль)
   useEffect(() => {
     runSanityTests();
+  }, []);
+
+  // Слушатель изменения системной темы
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      setTheme(e.matches ? "dark" : "light");
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   const steps = SURVEY_CONFIG.steps;
@@ -173,8 +188,7 @@ export default function Survey() {
         tg.close?.();
       }
 
-      // Очищаем localStorage
-      clearStorage();
+      // Данные не сохраняются, очистка не нужна
       
       // Показываем экран завершения
       setCurrentStep(totalSteps);
@@ -184,7 +198,6 @@ export default function Survey() {
       
       // В случае ошибки все равно показываем завершение, но с предупреждением
       alert('Произошла ошибка при отправке данных. Попробуйте еще раз.');
-      clearStorage();
       setCurrentStep(totalSteps);
     } finally {
       setIsSubmitting(false);
@@ -197,7 +210,7 @@ export default function Survey() {
     <div className={`custdev-survey min-h-screen p-4 sm:p-6 md:p-8 ${theme === "dark" ? "custdev-dark bg-gray-900 text-white" : "bg-gray-50 text-gray-900"} telegram-miniapp`}>
       {/* Header */}
       <header className="max-w-3xl mx-auto flex items-center gap-3 mb-6">
-        <img src={SURVEY_CONFIG.brand.logoUrl} alt={SURVEY_CONFIG.brand.name} className="w-10 h-10 rounded-2xl shadow" />
+        <img src={SURVEY_CONFIG.brand.logoUrl} alt={SURVEY_CONFIG.brand.name} className="w-16 h-16 rounded-2xl shadow" />
         <div>
           <h1 className="text-2xl font-bold">{SURVEY_CONFIG.title}</h1>
           <p className="text-sm opacity-80">{SURVEY_CONFIG.subtitle}</p>
@@ -207,9 +220,9 @@ export default function Survey() {
       <div className={`max-w-3xl mx-auto rounded-2xl shadow-lg border ${theme === "dark" ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}>
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">шаг {Math.min(currentStep + 1, totalSteps)} из {totalSteps}</h2>
+            <h2 className="text-lg font-semibold">Шаг {Math.min(currentStep + 1, totalSteps)} из {totalSteps}</h2>
             <div className="flex items-center gap-2">
-              <Pill>анонимно</Pill>
+              <Pill>Анонимно</Pill>
               <Pill>~7 минут</Pill>
             </div>
           </div>
@@ -237,32 +250,30 @@ export default function Survey() {
                   disabled={currentStep === 0}
                   className="flex items-center gap-1 px-4 py-2 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
-                  ← назад
+                  ← Назад
                 </button>
                 {currentStep < totalSteps - 1 ? (
                   <button
                     onClick={handleNext}
                     className="flex items-center gap-1 px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
                   >
-                    далее →
+                    Далее →
                   </button>
                 ) : (
                   <button
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    className={`flex items-center gap-1 px-6 py-2 rounded-lg transition-colors ${
-                      isSubmitting 
-                        ? 'bg-gray-400 cursor-not-allowed' 
-                        : 'bg-green-600 hover:bg-green-700'
+                    className={`flex items-center gap-1 px-6 py-2 rounded-lg custdev-submit-button ${
+                      isSubmitting ? 'cursor-not-allowed' : ''
                     }`}
                   >
                     {isSubmitting ? (
                       <>
                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        отправка...
+                        Отправка...
                       </>
                     ) : (
-                      <>отправить 📄</>
+                      <>Отправить</>
                     )}
                   </button>
                 )}
@@ -277,44 +288,29 @@ export default function Survey() {
             </div>
           )}
 
-          {/* Доп. панели */}
-          <div className="mt-8 flex flex-wrap gap-2 justify-end">
-            <button
-              onClick={() => {
-                const values = form.getValues();
-                const dataStr = JSON.stringify({ draft: values, step: currentStep }, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'custdev-draft.json';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-              }}
-              className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              💾 сохранить черновик
-            </button>
-            <button
-              onClick={() => {
-                clearStorage();
-                form.reset({} as any);
-                setCurrentStep(0);
-              }}
-              className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              ✕ сбросить
-            </button>
-            <ThemeToggle theme={theme} setTheme={setTheme} />
-          </div>
         </div>
       </div>
 
       {/* Footer */}
       <footer className="max-w-3xl mx-auto text-xs opacity-70 mt-4">
-        <p>по всем вопросам: support@upmini.app</p>
+        <p>
+          По всем вопросам можно обращаться{' '}
+          <a 
+            href="https://t.me/avotaangi" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:text-blue-800 underline"
+          >
+            сюда
+          </a>
+          {' '}или на почту{' '}
+          <a 
+            href="mailto:info@upmini.app"
+            className="text-blue-600 hover:text-blue-800 underline"
+          >
+            info@upmini.app
+          </a>
+        </p>
       </footer>
     </div>
   );

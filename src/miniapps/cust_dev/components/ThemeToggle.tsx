@@ -7,7 +7,7 @@ interface ThemeToggleProps {
 export function ThemeToggle({ theme, setTheme }: ThemeToggleProps) {
   return (
     <div className="flex items-center gap-2 px-3 py-2 border rounded-xl">
-      <label htmlFor="themeSwitch" className="text-xs">тёмная тема</label>
+      <label htmlFor="themeSwitch" className="text-xs">Тёмная тема</label>
       <input
         id="themeSwitch"
         type="checkbox"

@@ -15,7 +15,7 @@ export function NpsPicker({ value, onChange }: NpsPickerProps) {
             key={n}
             type="button"
             onClick={() => onChange(n)}
-            className={`custdev-nps-button px-2 py-2 rounded-lg border text-sm ${
+            className={`custdev-nps-button rounded-lg border ${
               value === n ? "selected" : ""
             }`}
           >
@@ -24,8 +24,8 @@ export function NpsPicker({ value, onChange }: NpsPickerProps) {
         ))}
       </div>
       <div className="flex justify-between text-xs opacity-70">
-        <span>не порекомендую</span>
-        <span>вполне вероятно</span>
+        <span>Не порекомендую</span>
+        <span>Вполне вероятно</span>
       </div>
     </div>
   );

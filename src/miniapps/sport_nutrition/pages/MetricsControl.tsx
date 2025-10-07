@@ -110,7 +110,7 @@ export const MetricsControl: React.FC = () => {
           
           {/* Вес */}
           <div className="metric-item">
-            <span className={`metric-label ${!userData.hasWeight ? 'disabled' : ''}`}>вес</span>
+            <span className={`metric-label ${!userData.hasWeight ? 'disabled' : ''}`}>Вес</span>
             <div className="metric-input-group">
               <input
                 type="text"
@@ -136,7 +136,7 @@ export const MetricsControl: React.FC = () => {
 
           {/* Талия */}
           <div className="metric-item">
-            <span className={`metric-label ${!userData.hasWaist ? 'disabled' : ''}`}>талия</span>
+            <span className={`metric-label ${!userData.hasWaist ? 'disabled' : ''}`}>Талия</span>
             <div className="metric-input-group">
               <input
                 type="text"
@@ -162,7 +162,7 @@ export const MetricsControl: React.FC = () => {
 
           {/* Бедра */}
           <div className="metric-item">
-            <span className={`metric-label ${!userData.hasHip ? 'disabled' : ''}`}>бедра</span>
+            <span className={`metric-label ${!userData.hasHip ? 'disabled' : ''}`}>Бёдра</span>
             <div className="metric-input-group">
               <input
                 type="text"
@@ -188,7 +188,7 @@ export const MetricsControl: React.FC = () => {
 
           {/* Грудь */}
           <div className="metric-item">
-            <span className={`metric-label ${!userData.hasChest ? 'disabled' : ''}`}>грудь</span>
+            <span className={`metric-label ${!userData.hasChest ? 'disabled' : ''}`}>Грудь</span>
             <div className="metric-input-group">
               <input
                 type="text"
@@ -214,7 +214,7 @@ export const MetricsControl: React.FC = () => {
 
           {/* Шея */}
           <div className="metric-item">
-            <span className={`metric-label ${!userData.hasNeck ? 'disabled' : ''}`}>шея</span>
+            <span className={`metric-label ${!userData.hasNeck ? 'disabled' : ''}`}>Шея</span>
             <div className="metric-input-group">
               <input
                 type="text"
@@ -240,7 +240,7 @@ export const MetricsControl: React.FC = () => {
 
           {/* Бицепс */}
           <div className="metric-item">
-            <span className={`metric-label ${!userData.hasBicep ? 'disabled' : ''}`}>бицепс</span>
+            <span className={`metric-label ${!userData.hasBicep ? 'disabled' : ''}`}>Бицепс</span>
             <div className="metric-input-group">
               <input
                 type="text"

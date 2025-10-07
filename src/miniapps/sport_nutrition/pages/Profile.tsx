@@ -835,7 +835,7 @@ export const Profile: React.FC = () => {
             
             ${userData.beforePhoto ? `
             <div class="field">
-              <span class="label">Фото "до":</span>
+              <span class="label">Фото "До":</span>
             </div>
             ${userData.beforePhotoFile && userData.beforePhotoFile.length > 0 ? `
             <div class="photo-container">
@@ -1042,7 +1042,7 @@ export const Profile: React.FC = () => {
                       handleInputChange('height', value === '' ? '' : parseInt(value) || '');
                     }}
                     className="form-input-compact"
-                    placeholder="см"
+                    placeholder="См"
                   />
                 </div>
                 <div className="form-field-compact">
@@ -1057,7 +1057,7 @@ export const Profile: React.FC = () => {
                       handleInputChange('weight', value === '' ? '' : parseInt(value) || '');
                     }}
                     className="form-input-compact"
-                    placeholder="кг"
+                    placeholder="Кг"
                   />
                 </div>
               </div>
@@ -1693,7 +1693,7 @@ export const Profile: React.FC = () => {
                       value={userData.weightGoal}
                       onChange={(e) => handleInputChange('weightGoal', parseInt(e.target.value) || 0)}
                       className="form-input-compact"
-                      placeholder="кг"
+                      placeholder="Кг"
                       min="0"
                     />
                   </div>
@@ -1728,7 +1728,7 @@ export const Profile: React.FC = () => {
                       value={userData.timeGoal}
                       onChange={(e) => handleInputChange('timeGoal', parseInt(e.target.value) || 0)}
                       className="form-input-compact"
-                      placeholder="время"
+                      placeholder="Время"
                       min="1"
                     />
                   </div>
@@ -2042,7 +2042,7 @@ export const Profile: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center'
                 }}>
-                  <span style={{ fontSize: '15px', color: '#6B7280' }}>вес</span>
+                  <span style={{ fontSize: '15px', color: '#6B7280' }}>Вес</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input
                       type="text"
@@ -2062,7 +2062,7 @@ export const Profile: React.FC = () => {
                         textAlign: 'right',
                         width: '50px'
                       }}
-                      placeholder="кг"
+                      placeholder="Кг"
                     />
                   </div>
                 </div>
@@ -2077,7 +2077,7 @@ export const Profile: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center'
                 }}>
-                  <span style={{ fontSize: '15px', color: '#6B7280' }}>талия</span>
+                  <span style={{ fontSize: '15px', color: '#6B7280' }}>Талия</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input
                       type="text"
@@ -2097,7 +2097,7 @@ export const Profile: React.FC = () => {
                         textAlign: 'right',
                         width: '50px'
                       }}
-                      placeholder="см"
+                      placeholder="См"
                     />
                   </div>
                 </div>
@@ -2112,7 +2112,7 @@ export const Profile: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center'
                 }}>
-                  <span style={{ fontSize: '15px', color: '#6B7280' }}>грудь</span>
+                  <span style={{ fontSize: '15px', color: '#6B7280' }}>Грудь</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input
                       type="text"
@@ -2132,7 +2132,7 @@ export const Profile: React.FC = () => {
                         textAlign: 'right',
                         width: '50px'
                       }}
-                      placeholder="см"
+                      placeholder="См"
                     />
                   </div>
                 </div>
@@ -2147,7 +2147,7 @@ export const Profile: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center'
                 }}>
-                  <span style={{ fontSize: '15px', color: '#6B7280' }}>бёдра</span>
+                  <span style={{ fontSize: '15px', color: '#6B7280' }}>Бёдра</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input
                       type="text"
@@ -2167,7 +2167,7 @@ export const Profile: React.FC = () => {
                         textAlign: 'right',
                         width: '50px'
                       }}
-                      placeholder="см"
+                      placeholder="См"
                     />
                   </div>
                 </div>
@@ -2182,7 +2182,7 @@ export const Profile: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center'
                 }}>
-                  <span style={{ fontSize: '15px', color: '#6B7280' }}>бицепс</span>
+                  <span style={{ fontSize: '15px', color: '#6B7280' }}>Бицепс</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input
                       type="text"
@@ -2202,7 +2202,7 @@ export const Profile: React.FC = () => {
                         textAlign: 'right',
                         width: '50px'
                       }}
-                      placeholder="см"
+                      placeholder="См"
                     />
                   </div>
                 </div>
@@ -2217,7 +2217,7 @@ export const Profile: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center'
                 }}>
-                  <span style={{ fontSize: '15px', color: '#6B7280' }}>бедро</span>
+                  <span style={{ fontSize: '15px', color: '#6B7280' }}>Бедро</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input
                       type="text"
@@ -2237,7 +2237,7 @@ export const Profile: React.FC = () => {
                         textAlign: 'right',
                         width: '50px'
                       }}
-                      placeholder="см"
+                      placeholder="См"
                     />
                   </div>
                 </div>
@@ -2293,7 +2293,7 @@ export const Profile: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center'
                 }}>
-                  <span style={{ fontSize: '15px', color: '#6B7280' }}>приседания</span>
+                  <span style={{ fontSize: '15px', color: '#6B7280' }}>Приседания</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input
                       type="text"
@@ -2313,7 +2313,7 @@ export const Profile: React.FC = () => {
                         textAlign: 'right',
                         width: '50px'
                       }}
-                      placeholder="кол-во"
+                      placeholder="Кол-во"
                     />
                   </div>
                 </div>
@@ -2328,7 +2328,7 @@ export const Profile: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center'
                 }}>
-                  <span style={{ fontSize: '15px', color: '#6B7280' }}>подтягивания</span>
+                  <span style={{ fontSize: '15px', color: '#6B7280' }}>Подтягивания</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input
                       type="text"
@@ -2348,7 +2348,7 @@ export const Profile: React.FC = () => {
                         textAlign: 'right',
                         width: '50px'
                       }}
-                      placeholder="кол-во"
+                      placeholder="Кол-во"
                     />
                   </div>
                 </div>
@@ -2363,7 +2363,7 @@ export const Profile: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center'
                 }}>
-                  <span style={{ fontSize: '15px', color: '#6B7280' }}>бег</span>
+                  <span style={{ fontSize: '15px', color: '#6B7280' }}>Бег</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input
                       type="text"
@@ -2383,7 +2383,7 @@ export const Profile: React.FC = () => {
                         textAlign: 'right',
                         width: '50px'
                       }}
-                      placeholder="км"
+                      placeholder="Км"
                     />
                   </div>
                 </div>
@@ -2398,7 +2398,7 @@ export const Profile: React.FC = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center'
                 }}>
-                  <span style={{ fontSize: '15px', color: '#6B7280' }}>пульс</span>
+                  <span style={{ fontSize: '15px', color: '#6B7280' }}>Пульс</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <input
                       type="text"
@@ -2418,7 +2418,7 @@ export const Profile: React.FC = () => {
                         textAlign: 'right',
                         width: '50px'
                       }}
-                      placeholder="уд/мин"
+                      placeholder="Уд/мин"
                     />
                   </div>
                 </div>

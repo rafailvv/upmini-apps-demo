@@ -10,7 +10,7 @@ interface ItemDetailProps {
   item: MenuItem;
 }
 
-// Функция для склонения слова "шт"
+// Функция для склонения слова "Шт"
 const getQuantityText = (quantity: number): string => {
   const lastDigit = quantity % 10;
   const lastTwoDigits = quantity % 100;

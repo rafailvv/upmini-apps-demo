@@ -435,7 +435,7 @@ const Schedule: React.FC = () => {
         <header className="header-section">
           <div className="title-container">
             <h1>Моё</h1>
-            <h1>расписание</h1>
+            <h1>Расписание</h1>
           </div>
           
 

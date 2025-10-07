@@ -39,12 +39,12 @@ export function applyMultiSelection({
 // Простейшие тесты (консольные) для логики MULTI
 export function runSanityTests() {
   // 1) эксклюзивная опция заменяет все остальные
-  let res = applyMultiSelection({ current: ["A", "B"], option: "не готов платить", checked: true, exclusiveOptions: ["не готов платить"], maxSelect: 3 });
-  console.assert(res.length === 1 && res[0] === "не готов платить", "exclusive should replace all");
+  let res = applyMultiSelection({ current: ["A", "B"], option: "Не готов платить", checked: true, exclusiveOptions: ["Не готов платить"], maxSelect: 3 });
+  console.assert(res.length === 1 && res[0] === "Не готов платить", "exclusive should replace all");
 
   // 2) выбор обычной опции снимает эксклюзивную
-  res = applyMultiSelection({ current: ["не готов платить"], option: "рост продаж", checked: true, exclusiveOptions: ["не готов платить"], maxSelect: 3 });
-  console.assert(!res.includes("не готов платить") && res.includes("рост продаж"), "non-exclusive should clear exclusive");
+  res = applyMultiSelection({ current: ["Не готов платить"], option: "Рост продаж", checked: true, exclusiveOptions: ["Не готов платить"], maxSelect: 3 });
+  console.assert(!res.includes("Не готов платить") && res.includes("Рост продаж"), "non-exclusive should clear exclusive");
 
   // 3) ограничение maxSelect
   res = ["A", "B", "C"];

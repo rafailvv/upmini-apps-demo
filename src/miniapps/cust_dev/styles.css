@@ -158,6 +158,181 @@
   color: #dbeafe;
 }
 
+/* Фиксированные размеры для темной темы */
+.custdev-dark .custdev-option input[type="checkbox"],
+.custdev-dark .custdev-option input[type="radio"] {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  flex-shrink: 0;
+}
+
+.custdev-dark .custdev-rating-star {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0;
+  font-size: 18px !important;
+}
+
+.custdev-dark .custdev-nps-button {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0;
+  font-size: 14px !important;
+}
+
+/* Темная тема для рейтинга */
+
+.custdev-dark .custdev-rating-labels {
+  color: #9ca3af;
+}
+
+.custdev-dark .custdev-rating-star {
+  background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+  border-color: #6b7280;
+  color: #f9fafb;
+}
+
+.custdev-dark .custdev-rating-star:hover {
+  border-color: #60a5fa;
+  box-shadow: 0 8px 25px rgba(96, 165, 250, 0.2);
+}
+
+.custdev-dark .custdev-rating-star:hover::before {
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+}
+
+.custdev-dark .custdev-rating-star.selected {
+  background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+  border-color: #3b82f6;
+  color: white;
+}
+
+/* Убираем фон и обводку для темной темы рейтинга */
+
+.custdev-dark .custdev-rating-value-text {
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.custdev-dark .custdev-rating-value-label {
+  color: #9ca3af;
+}
+
+/* Стили для кнопки отправки */
+.custdev-submit-button {
+  background: #060F30 !important;
+  color: #F2F2F2 !important;
+  border: none !important;
+  font-weight: bold !important;
+  box-shadow: 0 4px 15px rgba(6, 15, 48, 0.3) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custdev-submit-button:hover {
+  background: #060F30 !important;
+  box-shadow: 0 6px 20px rgba(6, 15, 48, 0.4) !important;
+  transform: translateY(-2px);
+}
+
+.custdev-submit-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+}
+
+.custdev-submit-button:disabled {
+  background: #9ca3af;
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* Темная тема для кнопки отправки */
+.custdev-dark .custdev-submit-button {
+  background: #060F30 !important;
+  color: #F2F2F2 !important;
+  box-shadow: 0 4px 15px rgba(6, 15, 48, 0.3) !important;
+}
+
+.custdev-dark .custdev-submit-button:hover {
+  background: #060F30 !important;
+  box-shadow: 0 6px 20px rgba(6, 15, 48, 0.4) !important;
+}
+
+/* Стили для кнопок навигации в темной теме */
+.custdev-dark .custdev-survey button:active,
+.custdev-dark .custdev-survey button:focus {
+  outline: none;
+  border: none;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+}
+
+/* Адаптивные стили для рейтинга */
+@media (max-width: 768px) {
+  .custdev-rating-stars {
+    gap: 6px;
+  }
+  
+  .custdev-rating-star {
+    height: 50px;
+    border-radius: 10px;
+  }
+  
+  .custdev-rating-number {
+    font-size: 16px;
+  }
+  
+  .custdev-rating-icon {
+    font-size: 14px;
+  }
+  
+  .custdev-rating-value-text {
+    font-size: 20px;
+  }
+  
+  .custdev-rating-value-label {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .custdev-rating-stars {
+    gap: 4px;
+  }
+  
+  .custdev-rating-star {
+    height: 45px;
+    border-radius: 8px;
+  }
+  
+  .custdev-rating-number {
+    font-size: 14px;
+  }
+  
+  .custdev-rating-icon {
+    font-size: 12px;
+  }
+}
+
 /* Базовые стили для кнопок */
 .custdev-survey button {
   border: 1px solid #d1d5db;
@@ -170,6 +345,13 @@
 .custdev-survey button:hover {
   background-color: #f9fafb;
   border-color: #9ca3af;
+}
+
+.custdev-survey button:active,
+.custdev-survey button:focus {
+  outline: none;
+  border: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
 .custdev-survey button:disabled {
@@ -201,4 +383,184 @@
 .custdev-survey input[type="checkbox"],
 .custdev-survey input[type="radio"] {
   accent-color: #3b82f6;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  flex-shrink: 0;
+}
+
+/* Фиксированные размеры для элементов опций */
+.custdev-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.custdev-option input[type="checkbox"],
+.custdev-option input[type="radio"] {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  flex-shrink: 0;
+}
+
+/* Контейнер для рейтинга */
+.custdev-rating-container {
+  width: 100%;
+  padding: 0;
+}
+
+/* Лейблы для рейтинга */
+.custdev-rating-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+/* Контейнер для звезд */
+.custdev-rating-stars {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Стили для звезд рейтинга */
+.custdev-rating-star {
+  flex: 1;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.custdev-rating-star::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.custdev-rating-star:hover {
+  transform: translateY(-2px);
+  border-color: #3b82f6;
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+}
+
+.custdev-rating-star:hover::before {
+  opacity: 1;
+}
+
+.custdev-rating-star.selected {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  border-color: #1d4ed8;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+}
+
+.custdev-rating-star.selected::before {
+  opacity: 0;
+}
+
+/* Номер рейтинга */
+.custdev-rating-number {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.custdev-rating-star.selected .custdev-rating-number {
+  color: white;
+}
+
+/* Иконка звезды */
+.custdev-rating-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.custdev-rating-star.selected .custdev-rating-icon {
+  color: #fbbf24;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Отображение выбранного значения */
+.custdev-rating-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  animation: fadeInUp 0.3s ease;
+}
+
+.custdev-rating-value-text {
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.custdev-rating-value-label {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Фиксированные размеры для кнопок NPS */
+.custdev-nps-button {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0;
+  font-size: 14px !important;
 }

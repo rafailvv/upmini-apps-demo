@@ -161,7 +161,7 @@ export default function Survey() {
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
             <div 
-              className="custdev-progress-bar bg-blue-600 h-2 rounded-full" 
+              className="custdev-progress-bar bg-black h-2 rounded-full" 
               style={{ width: `${Math.min(progress, 100)}%` }}
             ></div>
           </div>

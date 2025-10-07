@@ -59,21 +59,9 @@ export default function Survey() {
       
       }
       
-      // Настраиваем встроенную кнопку Telegram как "Закрыть"
-      tg.MainButton?.setParams({
-        text: "Закрыть",
-        color: "#060F30",
-        text_color: "#F2F2F2"
-      });
-      tg.MainButton?.show();
-      tg.MainButton?.onClick(() => {
-        tg.close?.();
-      });
       
       return () => {
-        try {
-          (window as any).Telegram?.WebApp?.MainButton?.offClick?.();
-        } catch {}
+        // Очистка не нужна
       };
   }, []);
 
@@ -204,8 +192,8 @@ export default function Survey() {
         </div>
       </header>
 
-      <div className={`max-w-3xl mx-auto rounded-2xl shadow-lg border ${theme === "dark" ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}>
-        <div className="p-6">
+      <div className={`max-w-4xl mx-auto rounded-2xl shadow-lg border ${theme === "dark" ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}>
+        <div className="p-4">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Шаг {Math.min(currentStep + 1, totalSteps)} из {totalSteps}</h2>
             <div className="flex items-center gap-2">
@@ -224,7 +212,7 @@ export default function Survey() {
           {currentStep < totalSteps ? (
             <div>
               <SectionHeader title={StepView.title} description={StepView.description} />
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {StepView.questions.map((q: any) => (
                   <QuestionField key={q.id} q={q} control={form.control} errors={form.formState.errors} />
                 ))}

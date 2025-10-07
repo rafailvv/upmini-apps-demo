@@ -16,7 +16,7 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
   const error = errors?.[q.id]?.message as string | undefined;
   
   return (
-    <div className="custdev-question-card p-4 border rounded-2xl">
+    <div className="custdev-question-card p-3 border rounded-2xl">
       <label className="text-sm font-medium">
         {q.title}
         {q.required && <span className="ml-1 text-red-500">*</span>}

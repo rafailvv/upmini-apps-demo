@@ -57,10 +57,24 @@ export default function Survey() {
         });
       }
       
-    }
-    return () => {
-      // Встроенная кнопка скрыта, обработчики не нужны
-    };
+      }
+      
+      // Настраиваем встроенную кнопку Telegram как "Закрыть"
+      tg.MainButton?.setParams({
+        text: "Закрыть",
+        color: "#060F30",
+        text_color: "#F2F2F2"
+      });
+      tg.MainButton?.show();
+      tg.MainButton?.onClick(() => {
+        tg.close?.();
+      });
+      
+      return () => {
+        try {
+          (window as any).Telegram?.WebApp?.MainButton?.offClick?.();
+        } catch {}
+      };
   }, []);
 
   // Данные не сохраняются при обновлении страницы
@@ -115,7 +129,18 @@ export default function Survey() {
     }
   }
 
-  // Функция handleBack удалена - навигация только вперед
+  function handleBack() {
+    if (currentStep === 0) {
+      // Даже на первом шаге прокручиваем наверх
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    setCurrentStep((s) => s - 1);
+    // Прокручиваем наверх страницы с небольшой задержкой
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  }
 
   function buildPayload(values: SurveyFormData) {
     return {
@@ -206,7 +231,14 @@ export default function Survey() {
               </div>
 
               {/* Навигация */}
-              <div className="flex items-center justify-end mt-8">
+              <div className="flex items-center justify-between mt-8">
+                <button
+                  onClick={handleBack}
+                  disabled={currentStep === 0}
+                  className="flex items-center gap-1 px-4 py-2 text-gray-600 hover:text-gray-800 disabled:cursor-not-allowed border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  ← Назад
+                </button>
                 {currentStep < totalSteps - 1 ? (
                   <button
                     onClick={handleNext}

@@ -57,18 +57,6 @@ export default function Survey() {
         });
       }
       
-      // Настраиваем кнопку "Закрыть" вместо "Назад"
-      tg.BackButton?.setText("Закрыть");
-      tg.BackButton?.show();
-      tg.BackButton?.onClick(() => {
-        tg.close?.();
-      });
-      
-      // Скрываем встроенную кнопку Telegram
-      tg.MainButton?.hide();
-      
-      // Настраиваем кнопку закрытия
-      tg.enableClosingConfirmation();
     }
     return () => {
       // Встроенная кнопка скрыта, обработчики не нужны

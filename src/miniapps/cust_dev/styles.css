@@ -238,9 +238,26 @@
   color: #9ca3af;
 }
 
+/* Темная тема для полей ввода */
+.custdev-dark input[type="text"],
+.custdev-dark input[type="email"],
+.custdev-dark textarea {
+  background-color: #374151 !important;
+  border-color: #6b7280 !important;
+  color: #f9fafb !important;
+}
+
+.custdev-dark input[type="text"]:focus,
+.custdev-dark input[type="email"]:focus,
+.custdev-dark textarea:focus {
+  background-color: #4b5563 !important;
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1) !important;
+}
+
 /* Темная тема для плашек и прогресса */
 .custdev-dark .custdev-progress-bar {
-  background: #374151 !important;
+  background: #60a5fa !important;
 }
 
 .custdev-dark .bg-gray-200 {
@@ -249,14 +266,14 @@
 
 /* Темная тема для плашек */
 .custdev-dark .px-3.py-2.border.border-gray-300.rounded-lg {
-  background-color: #374151 !important;
-  border-color: #6b7280 !important;
-  color: #f9fafb !important;
+  background-color: #060F30 !important;
+  border-color: #060F30 !important;
+  color: #F2F2F2 !important;
 }
 
 .custdev-dark .px-3.py-2.border.border-gray-300.rounded-lg:hover {
-  background-color: #4b5563 !important;
-  border-color: #9ca3af !important;
+  background-color: #0A1A4A !important;
+  border-color: #0A1A4A !important;
 }
 
 /* Темная тема для заголовков */

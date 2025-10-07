@@ -57,7 +57,7 @@ export default function Survey() {
         });
       }
       
-      // Настраиваем кнопку "Назад"
+      // Кнопка "Назад" всегда скрыта в мини-приложении
       tg.BackButton?.hide();
       
       // Скрываем встроенную кнопку Telegram
@@ -73,22 +73,7 @@ export default function Survey() {
 
   // Данные не сохраняются при обновлении страницы
 
-  // Управление кнопкой "Назад" в Telegram
-  useEffect(() => {
-    const tg = (window as any).Telegram?.WebApp;
-    if (tg) {
-      if (currentStep === 0) {
-        tg.BackButton?.hide();
-      } else {
-        tg.BackButton?.show();
-        tg.BackButton?.onClick(() => {
-          if (currentStep > 0) {
-            setCurrentStep(currentStep - 1);
-          }
-        });
-      }
-    }
-  }, [currentStep]);
+  // Кнопка "Назад" в Telegram всегда скрыта
 
   // Встроенная кнопка Telegram скрыта
 

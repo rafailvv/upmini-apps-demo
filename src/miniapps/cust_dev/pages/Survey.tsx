@@ -205,7 +205,7 @@ export default function Survey() {
             <h2 className="text-lg font-semibold">Шаг {Math.min(currentStep + 1, totalSteps)} из {totalSteps}</h2>
             <div className="flex items-center gap-2">
               <Pill>Анонимно</Pill>
-              <Pill>~7 минут</Pill>
+              <Pill>~5 минут</Pill>
             </div>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2 mb-6">

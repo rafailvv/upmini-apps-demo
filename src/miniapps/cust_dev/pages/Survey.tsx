@@ -40,7 +40,7 @@ export default function Survey() {
     initTelegramMiniApp();
     
     // Настраиваем кнопку "Закрыть" для страницы Survey
-    setupSurveyCloseButton();
+    //setupSurveyCloseButton();
     
     const tg = (window as any).Telegram?.WebApp;
     if (tg) {

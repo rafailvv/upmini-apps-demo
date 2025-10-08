@@ -9,7 +9,7 @@ import { runSanityTests } from '../utils/multiSelection';
 import { SectionHeader } from '../components/SectionHeader';
 import { Pill } from '../components/Pill';
 import { QuestionField } from '../components/QuestionField';
-import { isTelegramMiniApp, initTelegramMiniApp, setupSurveyCloseButton, hideSurveyCloseButton } from '../../../utils/telegramUtils';
+import { isTelegramMiniApp, initTelegramMiniApp, hideSurveyCloseButton } from '../../../utils/telegramUtils';
 import '../styles.css';
 
 export default function Survey() {

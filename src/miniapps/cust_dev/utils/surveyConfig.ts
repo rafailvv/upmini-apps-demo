@@ -4,7 +4,7 @@ import { QuestionType } from '../types/survey';
 // Конфиг анкетирования (адаптирован под ваши 15 вопросов)
 export const SURVEY_CONFIG: SurveyConfig = {
   title: "Анкета для Upmini.app",
-  subtitle: "Займёт 3–5 минут. Ответы анонимны и будут использованы для только для анализа продукта.",
+  subtitle: "Займёт 3–5 минут. Ответы анонимны и будут использованы только для анализа продукта.",
   brand: {
     name: "Upmini.app",
     logoUrl: "/images/upminiapp_logo.png",
@@ -33,7 +33,7 @@ export const SURVEY_CONFIG: SurveyConfig = {
         {
           id: "client_channels",
           type: QuestionType.MULTI,
-          title: "Каким каналом коммуникации вы пользуетесь для коммуникации с клиентами?",
+          title: "Каким каналом коммуникации вы пользуетесь для общения с клиентами?",
           options: ["Telegram", "WhatsApp", "Instagram/Facebook", "Сайт / CRM", "Другое"],
           required: true,
         },
@@ -86,7 +86,7 @@ export const SURVEY_CONFIG: SurveyConfig = {
             "Отсутствие автоматических рассылок / уведомлений",
             "Неудобное расписание или бронирование",
             "Много несогласованных инструментов (бот, таблица, сайт и т. д.)",
-            "Сложно возвращать клиентов / низкий ltv",
+            "Сложно возвращать клиентов / низкий LTV",
             "Другое",
           ],
           maxSelect: 3,

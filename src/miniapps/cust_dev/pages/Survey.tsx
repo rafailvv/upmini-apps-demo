@@ -110,9 +110,30 @@ export default function Survey() {
 
   async function handleNext() {
     const step = steps[currentStep];
-    const fields = step.questions.map((q: any) => q.id as keyof SurveyFormData);
-    const isValid = await form.trigger(fields as any);
-    if (!isValid) return;
+    
+    // Кастомная логика для 4-го шага (pricing)
+    if (currentStep === 3) {
+      const currentPayment = form.getValues('current_payment');
+      
+      // Определяем какие поля нужно валидировать в зависимости от выбора
+      let fieldsToValidate: string[] = ['current_payment'];
+      
+      if (currentPayment === 'Не плачу, использую только бесплатные решения') {
+        // Для бесплатных пользователей
+        fieldsToValidate.push('willing_to_pay_more', 'value_for_money', 'must_have', 'switching_threshold');
+      } else if (currentPayment && currentPayment !== 'Не плачу, использую только бесплатные решения') {
+        // Для платных пользователей
+        fieldsToValidate.push('current_solution_missing', 'additional_payment_willingness');
+      }
+      
+      const isValid = await form.trigger(fieldsToValidate as any);
+      if (!isValid) return;
+    } else {
+      // Обычная валидация для остальных шагов
+      const fields = step.questions.map((q: any) => q.id as keyof SurveyFormData);
+      const isValid = await form.trigger(fields as any);
+      if (!isValid) return;
+    }
 
     persistTimingForStep(step.id);
     if (currentStep < totalSteps - 1) {
@@ -234,9 +255,35 @@ export default function Survey() {
             <div>
               <SectionHeader title={StepView.title} description={StepView.description} />
               <div className="space-y-4">
-                {StepView.questions.map((q: any) => (
-                  <QuestionField key={q.id} q={q} control={form.control} errors={form.formState.errors} />
-                ))}
+                {StepView.questions.map((q: any) => {
+                  // Условная логика для 4-го шага (pricing)
+                  if (currentStep === 3) { // 4-й шаг (индекс 3)
+                    const currentPayment = form.watch('current_payment');
+                    
+                    // Показываем только первый вопрос, пока не выбран ответ
+                    if (!currentPayment) {
+                      if (q.id !== 'current_payment') {
+                        return null;
+                      }
+                    }
+                    // Если выбрано "Не плачу, использую только бесплатные решения"
+                    else if (currentPayment === 'Не плачу, использую только бесплатные решения') {
+                      // Показываем вопросы для бесплатных пользователей
+                      if (q.id === 'current_solution_missing' || q.id === 'additional_payment_willingness') {
+                        return null;
+                      }
+                    }
+                    // Если выбрано что-то другое (платные пользователи)
+                    else {
+                      // Показываем вопросы для платных пользователей
+                      if (q.id === 'willing_to_pay_more' || q.id === 'value_for_money' || q.id === 'must_have' || q.id === 'switching_threshold') {
+                        return null;
+                      }
+                    }
+                  }
+                  
+                  return <QuestionField key={q.id} q={q} control={form.control} errors={form.formState.errors} />;
+                })}
               </div>
 
               {/* Навигация */}
@@ -282,9 +329,8 @@ export default function Survey() {
           ) : (
             <div className="text-center py-12">
               <div className="w-16 h-16 mx-auto mb-6 text-green-600 text-6xl">🎉</div>
-              <h3 className="text-2xl font-bold mb-4 text-green-600">Спасибо за прохождение анкеты!</h3>
+              <h3 className="text-2xl font-bold mb-4">Спасибо за прохождение анкеты!</h3>
               <p className="text-lg mb-2">Ваши ответы помогут нам улучшить продукт</p>
-              <p className="opacity-80">Вы можете закрыть это окно</p>
             </div>
           )}
 
@@ -292,7 +338,7 @@ export default function Survey() {
       </div>
 
       {/* Footer */}
-      <footer className="max-w-3xl mx-auto text-xs opacity-70 mt-4">
+      <footer className="max-w-3xl mx-auto text-xs opacity-70 mt-8 mb-4">
         <p>
           По всем вопросам можно обращаться{' '}
           <a 
@@ -303,13 +349,7 @@ export default function Survey() {
           >
             сюда
           </a>
-          {' '}или на почту{' '}
-          <a 
-            href="mailto:info@upmini.app"
-            className="text-blue-600 hover:text-blue-800 underline"
-          >
-            info@upmini.app
-          </a>
+          {' '}или на почту info@upmini.app
         </p>
       </footer>
     </div>

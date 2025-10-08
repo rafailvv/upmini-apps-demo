@@ -195,7 +195,7 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                   <textarea
                     {...field}
                     placeholder={q.placeholder}
-                    rows={3}
+                    rows={1}
                     className="w-full p-2 border rounded-lg"
                   />
                 );
@@ -208,11 +208,16 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                       rows={6}
                       className="w-full p-2 border rounded-lg"
                     />
-                    {q.maxLength && (
-                      <div className="text-xs opacity-70 text-right">
-                        {(field.value?.length || 0)}/{q.maxLength}
+                    <div className="flex justify-between items-center">
+                      <div>
+                        {error && <p className="text-xs text-red-500">{error}</p>}
                       </div>
-                    )}
+                      {q.maxLength && (
+                        <div className="text-xs opacity-70">
+                          {(field.value?.length || 0)}/{q.maxLength}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 );
               case QuestionType.NPS:
@@ -236,7 +241,7 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
           }}
         />
       </div>
-      {error && <p className="text-xs text-red-500 mt-2">{error}</p>}
+      {error && q.type !== QuestionType.LONGTEXT && <p className="text-xs text-red-500 mt-2">{error}</p>}
     </div>
   );
 }

@@ -33,7 +33,7 @@ for (const step of SURVEY_CONFIG.steps) {
         break;
       case QuestionType.LONGTEXT: {
         let s: any = q.required 
-          ? z.string().min(1, "Заполните данное поле") 
+          ? z.union([z.string().min(1, "Заполните данное поле"), z.undefined()]).refine((val) => val !== undefined && val !== "", "Заполните данное поле")
           : z.union([z.string(), z.undefined()]);
         if (q.maxLength) s = s.refine((v: string | undefined) => !v || v.length <= q.maxLength!, { message: "Заполните данное поле" });
         schemaShape[q.id] = s;

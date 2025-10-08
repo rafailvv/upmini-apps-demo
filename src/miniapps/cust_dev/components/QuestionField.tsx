@@ -21,6 +21,13 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
     return localStorage.getItem(`custdev_other_${q.id}`) || '';
   });
   
+  // Очищаем localStorage при инициализации компонента
+  useEffect(() => {
+    // Очищаем сохраненные данные для полей "Другое"
+    localStorage.removeItem(`custdev_other_${q.id}`);
+    setSavedUserInput('');
+  }, [q.id]);
+  
   return (
     <div className="custdev-question-card p-3 border rounded-2xl">
       <label className="text-sm font-medium">
@@ -185,19 +192,20 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                 );
               case QuestionType.TEXT:
                 return (
-                  <input
-                    type="text"
+                  <textarea
                     {...field}
                     placeholder={q.placeholder}
+                    rows={3}
                     className="w-full p-2 border rounded-lg"
                   />
                 );
               case QuestionType.LONGTEXT:
                 return (
                   <div className="space-y-2">
-                    <input
+                    <textarea
                       {...field}
                       placeholder={q.placeholder}
+                      rows={6}
                       className="w-full p-2 border rounded-lg"
                     />
                     {q.maxLength && (

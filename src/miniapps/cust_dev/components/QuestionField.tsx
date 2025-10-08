@@ -51,7 +51,7 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                 const currentValues = Array.isArray(field.value) ? field.value : [];
                 const hasOther = currentValues.includes('Другое') || currentValues.includes('Другое (укажите)');
                 // Также показываем поле если есть пользовательский ввод (значение не из стандартных опций)
-                const hasCustomValue = currentValues.some(val => !q.options.includes(val));
+                const hasCustomValue = currentValues.some((val: string) => !q.options.includes(val));
                 setShowOtherInput(hasOther || hasCustomValue);
               }
             }, [field.value, q.type, q.options]);
@@ -169,7 +169,7 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                                 const currentValues = Array.isArray(field.value) ? field.value : [];
                                 
                                 // Сохраняем все стандартные опции (включая "Другое")
-                                const standardOptions = currentValues.filter(v => q.options.includes(v));
+                                const standardOptions = currentValues.filter((v: string) => q.options.includes(v));
                                 
                                 // Добавляем новый пользовательский ввод, если он не пустой
                                 const finalValues = [...standardOptions];

@@ -138,6 +138,17 @@ export default function Survey() {
   }
 
   function buildPayload(values: SurveyFormData) {
+    // Собираем пользовательские вводы из localStorage
+    const otherInputs: Record<string, string> = {};
+    for (const step of SURVEY_CONFIG.steps) {
+      for (const q of step.questions) {
+        const otherInput = localStorage.getItem(`custdev_other_${q.id}`);
+        if (otherInput) {
+          otherInputs[q.id] = otherInput;
+        }
+      }
+    }
+
     return {
       meta: {
         surveyTitle: SURVEY_CONFIG.title,
@@ -149,6 +160,7 @@ export default function Survey() {
         theme,
       },
       answers: values,
+      otherInputs, // Добавляем пользовательские вводы
     };
   }
 
@@ -157,7 +169,9 @@ export default function Survey() {
     
     setIsSubmitting(true);
     const values = form.getValues();
+    console.log('Данные формы перед отправкой:', values);
     const payload = buildPayload(values);
+    console.log('Полный payload:', payload);
 
     try {
       // Отправляем данные на API

@@ -52,6 +52,8 @@ export async function submitToAPI(formData: any) {
     username: userData.username,
     submitted_at: new Date().toISOString()
   };
+  
+  console.log('Отправляем данные на API:', payload);
 
   try {
     const response = await fetch(`https://test.upmini.app/api/forms/${CUSTDEV_FORM_ID}/responses`, {

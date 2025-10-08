@@ -16,7 +16,10 @@ interface QuestionFieldProps {
 export function QuestionField({ q, control, errors }: QuestionFieldProps) {
   const error = errors?.[q.id]?.message as string | undefined;
   const [showOtherInput, setShowOtherInput] = useState(false);
-  const [savedUserInput, setSavedUserInput] = useState<string>('');
+  const [savedUserInput, setSavedUserInput] = useState<string>(() => {
+    // Загружаем сохраненный пользовательский ввод
+    return localStorage.getItem(`custdev_other_${q.id}`) || '';
+  });
   
   return (
     <div className="custdev-question-card p-3 border rounded-2xl">
@@ -33,13 +36,16 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
             // Отслеживаем изменения в field.value для управления полем "Другое"
             useEffect(() => {
               if (q.type === QuestionType.SINGLE) {
-                // Показываем поле только если выбрана именно опция "Другое" или "Другое (укажите)"
+                // Показываем поле если выбрана опция "Другое" или если значение не является стандартной опцией
                 const isOtherSelected = field.value && (field.value === 'Другое' || field.value === 'Другое (укажите)');
-                setShowOtherInput(isOtherSelected);
+                const isCustomValue = field.value && !q.options.includes(field.value);
+                setShowOtherInput(isOtherSelected || isCustomValue);
               } else if (q.type === QuestionType.MULTI) {
                 const currentValues = Array.isArray(field.value) ? field.value : [];
                 const hasOther = currentValues.includes('Другое') || currentValues.includes('Другое (укажите)');
-                setShowOtherInput(hasOther);
+                // Также показываем поле если есть пользовательский ввод (значение не из стандартных опций)
+                const hasCustomValue = currentValues.some(val => !q.options.includes(val));
+                setShowOtherInput(hasOther || hasCustomValue);
               }
             }, [field.value, q.type, q.options]);
             
@@ -70,21 +76,24 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                           </label>
                         </div>
                         {opt === 'Другое' && showOtherInput && (
-                          <div className="mt-2 -mx-2">
-                            <textarea
+                          <div className="-mt-2 mb-2 mx-2">
+                            <input
                               name="other_input"
                               placeholder="Укажите свой вариант"
-                              rows={6}
                               className="w-full p-2 border rounded-lg"
                               value={savedUserInput}
                               onChange={(e) => {
                                 const userInput = e.target.value;
                                 setSavedUserInput(userInput);
                                 
+                                // Сохраняем выбор "Другое" и добавляем пользовательский ввод
                                 if (userInput.trim()) {
-                                  field.onChange(userInput);
+                                  field.onChange('Другое');
+                                  // Сохраняем пользовательский ввод в отдельном поле или в localStorage
+                                  localStorage.setItem(`custdev_other_${q.id}`, userInput);
                                 } else {
                                   field.onChange('Другое');
+                                  localStorage.removeItem(`custdev_other_${q.id}`);
                                 }
                               }}
                               onClick={(e) => e.stopPropagation()}
@@ -140,11 +149,10 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                           </label>
                         </div>
                         {opt === 'Другое' && showOtherInput && (
-                          <div className="mt-2 -mx-2">
-                            <textarea
+                          <div className="-mt-2 mb-2 mx-2">
+                            <input
                               name="other_input"
                               placeholder="Укажите свой вариант"
-                              rows={6}
                               className="w-full p-2 border rounded-lg"
                               value={savedUserInput}
                               onChange={(e) => {
@@ -160,6 +168,9 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
                                 const finalValues = [...standardOptions];
                                 if (userInput.trim()) {
                                   finalValues.push(userInput);
+                                  localStorage.setItem(`custdev_other_${q.id}`, userInput);
+                                } else {
+                                  localStorage.removeItem(`custdev_other_${q.id}`);
                                 }
                                 
                                 field.onChange(finalValues);
@@ -184,10 +195,9 @@ export function QuestionField({ q, control, errors }: QuestionFieldProps) {
               case QuestionType.LONGTEXT:
                 return (
                   <div className="space-y-2">
-                    <textarea
+                    <input
                       {...field}
                       placeholder={q.placeholder}
-                      rows={6}
                       className="w-full p-2 border rounded-lg"
                     />
                     {q.maxLength && (

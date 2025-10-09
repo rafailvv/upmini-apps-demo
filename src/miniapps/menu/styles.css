@@ -1952,7 +1952,11 @@
 }
 
 .telegram-miniapp .cart-page-new {
-  padding-top: 40px;
+  padding-top: 60px;
+}
+
+.telegram-miniapp .cart-page {
+  padding-top: 60px;
 }
 
 .telegram-miniapp .item-detail-page {

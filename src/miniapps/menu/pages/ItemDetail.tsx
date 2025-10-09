@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates, removeFromGlobalCart, updateGlobalCartItemWithData, updateCartItemCommentWithAddons } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
-import { getAddonsForItem, calculateAddonsPrice, getRecommendedItemsForItem, getTagsForItem, type Addon, type MenuItem, type Tag } from '../utils/dataLoader';
+import { getAddonsForItem, calculateAddonsPrice, getRecommendedItemsForItem, getTagsForItem, getCategories, type Addon, type MenuItem, type Tag, type Category } from '../utils/dataLoader';
 import { saveTempItemData, getTempItemData, clearTempItemData } from '../utils/tempDataManager';
 
 interface ItemDetailProps {
@@ -48,6 +48,13 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   const addons: Addon[] = getAddonsForItem(item.id);
   const recommendedItems: MenuItem[] = getRecommendedItemsForItem(item.id);
   const tags: Tag[] = getTagsForItem(item.id);
+  const categories: Category[] = getCategories();
+
+  // Функция для получения названия категории по ID
+  const getCategoryLabel = (categoryId: string) => {
+    const category = categories.find(cat => cat.id === categoryId);
+    return category ? category.label : categoryId;
+  };
 
   // Получаем текущую цену с учетом выбранной вариации
   const getCurrentPrice = (): number => {
@@ -241,7 +248,7 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
 
   const handleDecreaseQuantity = () => {
     if (cartQuantity === 1) {
-      removeFromGlobalCart(item.id);
+      removeFromGlobalCart(item.id, selectedVariation);
       // Если удалили последний товар, возвращаемся к обычному состоянию
       setIsButtonPressed(false);
       setIsInCart(false);
@@ -293,7 +300,7 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     <div className="item-detail-page">
       {/* Header */}
       <div className="detail-header">
-        <h1 className="detail-title">{item.name}</h1>
+        <h1 className="detail-title">{getCategoryLabel(item.category)}</h1>
       </div>
 
       {/* Main Image */}

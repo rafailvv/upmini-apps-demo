@@ -103,8 +103,14 @@ export const updateGlobalCartItemWithData = (itemId: number, newQuantity: number
   cartUpdateCallbacks.forEach(callback => callback());
 };
 
-export const removeFromGlobalCart = (itemId: number) => {
-  globalCart = globalCart.filter(item => item.id !== itemId);
+export const removeFromGlobalCart = (itemId: number, selectedVariation?: number) => {
+  if (selectedVariation !== undefined) {
+    // Удаляем только товар с конкретной вариацией
+    globalCart = globalCart.filter(item => !(item.id === itemId && item.selectedVariation === selectedVariation));
+  } else {
+    // Если вариация не указана, удаляем все товары с таким ID (старое поведение)
+    globalCart = globalCart.filter(item => item.id !== itemId);
+  }
   cartUpdateCallbacks.forEach(callback => callback());
 };
 

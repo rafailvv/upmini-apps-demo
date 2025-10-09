@@ -1818,6 +1818,7 @@
 @media (max-width: 768px) {
   .cart-page-new {
     padding: 16px;
+    padding-top: 80px !important;
   }
 
   .payment-options {
@@ -1952,11 +1953,11 @@
 }
 
 .telegram-miniapp .cart-page-new {
-  padding-top: 60px;
+  padding-top: 100px !important;
 }
 
 .telegram-miniapp .cart-page {
-  padding-top: 60px;
+  padding-top: 80px;
 }
 
 .telegram-miniapp .item-detail-page {

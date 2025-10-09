@@ -2538,4 +2538,66 @@
   }
 }
 
+/* Стили для тегов в деталях товара */
+.item-info-detail .item-tags {
+  margin-bottom: 16px;
+}
+
+/* Стили для вариаций продуктов */
+.item-variations {
+  margin: 16px 0;
+}
+
+.variations-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 12px 0;
+}
+
+.variations-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.variation-btn {
+  padding: 8px 16px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 60px;
+  text-align: center;
+}
+
+.variation-btn:hover {
+  border-color: var(--menu-accent-color);
+  color: var(--menu-accent-color);
+}
+
+.variation-btn.selected {
+  background: var(--menu-accent-color);
+  border-color: var(--menu-accent-color);
+  color: white;
+}
+
+.variation-btn.selected:hover {
+  background: var(--menu-accent-color);
+  border-color: var(--menu-accent-color);
+  color: white;
+}
+
+/* Стили для отображения вариации в корзине */
+.item-variation-new {
+  font-size: 12px;
+  color: #666;
+  margin: 2px 0;
+  font-weight: 500;
+}
+
 

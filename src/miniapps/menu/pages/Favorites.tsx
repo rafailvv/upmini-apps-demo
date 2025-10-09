@@ -14,6 +14,7 @@ interface CartItem {
   addons?: string[];
   comment?: string;
   selectedAddons?: number[];
+  selectedVariation?: number; // индекс выбранной вариации
 }
 
 // Импортируем функции из MenuList.tsx
@@ -202,7 +203,6 @@ export const Favorites: React.FC = () => {
                   </div>
                   <div className="item-info">
                     <div className="item-name">{item.name}</div>
-                    <div className="item-weight">{item.weight}</div>
                     <div className="item-description">{truncateText(item.description, 80)}</div>
                     <div className="item-price">{item.price} ₽</div>
                     <div className="item-tags">

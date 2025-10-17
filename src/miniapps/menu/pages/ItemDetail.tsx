@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { addToGlobalCart, getGlobalCart, subscribeToCartUpdates, removeFromGlobalCart, updateGlobalCartItemWithData, updateCartItemCommentWithAddons } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
 import { getFavorites, subscribeToFavoritesUpdates, toggleFavorite as toggleGlobalFavorite } from '../utils/favoritesManager';
-import { getAddonsForItem, calculateAddonsPrice, getRecommendedItemsForItem, getTagsForItem, type Addon, type MenuItem, type Tag } from '../utils/dataLoader';
+import { getAddonsForItem, calculateAddonsPrice, getRecommendedItemsForItem, getTagsForItem, getCategories, type Addon, type MenuItem, type Tag, type Category } from '../utils/dataLoader';
 import { saveTempItemData, getTempItemData, clearTempItemData } from '../utils/tempDataManager';
 
 interface ItemDetailProps {
@@ -41,10 +41,47 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
+  const [selectedVariation, setSelectedVariation] = useState<number>(0); // индекс выбранной вариации
+  const [currentVariationInCart, setCurrentVariationInCart] = useState<boolean>(false);
+  const [currentVariationQuantity, setCurrentVariationQuantity] = useState<number>(0);
 
   const addons: Addon[] = getAddonsForItem(item.id);
   const recommendedItems: MenuItem[] = getRecommendedItemsForItem(item.id);
   const tags: Tag[] = getTagsForItem(item.id);
+  const categories: Category[] = getCategories();
+
+  // Функция для получения названия категории по ID
+  const getCategoryLabel = (categoryId: string) => {
+    const category = categories.find(cat => cat.id === categoryId);
+    return category ? category.label : categoryId;
+  };
+
+  // Получаем текущую цену с учетом выбранной вариации
+  const getCurrentPrice = (): number => {
+    if (item.variations && item.variations.length > 0) {
+      return item.variations[selectedVariation]?.price || item.price;
+    }
+    return item.price;
+  };
+
+  // Функция для проверки, есть ли товар с текущей вариацией в корзине
+  const checkCurrentVariationInCart = () => {
+    const cart = getGlobalCart();
+    const cartItem = cart.find(cartItem => 
+      cartItem.id === item.id && 
+      cartItem.selectedVariation === selectedVariation
+    );
+    console.log("Ищем товар с вариацией: ", cartItem);
+    
+    setCurrentVariationInCart(!!cartItem);
+    setCurrentVariationQuantity(cartItem ? cartItem.quantity : 0);
+  };
+
+  // Обработчик выбора вариации
+  const handleVariationSelect = (index: number) => {
+    setSelectedVariation(index);
+    
+  };
 
   // Функция для обрезки текста
   const truncateText = (text: string, maxLength: number): string => {
@@ -76,6 +113,22 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     }
   }, [item.id, item.image]);
 
+  // Отслеживаем изменения selectedVariation и проверяем корзину
+  useEffect(() => {
+    checkCurrentVariationInCart();
+    
+    // Если товара с выбранной вариацией нет в корзине, сбрасываем состояния
+    if (!currentVariationInCart) {
+      setIsInCart(false);
+      setCartQuantity(0);
+      setIsButtonPressed(false);
+    } else {
+      setIsInCart(true);
+      setCartQuantity(currentVariationQuantity);
+      setIsButtonPressed(true);
+    }
+  }, [selectedVariation, item.id, currentVariationInCart]);
+
   // Подписываемся на обновления корзины и избранного
   useEffect(() => {
     // Скролл наверх страницы при открытии
@@ -83,14 +136,19 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
 
     const unsubscribeCart = subscribeToCartUpdates(() => {
       const cart = getGlobalCart();
-      const cartItem = cart.find(cartItem => cartItem.id === item.id);
+      // Ищем товар с учетом выбранной вариации
+      const cartItem = cart.find(cartItem => 
+        cartItem.id === item.id && 
+        cartItem.selectedVariation === selectedVariation
+      );
       setIsInCart(!!cartItem);
       setCartQuantity(cartItem ? cartItem.quantity : 0);
       
-      // Загружаем сохраненные данные из корзины
+      // Загружаем сохраненные данные из корзины, но НЕ меняем selectedVariation
       if (cartItem) {
         setComment(cartItem.comment || '');
         setSelectedAddons(cartItem.selectedAddons || []);
+        // НЕ меняем selectedVariation - оставляем текущую выбранную
         setIsButtonPressed(true);
       }
     });
@@ -102,14 +160,17 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     
     // Инициализируем состояние корзины и избранного
     const cart = getGlobalCart();
-    const cartItem = cart.find(cartItem => cartItem.id === item.id);
-    setIsInCart(!!cartItem);
-    setCartQuantity(cartItem ? cartItem.quantity : 0);
     
-    // Загружаем данные: сначала из корзины, потом из временного хранилища
-    if (cartItem) {
-      setComment(cartItem.comment || '');
-      setSelectedAddons(cartItem.selectedAddons || []);
+    // Сначала ищем любую вариацию этого товара в корзине
+    const anyCartItem = cart.find(cartItem => cartItem.id === item.id);
+    
+    if (anyCartItem) {
+      // Если есть товар в корзине, выбираем его вариацию
+      setSelectedVariation(anyCartItem.selectedVariation || 0);
+      setIsInCart(true);
+      setCartQuantity(anyCartItem.quantity);
+      setComment(anyCartItem.comment || '');
+      setSelectedAddons(anyCartItem.selectedAddons || []);
       setIsButtonPressed(true);
     } else {
       // Если товара нет в корзине, загружаем временные данные
@@ -158,27 +219,53 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
 
   const getTotalPrice = () => {
     const addonsPrice = calculateAddonsPrice(selectedAddons);
-    return item.price + addonsPrice;
+    return getCurrentPrice() + addonsPrice;
   };
 
 
 
+  // Функция для работы с конкретной вариацией
+  const handleVariationDecrease = () => {
+    if (currentVariationQuantity === 1) {
+      // Удаляем товар с конкретной вариацией (устанавливаем количество в 0)
+      updateGlobalCartItemWithData(item.id, 0, comment || '', selectedAddons || [], selectedVariation);
+      // Обновляем состояние
+      setCurrentVariationQuantity(0);
+      setCurrentVariationInCart(false);
+    } else {
+      // Уменьшаем количество
+      updateGlobalCartItemWithData(item.id, currentVariationQuantity - 1, comment || '', selectedAddons || [], selectedVariation);
+      setCurrentVariationQuantity(currentVariationQuantity - 1);
+    }
+  };
+
+  const handleVariationIncrease = () => {
+    addToGlobalCart(item, comment || '', selectedAddons || [], selectedVariation);
+    // Обновляем состояние
+    setCurrentVariationQuantity(currentVariationQuantity + 1);
+    setCurrentVariationInCart(true);
+  };
+
   const handleDecreaseQuantity = () => {
     if (cartQuantity === 1) {
-      removeFromGlobalCart(item.id);
+      removeFromGlobalCart(item.id, selectedVariation);
       // Если удалили последний товар, возвращаемся к обычному состоянию
       setIsButtonPressed(false);
+      setIsInCart(false);
+      setCartQuantity(0);
       // Сохраняем текущие данные во временное хранилище
       saveTempItemData(item.id, selectedAddons, comment);
     } else {
-      updateGlobalCartItemWithData(item.id, cartQuantity - 1, comment, selectedAddons);
+      updateGlobalCartItemWithData(item.id, cartQuantity - 1, comment, selectedAddons, selectedVariation);
+      // Обновляем состояние корзины сразу
+      setCartQuantity(cartQuantity - 1);
     }
   };
 
   const handleIncreaseQuantity = () => {
-    addToGlobalCart(item, comment, selectedAddons);
-    // Если товар был добавлен в корзину через состояние pressed, оставляем состояние pressed
-    // Состояние автоматически обновится через useEffect при изменении корзины
+    addToGlobalCart(item, comment || '', selectedAddons || [], selectedVariation);
+    // Обновляем состояние корзины сразу
+    setCartQuantity(cartQuantity + 1);
   };
 
   const toggleFavorite = () => {
@@ -186,13 +273,16 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
   };
 
   const handleButtonPress = () => {
-    if (!isInCart) {
-      // Сразу добавляем товар в корзину
-      addToGlobalCart(item, comment, selectedAddons);
+    if (!isInCart && !currentVariationInCart) {
+      // Сразу добавляем товар в корзину с выбранной вариацией
+      addToGlobalCart(item, comment || '', selectedAddons || [], selectedVariation);
       // Очищаем временные данные, так как товар теперь в корзине
       clearTempItemData(item.id);
       // Показываем состояние pressed
       setIsButtonPressed(true);
+      // Обновляем состояние корзины сразу
+      setIsInCart(true);
+      setCartQuantity(1);
     }
   };
 
@@ -210,7 +300,7 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
     <div className="item-detail-page">
       {/* Header */}
       <div className="detail-header">
-        <h1 className="detail-title">{item.name}</h1>
+        <h1 className="detail-title">{getCategoryLabel(item.category)}</h1>
       </div>
 
       {/* Main Image */}
@@ -263,13 +353,7 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
       {/* Item Info */}
       <div className="item-info-detail">
         <h2 className="item-name-detail">{item.name}</h2>
-        <div className="item-meta-row">
-          <p className="item-weight-detail">{item.weight}</p>
-          <p className="item-waiting-time-detail">Время ожидания: {item.waitingTime ?? 15} мин</p>
-        </div>
-        <p className="item-description-detail">
-          {item.description}
-        </p>
+        
         {/* Tags */}
         {tags.length > 0 && (
           <div className="item-tags">
@@ -286,6 +370,28 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
                   {tag.name}
                 </span>
             ))}
+          </div>
+        )}
+
+        <p className="item-description-detail">
+          {item.description}
+        </p>
+
+        {/* Variations */}
+        {item.variations && item.variations.length > 0 && (
+          <div className="item-variations">
+            <h4 className="variations-title">Размер</h4>
+            <div className="variations-buttons">
+              {item.variations.map((variation, index) => (
+                <button
+                  key={variation.id}
+                  className={`variation-btn ${selectedVariation === index ? 'selected' : ''}`}
+                  onClick={() => handleVariationSelect(index)}
+                >
+                  {variation.size}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -377,7 +483,6 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
               </div>
               <div className="rec-item-info">
                 <h4 className="rec-item-name">{recItem.name}</h4>
-                <p className="rec-item-volume">{recItem.weight}</p>
                 <p className="rec-item-description">{truncateText(recItem.description, 60)}</p>
               </div>
               <button className="rec-item-arrow">→</button>
@@ -387,10 +492,36 @@ export const ItemDetail: React.FC<ItemDetailProps> = ({ item }) => {
       </div>
 
       {/* Bottom Action Bar */}
-      <div className={`bottom-action-bar ${isInCart ? 'active' : ''} ${isButtonPressed ? 'pressed' : ''}`} onClick={!isInCart ? handleButtonPress : undefined}>
-        {!isInCart && !isButtonPressed ? (
+      <div className={`bottom-action-bar ${isInCart ? 'active' : ''} ${isButtonPressed ? 'pressed' : ''} ${currentVariationInCart ? 'active pressed' : ''}`} onClick={!isInCart && !currentVariationInCart ? handleButtonPress : undefined}>
+        {!isInCart && !isButtonPressed && !currentVariationInCart ? (
           <span className="total-price">В корзину – {getTotalPrice()} ₽</span>
-        ) : !isInCart && isButtonPressed ? (
+        ) : currentVariationInCart ? (
+          <>
+            <button 
+              className="quantity-btn minus"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleVariationDecrease();
+              }}
+            >
+              {currentVariationQuantity === 1 ? (
+                <span className="material-symbols-outlined">delete</span>
+              ) : (
+                '−'
+              )}
+            </button>
+            <span className="total-price">{currentVariationQuantity} {getQuantityText(currentVariationQuantity)} – {getTotalPrice() * currentVariationQuantity} ₽</span>
+            <button 
+              className="quantity-btn plus"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleVariationIncrease();
+              }}
+            >
+              +
+            </button>
+          </>
+        ) : !isInCart && isButtonPressed && !currentVariationInCart ? (
           <>
             <button 
               className="quantity-btn minus"

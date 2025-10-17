@@ -22,18 +22,23 @@ export interface Addon {
   price: number;
 }
 
+export interface ProductVariation {
+  id: number;
+  size: string;
+  price: number;
+}
+
 export interface MenuItem {
   id: number;
   name: string;
-  weight: string;
   description: string;
-  price: number;
+  price: number; // базовая цена (для обратной совместимости)
   image: string;
   tags: number[];
   category: string;
   addons: Addon[];
   recommendedItems: number[]; // массив ID рекомендуемых блюд
-  waitingTime?: number; // время ожидания приготовления в минутах
+  variations: ProductVariation[]; // вариации продукта
 }
 
 export interface PastOrder {

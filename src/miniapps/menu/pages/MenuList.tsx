@@ -17,26 +17,36 @@ interface CartItem {
   image?: string;
   comment?: string;
   selectedAddons?: number[];
+  selectedVariation?: number; // индекс выбранной вариации
 }
 
 // Глобальное состояние корзины
 let globalCart: CartItem[] = [];
 let cartUpdateCallbacks: (() => void)[] = [];
 
-export const addToGlobalCart = (item: MenuItem, comment?: string, selectedAddons?: number[]) => {
-  const existingItem = globalCart.find(cartItem => cartItem.id === item.id);
+export const addToGlobalCart = (item: MenuItem, comment?: string, selectedAddons?: number[], selectedVariation?: number) => {
+  const existingItem = globalCart.find(cartItem => 
+    cartItem.id === item.id && 
+    cartItem.selectedVariation === selectedVariation
+  );
 
   if (existingItem) {
     existingItem.quantity += 1;
   } else {
+    // Получаем цену с учетом выбранной вариации
+    const itemPrice = selectedVariation !== undefined && item.variations && item.variations[selectedVariation] 
+      ? item.variations[selectedVariation].price 
+      : item.price;
+
     globalCart.push({
       id: item.id,
       name: item.name,
-      price: item.price,
+      price: itemPrice,
       quantity: 1,
       image: item.image,
       comment: comment || '',
-      selectedAddons: selectedAddons || []
+      selectedAddons: selectedAddons || [],
+      selectedVariation: selectedVariation
     });
   }
 
@@ -64,24 +74,43 @@ export const updateGlobalCartItem = (itemId: number, newQuantity: number) => {
   cartUpdateCallbacks.forEach(callback => callback());
 };
 
-export const updateGlobalCartItemWithData = (itemId: number, newQuantity: number, comment?: string, selectedAddons?: number[]) => {
+export const updateGlobalCartItemWithData = (itemId: number, newQuantity: number, comment?: string, selectedAddons?: number[], selectedVariation?: number) => {
   if (newQuantity <= 0) {
-    globalCart = globalCart.filter(item => item.id !== itemId);
+    // Удаляем товар с конкретной вариацией, если она указана
+    if (selectedVariation !== undefined) {
+      globalCart = globalCart.filter(item => !(item.id === itemId && item.selectedVariation === selectedVariation));
+    } else {
+      // Если вариация не указана, удаляем все товары с таким ID (старое поведение)
+      globalCart = globalCart.filter(item => item.id !== itemId);
+    }
   } else {
-    globalCart = globalCart.map(item =>
-      item.id === itemId ? { 
-        ...item, 
-        quantity: newQuantity,
-        comment: comment !== undefined ? comment : item.comment,
-        selectedAddons: selectedAddons !== undefined ? selectedAddons : item.selectedAddons
-      } : item
+    // Находим товар с конкретной вариацией для обновления
+    const itemIndex = globalCart.findIndex(item => 
+      item.id === itemId && 
+      (selectedVariation === undefined || item.selectedVariation === selectedVariation)
     );
+    
+    if (itemIndex !== -1) {
+      globalCart[itemIndex] = { 
+        ...globalCart[itemIndex], 
+        quantity: newQuantity,
+        comment: comment !== undefined ? comment : globalCart[itemIndex].comment,
+        selectedAddons: selectedAddons !== undefined ? selectedAddons : globalCart[itemIndex].selectedAddons,
+        selectedVariation: selectedVariation !== undefined ? selectedVariation : globalCart[itemIndex].selectedVariation
+      };
+    }
   }
   cartUpdateCallbacks.forEach(callback => callback());
 };
 
-export const removeFromGlobalCart = (itemId: number) => {
-  globalCart = globalCart.filter(item => item.id !== itemId);
+export const removeFromGlobalCart = (itemId: number, selectedVariation?: number) => {
+  if (selectedVariation !== undefined) {
+    // Удаляем только товар с конкретной вариацией
+    globalCart = globalCart.filter(item => !(item.id === itemId && item.selectedVariation === selectedVariation));
+  } else {
+    // Если вариация не указана, удаляем все товары с таким ID (старое поведение)
+    globalCart = globalCart.filter(item => item.id !== itemId);
+  }
   cartUpdateCallbacks.forEach(callback => callback());
 };
 
@@ -259,23 +288,22 @@ export const MenuList: React.FC = () => {
 
   const getTotalPrice = () => {
     return cart.reduce((total, item) => {
-      const itemPriceWithAddons = getItemPriceWithAddons(item.id);
+      const itemPriceWithAddons = getItemPriceWithAddons(item);
       return total + (itemPriceWithAddons * item.quantity);
     }, 0);
   };
 
-  // Функция для расчета цены товара с добавками
-  const getItemPriceWithAddons = (itemId: number) => {
-    const cartItem = cart.find(item => item.id === itemId);
-    if (!cartItem || !cartItem.selectedAddons || cartItem.selectedAddons.length === 0) {
-      return menuItems.find(item => item.id === itemId)?.price || 0;
+  // Функция для расчета цены товара с добавками (как в корзине)
+  const getItemPriceWithAddons = (item: CartItem) => {
+    let totalPrice = item.price;
+    
+    // Если есть selectedAddons, рассчитываем цену добавок
+    if (item.selectedAddons && item.selectedAddons.length > 0) {
+      const addonsPrice = calculateAddonsPrice(item.selectedAddons);
+      totalPrice += addonsPrice;
     }
     
-    const basePrice = menuItems.find(item => item.id === itemId)?.price || 0;
-    
-    const addonsPrice = calculateAddonsPrice(cartItem.selectedAddons);
-    
-    return basePrice + addonsPrice;
+    return totalPrice;
   };
 
   const getTotalItems = () => {
@@ -638,7 +666,6 @@ export const MenuList: React.FC = () => {
 
                       <div className="item-info">
                         <h3 className="item-name">{item.name}</h3>
-                        <p className="item-weight">{item.weight}</p>
                         <p className="item-description">{truncateText(item.description, 80)}</p>
                         <div className="item-price">{item.price} ₽</div>
 

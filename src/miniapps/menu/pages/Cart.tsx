@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getGlobalCart, updateGlobalCartItem, subscribeToCartUpdates } from './MenuList';
 import { initTelegramMiniApp, setupTelegramBackButton } from '../../../utils/telegramUtils';
-import { calculateAddonsPrice, getAddons } from '../utils/dataLoader';
+import { calculateAddonsPrice, getAddons, getMenuItems } from '../utils/dataLoader';
 import '../styles.css';
 
 interface CartItem {
@@ -14,6 +14,7 @@ interface CartItem {
   image?: string;
   comment?: string;
   selectedAddons?: number[];
+  selectedVariation?: number; // индекс выбранной вариации
 }
 
 export const Cart: React.FC = () => {
@@ -79,6 +80,18 @@ export const Cart: React.FC = () => {
 
   const getFinalTotal = () => {
     return getTotalPrice() + getTipAmount();
+  };
+
+  // Функция для получения информации о вариации
+  const getVariationInfo = (item: CartItem) => {
+    if (item.selectedVariation !== undefined) {
+      const menuItems = getMenuItems();
+      const menuItem = menuItems.find(mi => mi.id === item.id);
+      if (menuItem && menuItem.variations && menuItem.variations[item.selectedVariation]) {
+        return menuItem.variations[item.selectedVariation];
+      }
+    }
+    return null;
   };
 
   const handlePayment = (type: 'full' | 'split') => {
@@ -153,6 +166,12 @@ export const Cart: React.FC = () => {
                 )}
                 <div className="item-details-new">
                   <div className="item-name-new">{item.name}</div>
+                  {(() => {
+                    const variation = getVariationInfo(item);
+                    return variation ? (
+                      <div className="item-variation-new">Размер: {variation.size}</div>
+                    ) : null;
+                  })()}
                   <div className="item-price-new">{getItemPriceWithAddons(item)} ₽</div>
                   {item.selectedAddons && item.selectedAddons.length > 0 && (
                     <div className="item-addons">

@@ -17,7 +17,7 @@ export const QuizReviewScreen: React.FC<QuizReviewScreenProps> = ({
     const userAnswer = userAnswers[questionIndex];
     const question = questions[questionIndex];
     
-    if (userAnswer === -1) {
+    if (userAnswer === -1 || (question.type === 'open' && (!userAnswer || userAnswer === ''))) {
       return { status: 'skipped', text: 'Пропущен' };
     }
     
@@ -49,14 +49,34 @@ export const QuizReviewScreen: React.FC<QuizReviewScreenProps> = ({
       return 'quiz-review-answer-neutral';
     }
     
-    const correctAnswer = question.correctAnswer;
-    
-    if (optionIndex === correctAnswer) {
-      return 'quiz-review-answer-correct';
-    } else if (optionIndex === userAnswer && userAnswer !== correctAnswer) {
-      return 'quiz-review-answer-incorrect';
+    if (question.type === 'multiple') {
+      const correctAnswers = question.correctAnswer as number[];
+      const userAnswers = userAnswer as number[];
+      
+      const isCorrect = correctAnswers.includes(optionIndex);
+      const isUserSelected = userAnswers && userAnswers.includes(optionIndex);
+      
+      if (isCorrect) {
+        // Все правильные ответы - зеленые
+        return 'quiz-review-answer-correct';
+      } else if (!isCorrect && isUserSelected) {
+        // Неправильные выбранные - красные
+        return 'quiz-review-answer-incorrect';
+      } else {
+        // Остальные - нейтральные
+        return 'quiz-review-answer-neutral';
+      }
     } else {
-      return 'quiz-review-answer-neutral';
+      // Single choice questions
+      const correctAnswer = question.correctAnswer;
+      
+      if (optionIndex === correctAnswer) {
+        return 'quiz-review-answer-correct';
+      } else if (optionIndex === userAnswer && userAnswer !== correctAnswer) {
+        return 'quiz-review-answer-incorrect';
+      } else {
+        return 'quiz-review-answer-neutral';
+      }
     }
   };
 
@@ -95,10 +115,12 @@ export const QuizReviewScreen: React.FC<QuizReviewScreenProps> = ({
 
                 {question.type === 'open' ? (
                   <div className="quiz-review-open-answer">
-                    <div className="quiz-review-open-section">
-                      <h4 className="quiz-review-open-title">Ваш ответ:</h4>
-                      <p className="quiz-review-user-answer">{userAnswers[questionIndex] || 'Не отвечен'}</p>
-                    </div>
+                    {userAnswers[questionIndex] !== -1 && userAnswers[questionIndex] ? (
+                      <div className="quiz-review-open-section">
+                        <h4 className="quiz-review-open-title">Ваш ответ:</h4>
+                        <p className="quiz-review-user-answer">{userAnswers[questionIndex]}</p>
+                      </div>
+                    ) : null}
                     <div className="quiz-review-open-section">
                       <h4 className="quiz-review-open-title">Правильный ответ:</h4>
                       <p className="quiz-review-correct-answer">{question.correctText}</p>
@@ -115,12 +137,32 @@ export const QuizReviewScreen: React.FC<QuizReviewScreenProps> = ({
                           {String.fromCharCode(65 + optionIndex)}
                         </span>
                         <span className="quiz-review-answer-text">{option}</span>
-                        {optionIndex === questions[questionIndex].correctAnswer && (
-                          <span className="quiz-review-correct-icon">✓</span>
-                        )}
-                        {optionIndex === userAnswers[questionIndex] && userAnswers[questionIndex] !== questions[questionIndex].correctAnswer && (
-                          <span className="quiz-review-incorrect-icon">✗</span>
-                        )}
+                        {(() => {
+                          const question = questions[questionIndex];
+                          const userAnswer = userAnswers[questionIndex];
+                          
+                          if (question.type === 'multiple') {
+                            const correctAnswers = question.correctAnswer as number[];
+                            const userAnswers = userAnswer as number[];
+                            const isCorrect = correctAnswers.includes(optionIndex);
+                            const isUserSelected = userAnswers && userAnswers.includes(optionIndex);
+                            
+                            if (isCorrect && isUserSelected) {
+                              return <span className="quiz-review-correct-icon">✓</span>;
+                            } else if (!isCorrect && isUserSelected) {
+                              return <span className="quiz-review-incorrect-icon">✗</span>;
+                            }
+                          } else {
+                            // Single choice logic
+                            if (optionIndex === question.correctAnswer) {
+                              return <span className="quiz-review-correct-icon">✓</span>;
+                            }
+                            if (optionIndex === userAnswer && userAnswer !== question.correctAnswer) {
+                              return <span className="quiz-review-incorrect-icon">✗</span>;
+                            }
+                          }
+                          return null;
+                        })()}
                       </div>
                     ))}
                   </div>

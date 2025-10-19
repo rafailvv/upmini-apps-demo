@@ -74,6 +74,10 @@ export const QuizQuestionScreen: React.FC<QuizQuestionScreenProps> = ({
   };
 
   const handleNext = () => {
+    // Reset result state before navigation to prevent visual glitches
+    setShowResult(false);
+    setShowExplanation(false);
+    
     // Allow manual navigation even if answer was already submitted
     if (question.type === 'single' || !question.type) {
       if (selectedAnswer !== null) {
@@ -88,6 +92,13 @@ export const QuizQuestionScreen: React.FC<QuizQuestionScreenProps> = ({
         onAnswer(openAnswer.trim());
       }
     }
+  };
+
+  const handleSkip = () => {
+    // Reset result state before skipping to prevent visual glitches
+    setShowResult(false);
+    setShowExplanation(false);
+    onSkip();
   };
 
   const handleHintToggle = () => {
@@ -227,7 +238,7 @@ export const QuizQuestionScreen: React.FC<QuizQuestionScreenProps> = ({
                 <div className="quiz-action-buttons">
                   <button 
                     className="quiz-skip-button"
-                    onClick={onSkip}
+                    onClick={handleSkip}
                   >
                     Пропустить
                   </button>

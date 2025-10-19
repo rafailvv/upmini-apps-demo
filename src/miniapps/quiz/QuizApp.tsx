@@ -10,8 +10,10 @@ import './styles.css';
 export interface QuizQuestion {
   id: number;
   question: string;
-  options: string[];
-  correctAnswer: number;
+  type: 'single' | 'multiple' | 'open';
+  options?: string[];
+  correctAnswer?: number | number[];
+  correctText?: string;
   explanation?: string;
   hint?: string;
 }
@@ -28,6 +30,7 @@ const quizData: QuizQuestion[] = [
   {
     id: 1,
     question: "Какая столица России?",
+    type: 'single',
     options: ["Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург"],
     correctAnswer: 0,
     explanation: "Москва является столицей Российской Федерации с 1991 года.",
@@ -36,6 +39,7 @@ const quizData: QuizQuestion[] = [
   {
     id: 2,
     question: "Сколько планет в Солнечной системе?",
+    type: 'single',
     options: ["7", "8", "9", "10"],
     correctAnswer: 1,
     explanation: "В Солнечной системе 8 планет: Меркурий, Венера, Земля, Марс, Юпитер, Сатурн, Уран, Нептун.",
@@ -44,6 +48,7 @@ const quizData: QuizQuestion[] = [
   {
     id: 3,
     question: "Какая формула воды?",
+    type: 'single',
     options: ["H2O", "CO2", "O2", "H2SO4"],
     correctAnswer: 0,
     explanation: "H2O - это химическая формула воды, состоящей из двух атомов водорода и одного атома кислорода."
@@ -51,16 +56,26 @@ const quizData: QuizQuestion[] = [
   {
     id: 4,
     question: "Кто написал роман 'Война и мир'?",
+    type: 'single',
     options: ["Фёдор Достоевский", "Лев Толстой", "Антон Чехов", "Иван Тургенев"],
     correctAnswer: 1,
     explanation: "Лев Николаевич Толстой написал роман 'Война и мир' в 1863-1869 годах."
   },
   {
     id: 5,
-    question: "Какая самая большая планета в Солнечной системе?",
-    options: ["Земля", "Сатурн", "Юпитер", "Нептун"],
-    correctAnswer: 2,
-    explanation: "Юпитер - самая большая планета в Солнечной системе, его масса больше массы всех остальных планет вместе взятых."
+    question: "Какие из перечисленных языков программирования являются объектно-ориентированными?",
+    type: 'multiple',
+    options: ["Java", "C++", "Python", "HTML", "JavaScript"],
+    correctAnswer: [0, 1, 2, 4],
+    explanation: "Java, C++, Python и JavaScript поддерживают объектно-ориентированное программирование. HTML - это язык разметки, а не программирования."
+  },
+  {
+    id: 6,
+    question: "Назовите столицу Франции",
+    type: 'open',
+    correctText: "Париж",
+    explanation: "Париж - столица и крупнейший город Франции, расположен на реке Сена в северной части страны.",
+    hint: "Этот город известен как 'Город света' и является центром французской культуры."
   }
 ];
 
@@ -68,9 +83,9 @@ const quizData: QuizQuestion[] = [
 
 export const Quiz: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<number[]>([]);
+  const [answers, setAnswers] = useState<(number | number[] | string)[]>([]);
   const [showResults, setShowResults] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(30);
+  const [timeLeft, setTimeLeft] = useState(300);
   const [quizStarted, setQuizStarted] = useState(false);
   const [showStartScreen, setShowStartScreen] = useState(true);
   const [showIntroScreen, setShowIntroScreen] = useState(false);
@@ -89,9 +104,9 @@ export const Quiz: React.FC = () => {
     return () => clearTimeout(timer);
   }, [timeLeft, quizStarted, showResults]);
 
-  const handleAnswer = (answerIndex: number) => {
+  const handleAnswer = (answer: number | number[] | string) => {
     const newAnswers = [...answers];
-    newAnswers[currentQuestionIndex] = answerIndex;
+    newAnswers[currentQuestionIndex] = answer;
     setAnswers(newAnswers);
 
     if (currentQuestionIndex < quizData.length - 1) {
@@ -112,7 +127,20 @@ export const Quiz: React.FC = () => {
 
     quizData.forEach((question, index) => {
       const userAnswer = answers[index];
-      if (userAnswer === question.correctAnswer) {
+      let isCorrect = false;
+
+      if (question.type === 'single' || !question.type) {
+        isCorrect = userAnswer === question.correctAnswer;
+      } else if (question.type === 'multiple') {
+        const correct = question.correctAnswer as number[];
+        const user = userAnswer as number[];
+        isCorrect = correct.every(ans => user.includes(ans)) && user.every(ans => correct.includes(ans));
+      } else if (question.type === 'open') {
+        isCorrect = typeof userAnswer === 'string' && 
+                   userAnswer.toLowerCase().trim() === (question.correctText as string).toLowerCase().trim();
+      }
+
+      if (isCorrect) {
         correctCount++;
         correctAnswers.push(index);
       } else {
@@ -230,7 +258,7 @@ export const Quiz: React.FC = () => {
         <div className="quiz-start">
           <h1 className="quiz-title">🧠 Квиз на общие знания</h1>
           <p className="quiz-description">
-            Проверьте свои знания! Вам предстоит ответить на {quizData.length} вопросов за 30 секунд.
+            Проверьте свои знания! Вам предстоит ответить на {quizData.length} вопросов за 5 минут.
           </p>
           <div className="quiz-info">
             <div className="quiz-info-item">
@@ -239,7 +267,7 @@ export const Quiz: React.FC = () => {
             </div>
             <div className="quiz-info-item">
               <span className="quiz-info-label">Время:</span>
-              <span className="quiz-info-value">30 сек</span>
+              <span className="quiz-info-value">5 мин</span>
             </div>
           </div>
           <button className="quiz-start-button" onClick={() => startQuiz('Общие знания')}>

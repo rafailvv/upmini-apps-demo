@@ -6,7 +6,7 @@ interface QuizQuestionScreenProps {
   question: QuizQuestion;
   questionNumber: number;
   totalQuestions: number;
-  onAnswer: (answerIndex: number) => void;
+  onAnswer: (answer: number | number[] | string) => void;
   onSkip: () => void;
   timeLeft?: number;
 }
@@ -20,33 +20,73 @@ export const QuizQuestionScreen: React.FC<QuizQuestionScreenProps> = ({
   timeLeft
 }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
+  const [openAnswer, setOpenAnswer] = useState<string>('');
   const [showResult, setShowResult] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [answerSubmitted, setAnswerSubmitted] = useState(false);
 
   useEffect(() => {
     // Reset state when question changes
     setSelectedAnswer(null);
+    setSelectedAnswers([]);
+    setOpenAnswer('');
     setShowResult(false);
     setShowExplanation(false);
     setShowHint(false);
+    setAnswerSubmitted(false);
   }, [question.id]);
 
+
   const handleAnswerSelect = (answerIndex: number) => {
-    if (showResult) return; // Prevent selection after result is shown
+    if (showResult || answerSubmitted) return; // Prevent selection after result is shown or answer submitted
     
-    setSelectedAnswer(answerIndex);
-    setShowResult(true);
-    
-    // Show explanation after a short delay
-    setTimeout(() => {
+    if (question.type === 'single' || !question.type) {
+      setSelectedAnswer(answerIndex);
+      setShowResult(true);
       setShowExplanation(true);
-    }, 1000);
+      setAnswerSubmitted(true);
+      // No automatic flip - card stays flipped until user clicks "Далее"
+    } else if (question.type === 'multiple') {
+      const newSelected = selectedAnswers.includes(answerIndex)
+        ? selectedAnswers.filter(i => i !== answerIndex)
+        : [...selectedAnswers, answerIndex];
+      setSelectedAnswers(newSelected);
+    }
+  };
+
+  const handleMultipleSubmit = () => {
+    if (selectedAnswers.length === 0 || answerSubmitted) return;
+    setShowResult(true);
+    setShowExplanation(true);
+    setAnswerSubmitted(true);
+    // No automatic flip - card stays flipped until user clicks "Далее"
+  };
+
+  const handleOpenSubmit = () => {
+    if (openAnswer.trim() && !answerSubmitted) {
+      setShowResult(true);
+      setShowExplanation(true);
+      setAnswerSubmitted(true);
+      // No automatic flip - card stays flipped until user clicks "Далее"
+    }
   };
 
   const handleNext = () => {
-    if (selectedAnswer !== null) {
-      onAnswer(selectedAnswer);
+    // Allow manual navigation even if answer was already submitted
+    if (question.type === 'single' || !question.type) {
+      if (selectedAnswer !== null) {
+        onAnswer(selectedAnswer);
+      }
+    } else if (question.type === 'multiple') {
+      if (selectedAnswers.length > 0) {
+        onAnswer(selectedAnswers);
+      }
+    } else if (question.type === 'open') {
+      if (openAnswer.trim()) {
+        onAnswer(openAnswer.trim());
+      }
     }
   };
 
@@ -54,16 +94,42 @@ export const QuizQuestionScreen: React.FC<QuizQuestionScreenProps> = ({
     setShowHint(!showHint);
   };
 
+
   const getAnswerButtonClass = (index: number) => {
-    if (!showResult) return 'quiz-answer-button';
-    
-    if (index === question.correctAnswer) {
-      return 'quiz-answer-button correct';
-    } else if (index === selectedAnswer && index !== question.correctAnswer) {
-      return 'quiz-answer-button incorrect';
-    } else {
-      return 'quiz-answer-button disabled';
+    if (!showResult) {
+      if (question.type === 'multiple') {
+        return selectedAnswers.includes(index) 
+          ? 'quiz-answer-button quiz-answer-button-selected' 
+          : 'quiz-answer-button';
+      }
+      return 'quiz-answer-button';
     }
+    
+    if (question.type === 'single' || !question.type) {
+      if (index === question.correctAnswer) {
+        return 'quiz-answer-button correct';
+      } else if (index === selectedAnswer && index !== question.correctAnswer) {
+        return 'quiz-answer-button incorrect';
+      } else {
+        return 'quiz-answer-button disabled';
+      }
+    } else if (question.type === 'multiple') {
+      const correctAnswers = question.correctAnswer as number[];
+      const isCorrect = correctAnswers.includes(index);
+      const isSelected = selectedAnswers.includes(index);
+      
+      if (isCorrect && isSelected) {
+        return 'quiz-answer-button correct';
+      } else if (isCorrect && !isSelected) {
+        return 'quiz-answer-button correct-missed';
+      } else if (!isCorrect && isSelected) {
+        return 'quiz-answer-button incorrect';
+      } else {
+        return 'quiz-answer-button disabled';
+      }
+    }
+    
+    return 'quiz-answer-button disabled';
   };
 
   return (
@@ -91,8 +157,15 @@ export const QuizQuestionScreen: React.FC<QuizQuestionScreenProps> = ({
 
       {/* Question content */}
       <div className="quiz-question-content">
+        {/* Question type indicator - outside card */}
+        <div className="quiz-question-type-indicator">
+          {question.type === 'multiple' ? 'Выбери несколько правильных ответов' : 
+           question.type === 'open' ? 'Введи ответ в текстовое поле' : 
+           'Выбери один правильный ответ'}
+        </div>
+        
         {/* Question card */}
-        <div className={`quiz-question-card ${showHint ? 'with-hint' : ''}`}>
+        <div className={`quiz-question-card dynamic-height ${showHint ? 'with-hint' : ''}`}>
           <div className={`quiz-card-inner ${showResult ? 'flipped' : ''}`}>
             {/* Front side - Question */}
             <div className="quiz-card-front">
@@ -120,48 +193,117 @@ export const QuizQuestionScreen: React.FC<QuizQuestionScreenProps> = ({
               )}
               
               {/* Answer options */}
-              <div className="quiz-answer-options">
-                {question.options.map((option, index) => (
-                  <button
-                    key={index}
-                    className={getAnswerButtonClass(index)}
-                    onClick={() => handleAnswerSelect(index)}
+              {question.type === 'open' ? (
+                <div className="quiz-open-answer">
+                  <textarea
+                    className="quiz-open-input"
+                    value={openAnswer}
+                    onChange={(e) => setOpenAnswer(e.target.value)}
+                    placeholder="Введите ваш ответ..."
                     disabled={showResult}
-                  >
-                    <span className="quiz-answer-letter">
-                      {String.fromCharCode(65 + index)}
-                    </span>
-                    <span className="quiz-answer-text">{option}</span>
-                  </button>
-                ))}
-              </div>
+                    rows={3}
+                  />
+                </div>
+              ) : (
+                <div className="quiz-answer-options">
+                  {question.options?.map((option, index) => (
+                    <button
+                      key={index}
+                      className={getAnswerButtonClass(index)}
+                      onClick={() => handleAnswerSelect(index)}
+                      disabled={showResult}
+                    >
+                      <span className="quiz-answer-letter">
+                        {String.fromCharCode(65 + index)}
+                      </span>
+                      <span className="quiz-answer-text">{option}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
 
-              {/* Skip button */}
+              {/* Action buttons container */}
               {!showResult && (
-                <button 
-                  className="quiz-skip-button"
-                  onClick={onSkip}
-                >
-                  Пропустить
-                </button>
+                <div className="quiz-action-buttons">
+                  <button 
+                    className="quiz-skip-button"
+                    onClick={onSkip}
+                  >
+                    Пропустить
+                  </button>
+                  
+                  {question.type === 'multiple' && selectedAnswers.length > 0 && (
+                    <button
+                      className="quiz-submit-button"
+                      onClick={handleMultipleSubmit}
+                    >
+                      Далее
+                    </button>
+                  )}
+                  
+                  {question.type === 'open' && openAnswer.trim() && (
+                    <button
+                      className="quiz-submit-button"
+                      onClick={handleOpenSubmit}
+                    >
+                      Далее
+                    </button>
+                  )}
+                </div>
               )}
             </div>
 
             {/* Back side - Result and explanation */}
             <div className="quiz-card-back">
-              <div className="quiz-result-feedback">
-                {selectedAnswer === question.correctAnswer ? (
-                  <div className="quiz-result-correct">
-                    <span className="quiz-result-icon">✅</span>
-                    <span className="quiz-result-text">Правильно!</span>
-                  </div>
-                ) : (
-                  <div className="quiz-result-incorrect">
-                    <span className="quiz-result-icon">❌</span>
-                    <span className="quiz-result-text">Неправильно</span>
-                  </div>
-                )}
-              </div>
+              {showExplanation && (
+                <div className="quiz-result-feedback">
+                  {question.type === 'single' || !question.type ? (
+                    selectedAnswer === question.correctAnswer ? (
+                      <div className="quiz-result-correct">
+                        <span className="quiz-result-icon">✅</span>
+                        <span className="quiz-result-text">Правильно!</span>
+                      </div>
+                    ) : (
+                      <div className="quiz-result-incorrect">
+                        <span className="quiz-result-icon">❌</span>
+                        <span className="quiz-result-text">Неправильно</span>
+                      </div>
+                    )
+                  ) : question.type === 'multiple' ? (
+                    (() => {
+                      const correct = question.correctAnswer as number[];
+                      const isCorrect = correct.every(ans => selectedAnswers.includes(ans)) && 
+                                       selectedAnswers.every(ans => correct.includes(ans));
+                      return isCorrect ? (
+                        <div className="quiz-result-correct">
+                          <span className="quiz-result-icon">✅</span>
+                          <span className="quiz-result-text">Правильно!</span>
+                        </div>
+                      ) : (
+                        <div className="quiz-result-incorrect">
+                          <span className="quiz-result-icon">❌</span>
+                          <span className="quiz-result-text">Неправильно</span>
+                        </div>
+                      );
+                    })()
+                  ) : question.type === 'open' ? (
+                    (() => {
+                      const isCorrect = openAnswer.toLowerCase().trim() === (question.correctText as string).toLowerCase().trim();
+                      return isCorrect ? (
+                        <div className="quiz-result-correct">
+                          <span className="quiz-result-icon">✅</span>
+                          <span className="quiz-result-text">Правильно!</span>
+                        </div>
+                      ) : (
+                        <div className="quiz-result-incorrect">
+                          <span className="quiz-result-icon">❌</span>
+                          <span className="quiz-result-text">Неправильно</span>
+                        </div>
+                      );
+                    })()
+                  ) : null}
+                </div>
+              )}
 
               {showExplanation && question.explanation && (
                 <div className="quiz-explanation">
@@ -170,12 +312,14 @@ export const QuizQuestionScreen: React.FC<QuizQuestionScreenProps> = ({
                 </div>
               )}
 
-              <button 
-                className="quiz-next-button"
-                onClick={handleNext}
-              >
-                {questionNumber === totalQuestions ? 'Завершить' : 'Следующий вопрос'}
-              </button>
+              {showExplanation && (
+                <button
+                  className="quiz-next-button"
+                  onClick={handleNext}
+                >
+                  {questionNumber === totalQuestions ? 'Завершить' : 'Следующий вопрос'}
+                </button>
+              )}
             </div>
           </div>
         </div>

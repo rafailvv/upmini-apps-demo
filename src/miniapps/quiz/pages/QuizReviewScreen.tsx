@@ -26,6 +26,12 @@ export const QuizReviewScreen: React.FC<QuizReviewScreenProps> = ({
       isCorrect = userAnswer === question.correctAnswer;
     } else if (question.type === 'multiple') {
       const correct = question.correctAnswer as number[];
+      
+      // Проверяем, что userAnswer является массивом (не пропущен)
+      if (userAnswer === -1 || !Array.isArray(userAnswer)) {
+        return { status: 'skipped', text: 'Пропущен' };
+      }
+      
       const user = userAnswer as number[];
       isCorrect = correct.every(ans => user.includes(ans)) && user.every(ans => correct.includes(ans));
     } else if (question.type === 'open') {
@@ -51,10 +57,17 @@ export const QuizReviewScreen: React.FC<QuizReviewScreenProps> = ({
     
     if (question.type === 'multiple') {
       const correctAnswers = question.correctAnswer as number[];
-      const userAnswers = userAnswer as number[];
       
+      // Проверяем, что userAnswer является массивом (не пропущен)
+      if (userAnswer === -1 || !Array.isArray(userAnswer)) {
+        // Если вопрос пропущен, показываем только правильные ответы зелеными
+        const isCorrect = correctAnswers.includes(optionIndex);
+        return isCorrect ? 'quiz-review-answer-correct' : 'quiz-review-answer-neutral';
+      }
+      
+      const userAnswers = userAnswer as number[];
       const isCorrect = correctAnswers.includes(optionIndex);
-      const isUserSelected = userAnswers && userAnswers.includes(optionIndex);
+      const isUserSelected = userAnswers.includes(optionIndex);
       
       if (isCorrect) {
         // Все правильные ответы - зеленые
@@ -143,9 +156,16 @@ export const QuizReviewScreen: React.FC<QuizReviewScreenProps> = ({
                           
                           if (question.type === 'multiple') {
                             const correctAnswers = question.correctAnswer as number[];
+                            
+                            // Проверяем, что userAnswer является массивом (не пропущен)
+                            if (userAnswer === -1 || !Array.isArray(userAnswer)) {
+                              // Если вопрос пропущен, не показываем иконки
+                              return null;
+                            }
+                            
                             const userAnswers = userAnswer as number[];
                             const isCorrect = correctAnswers.includes(optionIndex);
-                            const isUserSelected = userAnswers && userAnswers.includes(optionIndex);
+                            const isUserSelected = userAnswers.includes(optionIndex);
                             
                             if (isCorrect && isUserSelected) {
                               return <span className="quiz-review-correct-icon">✓</span>;
@@ -154,10 +174,12 @@ export const QuizReviewScreen: React.FC<QuizReviewScreenProps> = ({
                             }
                           } else {
                             // Single choice logic
-                            if (optionIndex === question.correctAnswer) {
+                            if (optionIndex === userAnswer && optionIndex === question.correctAnswer) {
+                              // Пользователь выбрал правильный ответ
                               return <span className="quiz-review-correct-icon">✓</span>;
                             }
                             if (optionIndex === userAnswer && userAnswer !== question.correctAnswer) {
+                              // Пользователь выбрал неправильный ответ
                               return <span className="quiz-review-incorrect-icon">✗</span>;
                             }
                           }

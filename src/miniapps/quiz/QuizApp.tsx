@@ -133,8 +133,15 @@ export const Quiz: React.FC = () => {
         isCorrect = userAnswer === question.correctAnswer;
       } else if (question.type === 'multiple') {
         const correct = question.correctAnswer as number[];
-        const user = userAnswer as number[];
-        isCorrect = correct.every(ans => user.includes(ans)) && user.every(ans => correct.includes(ans));
+        
+        // Проверяем, что userAnswer является массивом (не пропущен)
+        if (userAnswer === -1 || !Array.isArray(userAnswer)) {
+          // Пропущенный вопрос - неправильный
+          isCorrect = false;
+        } else {
+          const user = userAnswer as number[];
+          isCorrect = correct.every(ans => user.includes(ans)) && user.every(ans => correct.includes(ans));
+        }
       } else if (question.type === 'open') {
         isCorrect = typeof userAnswer === 'string' && 
                    userAnswer.toLowerCase().trim() === (question.correctText as string).toLowerCase().trim();

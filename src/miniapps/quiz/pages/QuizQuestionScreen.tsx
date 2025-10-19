@@ -161,7 +161,9 @@ export const QuizQuestionScreen: React.FC<QuizQuestionScreenProps> = ({
         {timeLeft !== undefined && (
           <div className="quiz-question-timer">
             <span className="quiz-timer-icon">⏱️</span>
-            <span className="quiz-timer-text">{timeLeft}с</span>
+            <span className="quiz-timer-text">
+              {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+            </span>
           </div>
         )}
       </div>

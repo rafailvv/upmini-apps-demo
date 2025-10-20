@@ -4,7 +4,7 @@ import type { QuizQuestion } from '../QuizApp';
 
 interface QuizReviewScreenProps {
   questions: QuizQuestion[];
-  userAnswers: (number | number[] | string)[];
+  userAnswers: (number | number[] | string | number[][])[];
   onBack: () => void;
 }
 
@@ -37,6 +37,21 @@ export const QuizReviewScreen: React.FC<QuizReviewScreenProps> = ({
     } else if (question.type === 'open') {
       isCorrect = typeof userAnswer === 'string' && 
                  userAnswer.toLowerCase().trim() === (question.correctText as string).toLowerCase().trim();
+    } else if (question.type === 'matching') {
+      // Проверяем, что userAnswer является массивом массивов (не пропущен)
+      if (userAnswer === -1 || !Array.isArray(userAnswer) || !Array.isArray(userAnswer[0])) {
+        return { status: 'skipped', text: 'Пропущен' };
+      }
+      
+      const userMatches = userAnswer as number[][];
+      const correctMatches = question.correctMatches as number[][];
+      
+      // Проверяем, что все правильные соответствия есть у пользователя
+      isCorrect = correctMatches.every(correctMatch => 
+        userMatches.some(userMatch => 
+          userMatch[0] === correctMatch[0] && userMatch[1] === correctMatch[1]
+        )
+      ) && userMatches.length === correctMatches.length;
     }
     
     if (isCorrect) {
@@ -79,6 +94,9 @@ export const QuizReviewScreen: React.FC<QuizReviewScreenProps> = ({
         // Остальные - нейтральные
         return 'quiz-review-answer-neutral';
       }
+    } else if (question.type === 'matching') {
+      // Для matching вопросов не показываем варианты ответов
+      return 'quiz-review-answer-neutral';
     } else {
       // Single choice questions
       const correctAnswer = question.correctAnswer;
@@ -136,7 +154,63 @@ export const QuizReviewScreen: React.FC<QuizReviewScreenProps> = ({
                     ) : null}
                     <div className="quiz-review-open-section">
                       <h4 className="quiz-review-open-title">Правильный ответ:</h4>
-                      <p className="quiz-review-correct-answer">{question.correctText}</p>
+                      <p className="quiz-review-correct-answer">
+                        {question.correctText}
+                        {(() => {
+                          const userAnswer = userAnswers[questionIndex];
+                          const isCorrect = typeof userAnswer === 'string' && 
+                                           userAnswer.toLowerCase().trim() === (question.correctText as string).toLowerCase().trim();
+                          return isCorrect ? <span className="quiz-review-correct-icon">✓</span> : null;
+                        })()}
+                      </p>
+                    </div>
+                  </div>
+                ) : question.type === 'matching' ? (
+                  <div className="quiz-review-matching-answer">
+                    {userAnswers[questionIndex] !== -1 && Array.isArray(userAnswers[questionIndex]) ? (
+                      <div className="quiz-review-matching-section">
+                        <h4 className="quiz-review-matching-title">Ваши соответствия:</h4>
+                        <div className="quiz-review-matching-pairs">
+                          {(userAnswers[questionIndex] as number[][]).map((pair, index) => {
+                            const isCorrect = question.correctMatches?.some(correctMatch => 
+                              correctMatch[0] === pair[0] && correctMatch[1] === pair[1]
+                            );
+                            return (
+                              <div key={index} className={`quiz-review-matching-pair ${isCorrect ? 'correct' : 'incorrect'}`}>
+                                <span className="quiz-review-matching-pair-text">
+                                  {question.leftColumn?.[pair[0]]} → {question.rightColumn?.[pair[1]]}
+                                </span>
+                                <span className="quiz-review-matching-pair-status">
+                                  {isCorrect ? '✓' : '✗'}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : null}
+                    <div className="quiz-review-matching-section">
+                      <h4 className="quiz-review-matching-title">Правильные соответствия:</h4>
+                      <div className="quiz-review-matching-pairs">
+                        {question.correctMatches?.map((pair, index) => {
+                          const userAnswer = userAnswers[questionIndex];
+                          const isUserSelected = Array.isArray(userAnswer) && 
+                            (userAnswer as number[][]).some(userMatch => 
+                              userMatch[0] === pair[0] && userMatch[1] === pair[1]
+                            );
+                          
+                          return (
+                            <div key={index} className="quiz-review-matching-pair correct">
+                              <span className="quiz-review-matching-pair-text">
+                                {question.leftColumn?.[pair[0]]} → {question.rightColumn?.[pair[1]]}
+                              </span>
+                              {isUserSelected && (
+                                <span className="quiz-review-matching-pair-status">✓</span>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 ) : (

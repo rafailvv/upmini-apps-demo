@@ -10,12 +10,16 @@ import './styles.css';
 export interface QuizQuestion {
   id: number;
   question: string;
-  type: 'single' | 'multiple' | 'open';
+  type: 'single' | 'multiple' | 'open' | 'matching';
   options?: string[];
   correctAnswer?: number | number[];
   correctText?: string;
   explanation?: string;
   hint?: string;
+  // Для типа matching
+  leftColumn?: string[];
+  rightColumn?: string[];
+  correctMatches?: number[][]; // [[leftIndex, rightIndex], ...]
 }
 
 export interface QuizResult {
@@ -76,6 +80,16 @@ const quizData: QuizQuestion[] = [
     correctText: "Париж",
     explanation: "Париж - столица и крупнейший город Франции, расположен на реке Сена в северной части страны.",
     hint: "Этот город известен как 'Город света' и является центром французской культуры."
+  },
+  {
+    id: 7,
+    question: "Сопоставьте столицы с их странами:",
+    type: 'matching',
+    leftColumn: ["Россия", "Франция", "Германия", "Италия"],
+    rightColumn: ["Париж", "Берлин", "Рим", "Москва"],
+    correctMatches: [[0, 3], [1, 0], [2, 1], [3, 2]], // [leftIndex, rightIndex]
+    explanation: "Правильные соответствия: Россия-Москва, Франция-Париж, Германия-Берлин, Италия-Рим.",
+    hint: "Обратите внимание на географическое расположение и исторические связи."
   }
 ];
 
@@ -83,7 +97,7 @@ const quizData: QuizQuestion[] = [
 
 export const Quiz: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<(number | number[] | string)[]>([]);
+  const [answers, setAnswers] = useState<(number | number[] | string | number[][])[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [timeLeft, setTimeLeft] = useState(300);
   const [quizStarted, setQuizStarted] = useState(false);
@@ -104,7 +118,7 @@ export const Quiz: React.FC = () => {
     return () => clearTimeout(timer);
   }, [timeLeft, quizStarted, showResults]);
 
-  const handleAnswer = (answer: number | number[] | string) => {
+  const handleAnswer = (answer: number | number[] | string | number[][]) => {
     const newAnswers = [...answers];
     newAnswers[currentQuestionIndex] = answer;
     setAnswers(newAnswers);
@@ -145,6 +159,22 @@ export const Quiz: React.FC = () => {
       } else if (question.type === 'open') {
         isCorrect = typeof userAnswer === 'string' && 
                    userAnswer.toLowerCase().trim() === (question.correctText as string).toLowerCase().trim();
+      } else if (question.type === 'matching') {
+        // Проверяем, что userAnswer является массивом массивов (не пропущен)
+        if (userAnswer === -1 || !Array.isArray(userAnswer) || !Array.isArray(userAnswer[0])) {
+          // Пропущенный вопрос - неправильный
+          isCorrect = false;
+        } else {
+          const userMatches = userAnswer as number[][];
+          const correctMatches = question.correctMatches as number[][];
+          
+          // Проверяем, что все правильные соответствия есть у пользователя
+          isCorrect = correctMatches.every(correctMatch => 
+            userMatches.some(userMatch => 
+              userMatch[0] === correctMatch[0] && userMatch[1] === correctMatch[1]
+            )
+          ) && userMatches.length === correctMatches.length;
+        }
       }
 
       if (isCorrect) {

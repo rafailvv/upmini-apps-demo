@@ -5489,3 +5489,32 @@ body {
     border-radius: 6px;
   }
 }
+
+/* Telegram MiniApp specific styles */
+.telegram-miniapp {
+  padding-top: 0 !important;
+}
+
+.telegram-miniapp .sport-nutrition-page {
+  margin-top: 90px;
+}
+
+.telegram-miniapp .health-page,
+.telegram-miniapp .nutrition-page,
+.telegram-miniapp .workouts-page,
+.telegram-miniapp .schedule-page,
+.telegram-miniapp .profile-page {
+  margin-top: 90px;
+}
+
+/* Добавляем белый блок сверху для Telegram */
+.telegram-miniapp::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: white;
+  z-index: 1001;
+}

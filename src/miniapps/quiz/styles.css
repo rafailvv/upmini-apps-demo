@@ -1503,13 +1503,27 @@
 
 /* Telegram fullscreen miniapp top inset (iOS/Android safe area) */
 body.telegram-miniapp .quiz-question-container {
-  padding-top: calc(12px + env(safe-area-inset-top));
+  padding-top: 90px;
 }
 
-@supports (padding-top: constant(safe-area-inset-top)) {
-  body.telegram-miniapp .quiz-question-container {
-    padding-top: calc(12px + constant(safe-area-inset-top));
-  }
+/* Telegram MiniApp specific styles for all quiz containers */
+.telegram-miniapp .quiz-intro-container,
+.telegram-miniapp .quiz-start-container,
+.telegram-miniapp .quiz-result-container,
+.telegram-miniapp .quiz-review-container {
+  margin-top: 90px;
+}
+
+/* Добавляем белый блок сверху для Telegram */
+.telegram-miniapp::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: white;
+  z-index: 1001;
 }
 
 .quiz-question-header {

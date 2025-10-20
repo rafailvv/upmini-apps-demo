@@ -375,4 +375,29 @@
     flex-direction: column;
     gap: 5px;
   }
+}
+
+/* Telegram MiniApp specific styles */
+.telegram-miniapp {
+  padding-top: 0 !important;
+}
+
+.telegram-miniapp .notes-list {
+  margin-top: 90px;
+}
+
+.telegram-miniapp .note-editor {
+  margin-top: 90px;
+}
+
+/* Добавляем белый блок сверху для Telegram */
+.telegram-miniapp::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: white;
+  z-index: 1001;
 } 

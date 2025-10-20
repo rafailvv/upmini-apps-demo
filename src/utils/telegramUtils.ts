@@ -53,6 +53,30 @@ export function hideSurveyCloseButton(): void {
   }
 }
 
+// Настройка кнопки "Назад" для квиза
+export function setupQuizBackButton(): void {
+  if (isTelegramMiniApp() && window.Telegram?.WebApp) {
+    console.log('Setting up Quiz back button');
+    
+    // Показываем BackButton
+    window.Telegram.WebApp.BackButton.show();
+    
+    // Обработчик кнопки "Назад" для квиза
+    window.Telegram.WebApp.BackButton.onClick(() => {
+      console.log('Quiz back button clicked - going back in history');
+      window.history.back();
+    });
+  }
+}
+
+// Скрытие кнопки "Назад" для квиза
+export function hideQuizBackButton(): void {
+  if (isTelegramMiniApp() && window.Telegram?.WebApp) {
+    console.log('Hiding Quiz back button');
+    window.Telegram.WebApp.BackButton.hide();
+  }
+}
+
 // Управление кнопкой "Назад" в Telegram MiniApp
 export function setupTelegramBackButton(): void {
   if (isTelegramMiniApp() && window.Telegram?.WebApp) {

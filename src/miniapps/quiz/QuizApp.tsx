@@ -5,6 +5,7 @@ import { QuizQuestionScreen } from './pages/QuizQuestionScreen';
 import { QuizResultScreen } from './pages/QuizResultScreen';
 import { QuizReviewScreen } from './pages/QuizReviewScreen';
 import { ShareNotification } from './components/ShareNotification';
+import { setupQuizBackButton, hideQuizBackButton } from '../../utils/telegramUtils';
 import './styles.css';
 
 export interface QuizQuestion {
@@ -117,6 +118,20 @@ export const Quiz: React.FC = () => {
     }
     return () => clearTimeout(timer);
   }, [timeLeft, quizStarted, showResults]);
+
+  // Настройка кнопки "Назад" от Telegram
+  useEffect(() => {
+    if (quizStarted || showResults || showReviewScreen) {
+      setupQuizBackButton();
+    } else {
+      hideQuizBackButton();
+    }
+
+    // Очистка при размонтировании
+    return () => {
+      hideQuizBackButton();
+    };
+  }, [quizStarted, showResults, showReviewScreen]);
 
   const handleAnswer = (answer: number | number[] | string | number[][]) => {
     const newAnswers = [...answers];

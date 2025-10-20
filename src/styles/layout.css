@@ -73,43 +73,35 @@
   padding-top: 120px; /* Отступ сверху для всех мини-приложений */
 }
 
-/* Telegram MiniApp specific styles */
+/* Отступы для Telegram MiniApp */
 .telegram-miniapp {
-  padding-top: 0 !important;
-}
-
-.telegram-miniapp .miniapp-header {
-  margin-top: 0 !important;
-  top: 90px !important;
-  background: white !important;
-  z-index: 1001;
-  position: fixed;
-  width: 100%;
-}
-
-.telegram-miniapp .miniapp-nav {
-  top: 150px !important;
-  background: white !important;
-  z-index: 1000;
-  position: fixed;
-  width: 100%;
+  min-height: 100vh;
 }
 
 .telegram-miniapp .miniapp-content {
-  margin-top: 200px !important;
-  min-height: calc(100vh - 200px);
+  padding-top: 20px !important;
 }
 
-/* Добавляем белый блок сверху для Telegram */
-.telegram-miniapp::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 90px;
-  background: white;
-  z-index: 1001;
+/* Убираем псевдоэлементы */
+.telegram-miniapp::before,
+.telegram-miniapp::after,
+.telegram-miniapp *::before,
+.telegram-miniapp *::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Адаптивные отступы для разных устройств */
+@media (max-width: 768px) {
+  .telegram-miniapp .miniapp-content {
+    padding-top: 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .telegram-miniapp .miniapp-content {
+    padding-top: 20px !important;
+  }
 }
 
 /* Мобильная адаптация */

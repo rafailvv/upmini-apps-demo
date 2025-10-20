@@ -1501,29 +1501,47 @@
   box-sizing: border-box;
 }
 
-/* Telegram fullscreen miniapp top inset (iOS/Android safe area) */
-body.telegram-miniapp .quiz-question-container {
-  padding-top: 90px;
+/* Отступы для Telegram MiniApp */
+.telegram-miniapp {
+  min-height: 100vh;
 }
 
-/* Telegram MiniApp specific styles for all quiz containers */
+body.telegram-miniapp .quiz-question-container,
 .telegram-miniapp .quiz-intro-container,
 .telegram-miniapp .quiz-start-container,
 .telegram-miniapp .quiz-result-container,
 .telegram-miniapp .quiz-review-container {
-  margin-top: 90px;
+  padding-top: 20px !important;
 }
 
-/* Добавляем белый блок сверху для Telegram */
-.telegram-miniapp::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 90px;
-  background: white;
-  z-index: 1001;
+/* Убираем псевдоэлементы */
+.telegram-miniapp::before,
+.telegram-miniapp::after,
+.telegram-miniapp *::before,
+.telegram-miniapp *::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Адаптивные отступы для разных устройств */
+@media (max-width: 768px) {
+  body.telegram-miniapp .quiz-question-container,
+  .telegram-miniapp .quiz-intro-container,
+  .telegram-miniapp .quiz-start-container,
+  .telegram-miniapp .quiz-result-container,
+  .telegram-miniapp .quiz-review-container {
+    padding-top: 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body.telegram-miniapp .quiz-question-container,
+  .telegram-miniapp .quiz-intro-container,
+  .telegram-miniapp .quiz-start-container,
+  .telegram-miniapp .quiz-result-container,
+  .telegram-miniapp .quiz-review-container {
+    padding-top: 20px !important;
+  }
 }
 
 .quiz-question-header {

@@ -1501,6 +1501,17 @@
   box-sizing: border-box;
 }
 
+/* Telegram fullscreen miniapp top inset (iOS/Android safe area) */
+.telegram-miniapp .quiz-question-container {
+  padding-top: calc(12px + env(safe-area-inset-top));
+}
+
+@supports (padding-top: constant(safe-area-inset-top)) {
+  .telegram-miniapp .quiz-question-container {
+    padding-top: calc(12px + constant(safe-area-inset-top));
+  }
+}
+
 .quiz-question-header {
   display: flex;
   justify-content: space-between;
@@ -1681,7 +1692,8 @@
   padding: 40px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center; /* vertically center card content */
+  align-items: center;      /* horizontally center inner blocks */
   box-sizing: border-box;
   overflow-y: auto;
 }
@@ -1692,10 +1704,11 @@
 
 .quiz-question-header-card {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
   gap: 12px;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .quiz-question-text {
@@ -1710,8 +1723,8 @@
 
 /* Hint button styles */
 .quiz-hint-button {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   background: #1244D9;
   border: none;
   border-radius: 50%;
@@ -1782,6 +1795,9 @@
   flex-direction: column;
   gap: 10px;
   margin-bottom: 16px;
+  width: 100%;
+  max-width: 560px;
+  align-items: stretch; /* full width buttons */
 }
 
 .quiz-answer-button {

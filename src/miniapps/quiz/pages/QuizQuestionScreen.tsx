@@ -230,16 +230,15 @@ export const QuizQuestionScreen: React.FC<QuizQuestionScreenProps> = ({
 
       {/* Question content */}
       <div className="quiz-question-content">
-        {/* Question type indicator - outside card */}
-        <div className="quiz-question-type-indicator">
-          {question.type === 'multiple' ? 'Выбери несколько правильных ответов' : 
-           question.type === 'open' ? 'Введи ответ в текстовое поле' : 
-           question.type === 'matching' ? 'Сопоставь элементы из двух колонок' :
-           'Выбери один правильный ответ'}
-        </div>
-        
         {/* Question card */}
         <div className={`quiz-question-card dynamic-height ${showHint ? 'with-hint' : ''}`}>
+          {/* Question type indicator - inside card */}
+          <div className="quiz-question-type-indicator">
+            {question.type === 'multiple' ? 'Выбери несколько правильных ответов' : 
+             question.type === 'open' ? 'Введи ответ в текстовое поле' : 
+             question.type === 'matching' ? 'Сопоставь элементы из двух колонок' :
+             'Выбери один правильный ответ'}
+          </div>
           <div className={`quiz-card-inner ${showResult ? 'flipped' : ''}`}>
             {/* Front side - Question */}
             <div className="quiz-card-front">

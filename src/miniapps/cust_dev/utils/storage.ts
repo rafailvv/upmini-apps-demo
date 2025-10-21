@@ -23,7 +23,7 @@ export function downloadJSON(filename: string, data: any) {
 }
 
 // Фиксированный form_id для анкеты CustDev
-export const CUSTDEV_FORM_ID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
+export const CUSTDEV_FORM_ID = "f7e8d9c0-b1a2-3456-7890-123456789abc";
 
 // Получение данных пользователя из Telegram
 export function getTelegramUserData() {

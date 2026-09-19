@@ -5,6 +5,7 @@ import { HomePage } from './components/HomePage';
 import { MiniappRouter } from './components/MiniappRouter';
 import { initTelegramMiniApp, addTelegramHeaderOffset } from './utils/telegramUtils';
 import './App.css';
+import { finishStartup, setStartupStage } from './utils/startupLoader';
 
 // Импортируем мини-приложения для их регистрации
 import './miniapps';
@@ -14,21 +15,26 @@ function App() {
     // Инициализируем Telegram MiniApp с задержкой для надежности
     const initTelegram = () => {
       try {
+        setStartupStage(1);
         console.log('App: Initializing Telegram MiniApp...');
         initTelegramMiniApp();
         addTelegramHeaderOffset();
+        setStartupStage(2);
       } catch (error) {
         console.error('App: Error initializing Telegram:', error);
       }
     };
 
-    // Запускаем инициализацию сразу и с небольшой задержкой
+    // Инициализируем один раз: повторный запуск создавал дублирующиеся Telegram-обработчики.
     initTelegram();
+    const readyFrame = requestAnimationFrame(() => {
+      setStartupStage(3);
+      requestAnimationFrame(finishStartup);
+    });
     
-    // Дополнительная инициализация через 100ms для надежности
-    const timeoutId = setTimeout(initTelegram, 100);
-    
-    return () => clearTimeout(timeoutId);
+    return () => {
+      cancelAnimationFrame(readyFrame);
+    };
   }, []);
 
   return (

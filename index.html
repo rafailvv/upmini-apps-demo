@@ -8,8 +8,37 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <style>
+      #startup-loader { position: fixed; inset: 0; z-index: 99999; display: grid; place-items: center; background: #07192a; color: #fff; font: 500 13px/1.4 Manrope, sans-serif; transition: opacity .2s ease; }
+      #startup-loader.startup-loader--hide { opacity: 0; pointer-events: none; }
+      .startup-panel { width: min(260px, calc(100vw - 48px)); display: grid; gap: 12px; text-align: center; }
+      .startup-track { height: 4px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.22); }
+      #startup-progress { width: 20%; height: 100%; border-radius: inherit; background: #fff; transition: width .18s ease; }
+    </style>
 </head>
 <body>
+    <div id="startup-loader" role="status" aria-live="polite">
+      <div class="startup-panel">
+        <span id="startup-status">Загружаем интерфейс</span>
+        <div class="startup-track" role="progressbar" aria-label="Открытие приложения" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"><div id="startup-progress"></div></div>
+      </div>
+    </div>
+    <script>
+      window.setTimeout(function () {
+        var loader = document.getElementById('startup-loader');
+        if (!loader || loader.classList.contains('startup-loader--hide')) return;
+        var panel = loader.querySelector('.startup-panel');
+        var status = document.getElementById('startup-status');
+        if (status) status.textContent = 'Не удалось открыть приложение';
+        if (panel && !panel.querySelector('button')) {
+          var retry = document.createElement('button');
+          retry.type = 'button';
+          retry.textContent = 'Повторить попытку';
+          retry.onclick = function () { window.location.reload(); };
+          panel.appendChild(retry);
+        }
+      }, 15000);
+    </script>
     <div id="root"></div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script type="module" src="/src/main.tsx"></script>

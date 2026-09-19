@@ -45,7 +45,7 @@ export default function Survey() {
     const tg = (window as any).Telegram?.WebApp;
     if (tg) {
       tg.ready();
-      tg.expand();
+      if (isTelegramMiniApp()) tg.expand();
       // Используем тему Telegram, если доступна, иначе оставляем автоматически определенную
       if (tg.colorScheme) {
         const colorScheme = tg.colorScheme === "dark" ? "dark" : "light";

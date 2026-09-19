@@ -1,6 +1,10 @@
 // Определение платформы
 export function isDesktop(): boolean {
+  const platform = String(window.Telegram?.WebApp?.platform || '').toLowerCase();
+  if (['android', 'android_x', 'ios'].includes(platform)) return false;
+  if (['desktop', 'tdesktop', 'macos', 'windows', 'web', 'weba', 'webk'].includes(platform)) return true;
   const userAgent = navigator.userAgent.toLowerCase();
+  if (/android|iphone|ipad|ipod|iemobile|opera mini/.test(userAgent)) return false;
   return userAgent.includes("windows") || userAgent.includes("macintosh") || userAgent.includes("linux");
 }
 
@@ -202,9 +206,11 @@ export function initTelegramMiniApp(): void {
       // Добавляем класс для стилизации
       document.body.classList.add('telegram-miniapp');
       
-      // Запрашиваем полноэкранный режим
-      window.Telegram.WebApp.requestFullscreen();
-      console.log('Fullscreen requested');
+      // Полноэкранный режим допустим только в мобильном Telegram.
+      if (!isDesktop()) {
+        window.Telegram.WebApp.requestFullscreen?.();
+        console.log('Fullscreen requested');
+      }
       
       // Настраиваем кнопку "Назад"
       setupTelegramBackButton();
@@ -375,4 +381,4 @@ declare global {
       };
     };
   }
-} 
+}

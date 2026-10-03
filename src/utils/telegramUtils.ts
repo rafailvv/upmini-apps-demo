@@ -208,6 +208,8 @@ export function initTelegramMiniApp(): void {
       
       // Полноэкранный режим допустим только в мобильном Telegram.
       if (!isDesktop()) {
+        // Прокрутка анкеты не должна сворачивать мини-приложение жестом Telegram.
+        window.Telegram.WebApp.disableVerticalSwipes?.();
         window.Telegram.WebApp.requestFullscreen?.();
         console.log('Fullscreen requested');
       }
@@ -350,6 +352,7 @@ declare global {
         ready: () => void;
         expand: () => void;
         close: () => void;
+        disableVerticalSwipes?: () => void;
         requestFullscreen: () => void;
         requestViewport: () => void;
         isVersionAtLeast: (version: string) => boolean;

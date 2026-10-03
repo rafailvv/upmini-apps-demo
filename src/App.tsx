@@ -5,6 +5,7 @@ import { HomePage } from './components/HomePage';
 import { MiniappRouter } from './components/MiniappRouter';
 import { initTelegramMiniApp, addTelegramHeaderOffset } from './utils/telegramUtils';
 import './App.css';
+import Survey from './miniapps/cust_dev/pages/Survey';
 import { finishStartup, setStartupStage } from './utils/startupLoader';
 
 // Импортируем мини-приложения для их регистрации
@@ -41,7 +42,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={window.location.hostname === 'quiz.miniapp.upmini.app' ? <Survey /> : <HomePage />} />
           <Route path="/miniapp/:miniappName/*" element={<MiniappRouter />} />
           {/* Редирект на главную страницу для неизвестных маршрутов */}
           <Route path="*" element={<HomePage />} />

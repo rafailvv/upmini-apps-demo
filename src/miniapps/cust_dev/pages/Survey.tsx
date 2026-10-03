@@ -190,9 +190,7 @@ export default function Survey() {
     
     setIsSubmitting(true);
     const values = form.getValues();
-    console.log('Данные формы перед отправкой:', values);
     const payload = buildPayload(values);
-    console.log('Полный payload:', payload);
 
     try {
       // Отправляем данные на API
@@ -213,9 +211,8 @@ export default function Survey() {
     } catch (error) {
       console.error('Ошибка при отправке формы:', error);
       
-      // В случае ошибки все равно показываем завершение, но с предупреждением
+      // Оставляем ответы на экране, чтобы пользователь мог повторить отправку
       alert('Произошла ошибка при отправке данных. Попробуйте еще раз.');
-      setCurrentStep(totalSteps);
     } finally {
       setIsSubmitting(false);
     }

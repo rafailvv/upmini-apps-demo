@@ -53,10 +53,10 @@ export async function submitToAPI(formData: any) {
     submitted_at: new Date().toISOString()
   };
   
-  console.log('Отправляем данные на API:', payload);
+
 
   try {
-    const response = await fetch(`https://test.upmini.app/api/forms/${CUSTDEV_FORM_ID}/responses`, {
+    const response = await fetch(`/api/forms/${CUSTDEV_FORM_ID}/responses`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export async function submitToAPI(formData: any) {
     }
 
     const result = await response.json();
-    console.log('Данные успешно отправлены:', result);
+
     return result;
   } catch (error) {
     console.error('Ошибка при отправке данных:', error);

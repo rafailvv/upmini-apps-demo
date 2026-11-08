@@ -1,15 +1,22 @@
-// import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
-import { HomePage } from './components/HomePage';
-import { MiniappRouter } from './components/MiniappRouter';
+import { lazy, Suspense, useEffect } from 'react';
 import { initTelegramMiniApp, addTelegramHeaderOffset } from './utils/telegramUtils';
 import './App.css';
 import Survey from './miniapps/cust_dev/pages/Survey';
 import { finishStartup, setStartupStage } from './utils/startupLoader';
 
-// Импортируем мини-приложения для их регистрации
-import './miniapps';
+const DemoRoutes = lazy(() => import('./components/DemoRoutes'));
+
+function StartupReady() {
+  useEffect(() => {
+    let frame = requestAnimationFrame(() => {
+      setStartupStage(3);
+      frame = requestAnimationFrame(finishStartup);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+  return null;
+}
 
 function App() {
   useEffect(() => {
@@ -28,25 +35,18 @@ function App() {
 
     // Инициализируем один раз: повторный запуск создавал дублирующиеся Telegram-обработчики.
     initTelegram();
-    const readyFrame = requestAnimationFrame(() => {
-      setStartupStage(3);
-      requestAnimationFrame(finishStartup);
-    });
-    
-    return () => {
-      cancelAnimationFrame(readyFrame);
-    };
   }, []);
 
   return (
     <Router>
       <div className="App">
-        <Routes>
-          <Route path="/" element={window.location.hostname === 'quiz.miniapp.upmini.app' ? <Survey /> : <HomePage />} />
-          <Route path="/miniapp/:miniappName/*" element={<MiniappRouter />} />
-          {/* Редирект на главную страницу для неизвестных маршрутов */}
-          <Route path="*" element={<HomePage />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            {window.location.hostname === 'quiz.miniapp.upmini.app' && <Route path="/" element={<Survey />} />}
+            <Route path="*" element={<DemoRoutes />} />
+          </Routes>
+          <StartupReady />
+        </Suspense>
       </div>
     </Router>
   );
